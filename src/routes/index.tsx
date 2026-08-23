@@ -93,6 +93,8 @@ function Inicio() {
 
   return (
     <div>
+      <CarrosselNovidades />
+
       <section className="relative isolate overflow-hidden">
         <img
           src={heroBairro}
