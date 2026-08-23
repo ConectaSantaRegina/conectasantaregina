@@ -154,7 +154,7 @@ function Inicio() {
             </Button>
           </div>
           <div className="mt-6 grid gap-5 md:grid-cols-3">
-            {(novidades ?? []).map((item) => (
+            {(novidades ?? []).slice(0, 3).map((item) => (
               <article key={item.id} className="surface-card overflow-hidden">
                 {txt(item, "imagem_url") ? (
                   <SiteImage
