@@ -89,7 +89,7 @@ const ATALHOS = [
 ] as const;
 
 function Inicio() {
-  const { data: novidades } = useLista("novidades", 6);
+  const { data: novidades } = useLista("novidades");
 
   return (
     <div>
