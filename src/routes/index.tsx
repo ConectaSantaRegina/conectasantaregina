@@ -157,24 +157,25 @@ function Inicio() {
           <div className="mt-6 grid gap-5 md:grid-cols-3">
             {(novidades ?? []).map((item) => (
               <article key={item.id} className="surface-card overflow-hidden">
-                {item.imagem_url ? (
+                {txt(item, "imagem_url") ? (
                   <SiteImage
-                    path={item.imagem_url as string}
-                    alt={String(item.titulo)}
+                    path={txt(item, "imagem_url")}
+                    alt={txt(item, "titulo")}
                     className="aspect-[16/10] w-full"
                   />
                 ) : null}
                 <div className="p-5">
-                  <Badge variant="secondary">{String(item.categoria)}</Badge>
-                  <h3 className="mt-3 font-display text-lg font-bold">{String(item.titulo)}</h3>
+                  <Badge variant="secondary">{txt(item, "categoria")}</Badge>
+                  <h3 className="mt-3 font-display text-lg font-bold">{txt(item, "titulo")}</h3>
                   <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
-                    {String(item.texto ?? "")}
+                    {txt(item, "texto")}
                   </p>
                   <p className="mt-3 text-xs text-muted-foreground">
                     {formatarData(item.created_at)}
                   </p>
                 </div>
               </article>
+
             ))}
             {(novidades ?? []).length === 0 && (
               <p className="text-sm text-muted-foreground">
