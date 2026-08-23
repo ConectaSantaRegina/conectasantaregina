@@ -12,36 +12,43 @@ export function Header() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/90 backdrop-blur">
-      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 lg:flex lg:justify-between">
-        <Link to="/" className="flex min-w-0 items-center gap-2">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
+      <div className="mx-auto grid max-w-[1180px] grid-cols-[auto_auto] items-center justify-between gap-4 px-5 py-3.5 lg:flex lg:justify-between">
+        <Link to="/" className="flex min-w-0 items-center gap-3">
+          <span className="brand-mark grid h-[42px] w-[42px] shrink-0 place-items-center rounded-xl text-primary-foreground">
             <MapPinned className="h-5 w-5" />
           </span>
           <span className="min-w-0">
-            <span className="block truncate font-display text-base font-extrabold leading-tight">
-              Conecta Santa Regina
+            <span className="block whitespace-nowrap font-display text-[1.28rem] font-bold leading-tight">
+              Santa Regina
             </span>
-            <span className="block truncate text-xs text-muted-foreground">
-              O ponto de encontro do nosso bairro
+            <span className="block whitespace-nowrap font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              bairro em rede
             </span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 xl:flex">
+        <nav className="hidden items-center gap-5 xl:flex">
           {NAV.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               className={cn(
-                "rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
-                pathname === item.to && "bg-accent text-accent-foreground",
+                "group relative py-1 whitespace-nowrap text-[0.88rem] font-semibold text-muted-foreground transition-colors hover:text-foreground",
+                pathname === item.to && "text-foreground",
               )}
             >
               {item.label}
+              <span
+                className={cn(
+                  "absolute -bottom-0.5 left-0 h-0.5 w-0 bg-mango transition-all duration-200 group-hover:w-full",
+                  pathname === item.to && "w-full",
+                )}
+              />
             </Link>
           ))}
         </nav>
+
 
         <div className="flex items-center gap-2">
           {user ? (
