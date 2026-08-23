@@ -94,66 +94,98 @@ function Inicio() {
 
   return (
     <div>
-      <section className="relative isolate overflow-hidden">
-        <img
-          src={heroBairro}
-          alt="Rua do bairro Santa Regina no fim da tarde, com comércios e moradores conversando"
-          width={1920}
-          height={1088}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="hero-overlay absolute inset-0" />
-        <div className="relative mx-auto max-w-7xl px-4 py-24 md:py-36">
-          <Badge className="bg-sun text-sun-foreground hover:bg-sun">Bairro Santa Regina</Badge>
-          <h1 className="mt-5 max-w-3xl font-display text-4xl font-extrabold text-primary-foreground md:text-6xl">
-            Tudo o que o nosso bairro tem, em um só lugar
-          </h1>
-          <p className="mt-5 max-w-xl text-base text-primary-foreground/90 md:text-lg">
-            O ponto de encontro digital de Santa Regina: comércio, delivery, saúde, empregos,
-            novidades e as ações que a comunidade organiza junto.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <Link to="/comercio">
-                Ver o comércio do bairro <ArrowRight className="ml-1.5 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="secondary">
-              <Link to="/novidades">Novidades de hoje</Link>
-            </Button>
+      <section className="relative overflow-hidden pt-14 pb-8 md:pt-16">
+        <div className="mx-auto grid max-w-[1180px] items-center gap-10 px-5 md:grid-cols-[1.05fr_0.95fr]">
+          <div>
+            <p className="eyebrow">Bairro Santa Regina</p>
+            <h1 className="mt-4 font-display text-[clamp(2.2rem,4.2vw,3.6rem)] font-bold">
+              Tudo o que o nosso
+              <br />
+              <em className="font-semibold not-italic italic text-mango-deep">bairro oferece</em>,
+              <br />
+              num só lugar.
+            </h1>
+            <p className="mt-5 max-w-[46ch] text-lg text-muted-foreground">
+              Comércio local, delivery, farmácias, saúde, salões, vagas de emprego, novidades e um
+              espaço pra gente propor melhorias juntos. Feito por quem mora aqui, pra quem mora
+              aqui.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3.5">
+              <Button asChild size="lg">
+                <Link to="/comercio">
+                  <Store className="h-4 w-4" /> Ver comércios
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link to="/melhorias">
+                  <Lightbulb className="h-4 w-4" /> Propor uma ideia
+                </Link>
+              </Button>
+            </div>
+            <div className="mt-9 flex flex-wrap gap-2.5">
+              {[
+                { icone: Store, texto: "Achados do bairro" },
+                { icone: HandHeart, texto: "Feito pela comunidade" },
+                { icone: Megaphone, texto: "Atualizado toda semana" },
+              ].map((chip) => (
+                <span
+                  key={chip.texto}
+                  className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-[0.82rem] font-semibold text-muted-foreground"
+                >
+                  <chip.icone className="h-4 w-4" /> {chip.texto}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="order-first md:order-none">
+            <RuaBairro />
           </div>
         </div>
       </section>
 
-      <Secao>
-        <h2 className="font-display text-2xl font-extrabold md:text-3xl">O que você procura?</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {ATALHOS.map((atalho) => (
-            <Link
-              key={atalho.to}
-              to={atalho.to}
-              className="surface-card group flex flex-col gap-3 p-5 transition-shadow hover:shadow-[var(--shadow-lift)]"
-            >
-              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent text-accent-foreground">
-                <atalho.icone className="h-5 w-5" />
-              </span>
-              <span className="font-display text-base font-bold">{atalho.label}</span>
-              <span className="text-sm text-muted-foreground">{atalho.texto}</span>
-            </Link>
-          ))}
-        </div>
-      </Secao>
+      <Onda variante="para-fundo" />
 
-      <section className="bg-secondary/50 py-12 md:py-16">
-        <div className="mx-auto max-w-7xl px-4">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
-            <h2 className="min-w-0 font-display text-2xl font-extrabold md:text-3xl">
-              Últimas novidades
-            </h2>
+      <section className="bg-secondary py-12 md:py-16">
+        <div className="mx-auto max-w-[1180px] px-5">
+          <p className="eyebrow">Atalhos</p>
+          <h2 className="mt-3 font-display text-[clamp(1.8rem,3vw,2.4rem)] font-bold">
+            O que você procura?
+          </h2>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {ATALHOS.map((atalho) => (
+              <Link
+                key={atalho.to}
+                to={atalho.to}
+                className="surface-card lift-hover flex flex-col gap-3 p-6"
+              >
+                <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent text-accent-foreground">
+                  <atalho.icone className="h-5 w-5" />
+                </span>
+                <span className="font-display text-base font-semibold">{atalho.label}</span>
+                <span className="text-sm text-muted-foreground">{atalho.texto}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Onda variante="para-papel" />
+
+      <section className="pb-12 md:pb-16">
+        <div className="mx-auto max-w-[1180px] px-5">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
+            <div className="min-w-0">
+              <p className="eyebrow">Novidades</p>
+              <h2 className="mt-3 font-display text-[clamp(1.8rem,3vw,2.4rem)] font-bold">
+                O que está acontecendo agora
+              </h2>
+            </div>
             <Button asChild variant="ghost" size="sm">
               <Link to="/novidades">Ver todas</Link>
             </Button>
           </div>
+
           <div className="mt-6 grid gap-5 md:grid-cols-3">
             {(novidades ?? []).map((item) => (
               <article key={item.id} className="surface-card overflow-hidden">
