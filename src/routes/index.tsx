@@ -221,22 +221,24 @@ function Inicio() {
       </section>
 
       <Secao>
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
-          <h2 className="min-w-0 font-display text-2xl font-extrabold md:text-3xl">
-            Comércios cadastrados
-          </h2>
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
+          <div className="min-w-0">
+            <p className="eyebrow">Comércio &amp; Delivery</p>
+            <h2 className="mt-3 font-display text-[clamp(1.8rem,3vw,2.4rem)] font-bold">
+              Comércios cadastrados
+            </h2>
+          </div>
           <Button asChild variant="ghost" size="sm">
             <Link to="/comercio">Ver todos</Link>
           </Button>
         </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {(comercios ?? []).map((item) => (
-            <div key={item.id} className="surface-card p-5">
+            <div key={item.id} className="surface-card lift-hover p-6">
               <Badge variant="secondary">{txt(item, "categoria")}</Badge>
-              <h3 className="mt-3 font-display text-base font-bold">{txt(item, "nome")}</h3>
+              <h3 className="mt-3 font-display text-lg font-semibold">{txt(item, "nome")}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{txt(item, "endereco")}</p>
             </div>
-
           ))}
           {(comercios ?? []).length === 0 && (
             <p className="text-sm text-muted-foreground">
@@ -247,13 +249,13 @@ function Inicio() {
         </div>
       </Secao>
 
-      <section className="mx-auto max-w-7xl px-4 pb-4">
-        <div className="surface-card grid gap-4 p-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+      <section className="mx-auto max-w-[1180px] px-5 pb-16">
+        <div className="band-deep grid gap-6 rounded-[calc(var(--radius)+10px)] p-10 text-background md:grid-cols-[1.2fr_auto] md:items-center">
           <div className="min-w-0">
-            <h2 className="font-display text-2xl font-extrabold">
+            <h2 className="font-display text-2xl font-bold text-background">
               Tem uma ideia para melhorar Santa Regina?
             </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="mt-2 max-w-[48ch] text-sm text-background/80">
               Publique sua sugestão, veja o que os vizinhos propuseram e apoie as ideias que você
               também quer ver acontecendo.
             </p>
@@ -263,6 +265,7 @@ function Inicio() {
           </Button>
         </div>
       </section>
+
     </div>
   );
 }
