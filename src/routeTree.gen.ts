@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ComercioRouteImport } from './routes/comercio'
+import { Route as SaudeRouteImport } from './routes/saude'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const ComercioRoute = ComercioRouteImport.update({
   path: '/comercio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SaudeRoute = SaudeRouteImport.update({
+  id: '/saude',
+  path: '/saude',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/comercio': typeof ComercioRoute
+  '/saude': typeof SaudeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/comercio': typeof ComercioRoute
+  '/saude': typeof SaudeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/comercio': typeof ComercioRoute
+  '/saude': typeof SaudeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/comercio'
+  fullPaths: '/' | '/comercio' | '/saude'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/comercio'
-  id: '__root__' | '/' | '/comercio'
+  to: '/' | '/comercio' | '/saude'
+  id: '__root__' | '/' | '/comercio' | '/saude'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComercioRoute: typeof ComercioRoute
+  SaudeRoute: typeof SaudeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComercioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/saude': {
+      id: '/saude'
+      path: '/saude'
+      fullPath: '/saude'
+      preLoaderRoute: typeof SaudeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComercioRoute: ComercioRoute,
+  SaudeRoute: SaudeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
