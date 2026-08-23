@@ -47,7 +47,19 @@ export async function apagarRegistro(tabela: Tabela, id: string) {
   if (error) throw error;
 }
 
+/** Lê um campo de texto do registro genérico. */
+export function txt(registro: Registro, campo: string): string {
+  const valor = registro[campo];
+  return valor === null || valor === undefined ? "" : String(valor);
+}
+
+/** Lê um campo booleano do registro genérico. */
+export function bool(registro: Registro, campo: string): boolean {
+  return Boolean(registro[campo]);
+}
+
 export function formatarData(valor?: string) {
+
   if (!valor) return "";
   return new Date(valor).toLocaleDateString("pt-BR", {
     day: "2-digit",
