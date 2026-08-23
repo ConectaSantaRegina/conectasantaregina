@@ -199,10 +199,11 @@ function Inicio() {
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {(comercios ?? []).map((item) => (
             <div key={item.id} className="surface-card p-5">
-              <Badge variant="secondary">{String(item.categoria)}</Badge>
-              <h3 className="mt-3 font-display text-base font-bold">{String(item.nome)}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{String(item.endereco ?? "")}</p>
+              <Badge variant="secondary">{txt(item, "categoria")}</Badge>
+              <h3 className="mt-3 font-display text-base font-bold">{txt(item, "nome")}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{txt(item, "endereco")}</p>
             </div>
+
           ))}
           {(comercios ?? []).length === 0 && (
             <p className="text-sm text-muted-foreground">
