@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SiteImage } from "@/components/site/SiteImage";
 import { Secao } from "@/components/site/PageHero";
-import { formatarData, useLista } from "@/lib/dados";
+import { formatarData, txt, useLista } from "@/lib/dados";
 
 export const Route = createFileRoute("/")({
   head: () => ({
