@@ -10,12 +10,13 @@ import {
   Mail,
   ArrowRight,
 } from "lucide-react";
-import heroBairro from "@/assets/hero-bairro.jpg";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SiteImage } from "@/components/site/SiteImage";
 import { Secao } from "@/components/site/PageHero";
+import { RuaBairro, Onda } from "@/components/site/RuaBairro";
 import { formatarData, txt, useLista } from "@/lib/dados";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
