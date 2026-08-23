@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AcoesRouteImport } from './routes/acoes'
 import { Route as ComercioRouteImport } from './routes/comercio'
+import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as EmpregosRouteImport } from './routes/empregos'
 import { Route as ImoveisRouteImport } from './routes/imoveis'
 import { Route as MelhoriasRouteImport } from './routes/melhorias'
@@ -31,6 +32,11 @@ const AcoesRoute = AcoesRouteImport.update({
 const ComercioRoute = ComercioRouteImport.update({
   id: '/comercio',
   path: '/comercio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EmpregosRoute = EmpregosRouteImport.update({
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acoes': typeof AcoesRoute
   '/comercio': typeof ComercioRoute
+  '/contato': typeof ContatoRoute
   '/empregos': typeof EmpregosRoute
   '/imoveis': typeof ImoveisRoute
   '/melhorias': typeof MelhoriasRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acoes': typeof AcoesRoute
   '/comercio': typeof ComercioRoute
+  '/contato': typeof ContatoRoute
   '/empregos': typeof EmpregosRoute
   '/imoveis': typeof ImoveisRoute
   '/melhorias': typeof MelhoriasRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/acoes': typeof AcoesRoute
   '/comercio': typeof ComercioRoute
+  '/contato': typeof ContatoRoute
   '/empregos': typeof EmpregosRoute
   '/imoveis': typeof ImoveisRoute
   '/melhorias': typeof MelhoriasRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/acoes'
     | '/comercio'
+    | '/contato'
     | '/empregos'
     | '/imoveis'
     | '/melhorias'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/acoes'
     | '/comercio'
+    | '/contato'
     | '/empregos'
     | '/imoveis'
     | '/melhorias'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/acoes'
     | '/comercio'
+    | '/contato'
     | '/empregos'
     | '/imoveis'
     | '/melhorias'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AcoesRoute: typeof AcoesRoute
   ComercioRoute: typeof ComercioRoute
+  ContatoRoute: typeof ContatoRoute
   EmpregosRoute: typeof EmpregosRoute
   ImoveisRoute: typeof ImoveisRoute
   MelhoriasRoute: typeof MelhoriasRoute
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/comercio'
       fullPath: '/comercio'
       preLoaderRoute: typeof ComercioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/empregos': {
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcoesRoute: AcoesRoute,
   ComercioRoute: ComercioRoute,
+  ContatoRoute: ContatoRoute,
   EmpregosRoute: EmpregosRoute,
   ImoveisRoute: ImoveisRoute,
   MelhoriasRoute: MelhoriasRoute,
