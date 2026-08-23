@@ -104,7 +104,7 @@ function Inicio() {
         />
         <div className="hero-overlay absolute inset-0" />
         <div className="relative mx-auto max-w-7xl px-4 py-24 md:py-36">
-          <Badge className="bg-sun text-sun-foreground hover:bg-sun px-4 py-1.5 text-sm md:text-base font-semibold">Conecta Santa Regina</Badge>
+          <Badge className="bg-sun text-sun-foreground hover:bg-sun px-5 py-2 text-lg md:text-2xl font-extrabold tracking-tight">Conecta Santa Regina</Badge>
           <h1 className="mt-5 max-w-3xl font-display text-4xl font-extrabold text-primary-foreground md:text-6xl">
             Tudo o que o nosso bairro tem, em um só lugar
           </h1>
