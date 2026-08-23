@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AcoesRouteImport } from './routes/acoes'
 import { Route as ComercioRouteImport } from './routes/comercio'
 import { Route as EmpregosRouteImport } from './routes/empregos'
 import { Route as ImoveisRouteImport } from './routes/imoveis'
@@ -20,6 +21,11 @@ import { Route as SaudeRouteImport } from './routes/saude'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcoesRoute = AcoesRouteImport.update({
+  id: '/acoes',
+  path: '/acoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComercioRoute = ComercioRouteImport.update({
@@ -55,6 +61,7 @@ const SaudeRoute = SaudeRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/acoes': typeof AcoesRoute
   '/comercio': typeof ComercioRoute
   '/empregos': typeof EmpregosRoute
   '/imoveis': typeof ImoveisRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/acoes': typeof AcoesRoute
   '/comercio': typeof ComercioRoute
   '/empregos': typeof EmpregosRoute
   '/imoveis': typeof ImoveisRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/acoes': typeof AcoesRoute
   '/comercio': typeof ComercioRoute
   '/empregos': typeof EmpregosRoute
   '/imoveis': typeof ImoveisRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/acoes'
     | '/comercio'
     | '/empregos'
     | '/imoveis'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/acoes'
     | '/comercio'
     | '/empregos'
     | '/imoveis'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/acoes'
     | '/comercio'
     | '/empregos'
     | '/imoveis'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcoesRoute: typeof AcoesRoute
   ComercioRoute: typeof ComercioRoute
   EmpregosRoute: typeof EmpregosRoute
   ImoveisRoute: typeof ImoveisRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/acoes': {
+      id: '/acoes'
+      path: '/acoes'
+      fullPath: '/acoes'
+      preLoaderRoute: typeof AcoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/comercio': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcoesRoute: AcoesRoute,
   ComercioRoute: ComercioRoute,
   EmpregosRoute: EmpregosRoute,
   ImoveisRoute: ImoveisRoute,
