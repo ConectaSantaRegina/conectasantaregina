@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ComercioRouteImport } from './routes/comercio'
 import { Route as EmpregosRouteImport } from './routes/empregos'
 import { Route as ImoveisRouteImport } from './routes/imoveis'
+import { Route as MelhoriasRouteImport } from './routes/melhorias'
 import { Route as NovidadesRouteImport } from './routes/novidades'
 import { Route as SaudeRouteImport } from './routes/saude'
 
@@ -36,6 +37,11 @@ const ImoveisRoute = ImoveisRouteImport.update({
   path: '/imoveis',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MelhoriasRoute = MelhoriasRouteImport.update({
+  id: '/melhorias',
+  path: '/melhorias',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NovidadesRoute = NovidadesRouteImport.update({
   id: '/novidades',
   path: '/novidades',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/comercio': typeof ComercioRoute
   '/empregos': typeof EmpregosRoute
   '/imoveis': typeof ImoveisRoute
+  '/melhorias': typeof MelhoriasRoute
   '/novidades': typeof NovidadesRoute
   '/saude': typeof SaudeRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/comercio': typeof ComercioRoute
   '/empregos': typeof EmpregosRoute
   '/imoveis': typeof ImoveisRoute
+  '/melhorias': typeof MelhoriasRoute
   '/novidades': typeof NovidadesRoute
   '/saude': typeof SaudeRoute
 }
@@ -69,21 +77,36 @@ export interface FileRoutesById {
   '/comercio': typeof ComercioRoute
   '/empregos': typeof EmpregosRoute
   '/imoveis': typeof ImoveisRoute
+  '/melhorias': typeof MelhoriasRoute
   '/novidades': typeof NovidadesRoute
   '/saude': typeof SaudeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/comercio' | '/empregos' | '/imoveis' | '/novidades' | '/saude'
+    | '/'
+    | '/comercio'
+    | '/empregos'
+    | '/imoveis'
+    | '/melhorias'
+    | '/novidades'
+    | '/saude'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/comercio' | '/empregos' | '/imoveis' | '/novidades' | '/saude'
+  to:
+    | '/'
+    | '/comercio'
+    | '/empregos'
+    | '/imoveis'
+    | '/melhorias'
+    | '/novidades'
+    | '/saude'
   id:
     | '__root__'
     | '/'
     | '/comercio'
     | '/empregos'
     | '/imoveis'
+    | '/melhorias'
     | '/novidades'
     | '/saude'
   fileRoutesById: FileRoutesById
@@ -93,6 +116,7 @@ export interface RootRouteChildren {
   ComercioRoute: typeof ComercioRoute
   EmpregosRoute: typeof EmpregosRoute
   ImoveisRoute: typeof ImoveisRoute
+  MelhoriasRoute: typeof MelhoriasRoute
   NovidadesRoute: typeof NovidadesRoute
   SaudeRoute: typeof SaudeRoute
 }
@@ -127,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImoveisRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/melhorias': {
+      id: '/melhorias'
+      path: '/melhorias'
+      fullPath: '/melhorias'
+      preLoaderRoute: typeof MelhoriasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/novidades': {
       id: '/novidades'
       path: '/novidades'
@@ -149,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComercioRoute: ComercioRoute,
   EmpregosRoute: EmpregosRoute,
   ImoveisRoute: ImoveisRoute,
+  MelhoriasRoute: MelhoriasRoute,
   NovidadesRoute: NovidadesRoute,
   SaudeRoute: SaudeRoute,
 }
