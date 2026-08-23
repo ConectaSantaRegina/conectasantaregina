@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ComercioRouteImport } from './routes/comercio'
+import { Route as EmpregosRouteImport } from './routes/empregos'
 import { Route as SaudeRouteImport } from './routes/saude'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const ComercioRoute = ComercioRouteImport.update({
   path: '/comercio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmpregosRoute = EmpregosRouteImport.update({
+  id: '/empregos',
+  path: '/empregos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SaudeRoute = SaudeRouteImport.update({
   id: '/saude',
   path: '/saude',
@@ -32,30 +38,34 @@ const SaudeRoute = SaudeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/comercio': typeof ComercioRoute
+  '/empregos': typeof EmpregosRoute
   '/saude': typeof SaudeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/comercio': typeof ComercioRoute
+  '/empregos': typeof EmpregosRoute
   '/saude': typeof SaudeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/comercio': typeof ComercioRoute
+  '/empregos': typeof EmpregosRoute
   '/saude': typeof SaudeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/comercio' | '/saude'
+  fullPaths: '/' | '/comercio' | '/empregos' | '/saude'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/comercio' | '/saude'
-  id: '__root__' | '/' | '/comercio' | '/saude'
+  to: '/' | '/comercio' | '/empregos' | '/saude'
+  id: '__root__' | '/' | '/comercio' | '/empregos' | '/saude'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComercioRoute: typeof ComercioRoute
+  EmpregosRoute: typeof EmpregosRoute
   SaudeRoute: typeof SaudeRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComercioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/empregos': {
+      id: '/empregos'
+      path: '/empregos'
+      fullPath: '/empregos'
+      preLoaderRoute: typeof EmpregosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/saude': {
       id: '/saude'
       path: '/saude'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComercioRoute: ComercioRoute,
+  EmpregosRoute: EmpregosRoute,
   SaudeRoute: SaudeRoute,
 }
 export const routeTree = rootRouteImport
