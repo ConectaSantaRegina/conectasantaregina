@@ -190,25 +190,42 @@ function Inicio() {
       <Secao>
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <h2 className="min-w-0 font-display text-2xl font-extrabold md:text-3xl">
-            Comércios cadastrados
+            Promoções do bairro
           </h2>
           <Button asChild variant="ghost" size="sm">
-            <Link to="/comercio">Ver todos</Link>
+            <Link to="/novidades">Ver todas</Link>
           </Button>
         </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {(comercios ?? []).map((item) => (
-            <div key={item.id} className="surface-card p-5">
-              <Badge variant="secondary">{txt(item, "categoria")}</Badge>
-              <h3 className="mt-3 font-display text-base font-bold">{txt(item, "nome")}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{txt(item, "endereco")}</p>
-            </div>
-
-          ))}
-          {(comercios ?? []).length === 0 && (
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
+          {(novidades ?? [])
+            .filter((item) => txt(item, "categoria") === "Promoção")
+            .slice(0, 3)
+            .map((item) => (
+              <article key={item.id} className="surface-card overflow-hidden">
+                {txt(item, "imagem_url") ? (
+                  <SiteImage
+                    path={txt(item, "imagem_url")}
+                    alt={txt(item, "titulo")}
+                    className="aspect-[16/10] w-full"
+                  />
+                ) : null}
+                <div className="p-5">
+                  <Badge className="bg-sun text-sun-foreground hover:bg-sun">Promoção</Badge>
+                  <h3 className="mt-3 font-display text-lg font-bold">{txt(item, "titulo")}</h3>
+                  <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
+                    {txt(item, "texto")}
+                  </p>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    {formatarData(item.created_at)}
+                  </p>
+                </div>
+              </article>
+            ))}
+          {(novidades ?? []).filter((item) => txt(item, "categoria") === "Promoção").length ===
+            0 && (
             <p className="text-sm text-muted-foreground">
-              Nenhum comércio cadastrado ainda. Se você tem um negócio no bairro, cadastre
-              gratuitamente.
+              Nenhuma promoção publicada ainda. Se você tem um comércio no bairro, anuncie sua
+              promoção em Novidades.
             </p>
           )}
         </div>
