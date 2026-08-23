@@ -24,8 +24,9 @@ export const Route = createFileRoute("/saude")({
       },
     ],
   }),
-  component: Saude;
+  component: Saude,
 });
+
 
 function Saude() {
   const { data, isLoading } = useLista("comercios");
