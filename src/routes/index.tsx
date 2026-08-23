@@ -14,6 +14,7 @@ import heroBairro from "@/assets/hero-bairro.jpg";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SiteImage } from "@/components/site/SiteImage";
+import { CarrosselNovidades } from "@/components/site/CarrosselNovidades";
 import { Secao } from "@/components/site/PageHero";
 import { formatarData, txt, useLista } from "@/lib/dados";
 
