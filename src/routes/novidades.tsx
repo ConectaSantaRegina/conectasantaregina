@@ -1,0 +1,87 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { CalendarDays } from "lucide-react";
+import { CardItem } from "@/components/site/CardItem";
+import { ListaFiltrada } from "@/components/site/ListaFiltrada";
+import { PageHero, Secao } from "@/components/site/PageHero";
+import { PublicarDialog } from "@/components/site/PublicarDialog";
+import { CATEGORIAS_NOVIDADES } from "@/lib/nav";
+import { formatarData, txt, useLista } from "@/lib/dados";
+
+export const Route = createFileRoute("/novidades")({
+  head: () => ({
+    meta: [
+      { title: "Novidades e promoções de Santa Regina" },
+      {
+        name: "description",
+        content:
+          "Promoções dos comerciantes, obras, eventos e avisos importantes do bairro Santa Regina, com fotos publicadas pelos moradores.",
+      },
+      { property: "og:title", content: "Novidades e promoções de Santa Regina" },
+      {
+        property: "og:description",
+        content: "Fique por dentro das promoções, obras e eventos do bairro Santa Regina.",
+      },
+    ],
+  }),
+  component: Novidades,
+});
+
+function Novidades() {
+  const { data, isLoading } = useLista("novidades");
+
+  return (
+    <div>
+      <PageHero
+        titulo="Novidades do bairro"
+        subtitulo="Promoções, obras, eventos e avisos. Publique com foto para todo mundo ver o que está acontecendo em Santa Regina."
+        acao={
+          <PublicarDialog
+            tabela="novidades"
+            rotulo="Publicar novidade"
+            titulo="Publicar uma novidade"
+            descricao="Conte a novidade e, se quiser, adicione uma imagem da promoção ou do acontecimento."
+            campos={[
+              { name: "titulo", label: "Título", required: true },
+              {
+                name: "categoria",
+                label: "Categoria",
+                type: "select",
+                options: CATEGORIAS_NOVIDADES,
+                required: true,
+              },
+              { name: "texto", label: "Detalhes", type: "textarea", max: 4000 },
+              { name: "imagem_url", label: "Imagem", type: "image" },
+            ]}
+          />
+        }
+      />
+      <Secao>
+        <ListaFiltrada
+          itens={data ?? []}
+          carregando={isLoading}
+          categorias={CATEGORIAS_NOVIDADES}
+          campoCategoria="categoria"
+          camposBusca={["titulo", "texto"]}
+          vazio="Nenhuma novidade por aqui ainda. Publique a primeira promoção ou aviso do bairro."
+          render={(item) => (
+            <CardItem
+              key={item.id}
+              registro={item}
+              tabela="novidades"
+              titulo={txt(item, "titulo")}
+              badge={txt(item, "categoria")}
+              imagem={txt(item, "imagem_url") || null}
+              descricao={txt(item, "texto") || null}
+              infos={[
+                {
+                  icone: <CalendarDays className="h-4 w-4" />,
+                  texto: formatarData(item.created_at),
+                },
+              ]}
+            />
+          )}
+        />
+      </Secao>
+    </div>
+  );
+}
