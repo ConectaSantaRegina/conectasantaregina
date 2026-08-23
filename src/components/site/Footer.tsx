@@ -5,7 +5,7 @@ import { NAV } from "@/lib/nav";
 export function Footer() {
   return (
     <footer className="mt-20 border-t border-border bg-secondary/60">
-      <div className="mx-auto grid max-w-[1180px] gap-8 px-5 py-12 md:grid-cols-[1.2fr_1fr]">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-[1.2fr_1fr]">
         <div>
           <div className="flex items-center gap-2">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground">
