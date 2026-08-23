@@ -10,33 +10,154 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AcoesRouteImport } from './routes/acoes'
+import { Route as ComercioRouteImport } from './routes/comercio'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as EmpregosRouteImport } from './routes/empregos'
+import { Route as EntrarRouteImport } from './routes/entrar'
+import { Route as ImoveisRouteImport } from './routes/imoveis'
+import { Route as MelhoriasRouteImport } from './routes/melhorias'
+import { Route as NovidadesRouteImport } from './routes/novidades'
+import { Route as SaudeRouteImport } from './routes/saude'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AcoesRoute = AcoesRouteImport.update({
+  id: '/acoes',
+  path: '/acoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComercioRoute = ComercioRouteImport.update({
+  id: '/comercio',
+  path: '/comercio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmpregosRoute = EmpregosRouteImport.update({
+  id: '/empregos',
+  path: '/empregos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImoveisRoute = ImoveisRouteImport.update({
+  id: '/imoveis',
+  path: '/imoveis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MelhoriasRoute = MelhoriasRouteImport.update({
+  id: '/melhorias',
+  path: '/melhorias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NovidadesRoute = NovidadesRouteImport.update({
+  id: '/novidades',
+  path: '/novidades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SaudeRoute = SaudeRouteImport.update({
+  id: '/saude',
+  path: '/saude',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/acoes': typeof AcoesRoute
+  '/comercio': typeof ComercioRoute
+  '/contato': typeof ContatoRoute
+  '/empregos': typeof EmpregosRoute
+  '/entrar': typeof EntrarRoute
+  '/imoveis': typeof ImoveisRoute
+  '/melhorias': typeof MelhoriasRoute
+  '/novidades': typeof NovidadesRoute
+  '/saude': typeof SaudeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/acoes': typeof AcoesRoute
+  '/comercio': typeof ComercioRoute
+  '/contato': typeof ContatoRoute
+  '/empregos': typeof EmpregosRoute
+  '/entrar': typeof EntrarRoute
+  '/imoveis': typeof ImoveisRoute
+  '/melhorias': typeof MelhoriasRoute
+  '/novidades': typeof NovidadesRoute
+  '/saude': typeof SaudeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/acoes': typeof AcoesRoute
+  '/comercio': typeof ComercioRoute
+  '/contato': typeof ContatoRoute
+  '/empregos': typeof EmpregosRoute
+  '/entrar': typeof EntrarRoute
+  '/imoveis': typeof ImoveisRoute
+  '/melhorias': typeof MelhoriasRoute
+  '/novidades': typeof NovidadesRoute
+  '/saude': typeof SaudeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/acoes'
+    | '/comercio'
+    | '/contato'
+    | '/empregos'
+    | '/entrar'
+    | '/imoveis'
+    | '/melhorias'
+    | '/novidades'
+    | '/saude'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/acoes'
+    | '/comercio'
+    | '/contato'
+    | '/empregos'
+    | '/entrar'
+    | '/imoveis'
+    | '/melhorias'
+    | '/novidades'
+    | '/saude'
+  id:
+    | '__root__'
+    | '/'
+    | '/acoes'
+    | '/comercio'
+    | '/contato'
+    | '/empregos'
+    | '/entrar'
+    | '/imoveis'
+    | '/melhorias'
+    | '/novidades'
+    | '/saude'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcoesRoute: typeof AcoesRoute
+  ComercioRoute: typeof ComercioRoute
+  ContatoRoute: typeof ContatoRoute
+  EmpregosRoute: typeof EmpregosRoute
+  EntrarRoute: typeof EntrarRoute
+  ImoveisRoute: typeof ImoveisRoute
+  MelhoriasRoute: typeof MelhoriasRoute
+  NovidadesRoute: typeof NovidadesRoute
+  SaudeRoute: typeof SaudeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +169,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/acoes': {
+      id: '/acoes'
+      path: '/acoes'
+      fullPath: '/acoes'
+      preLoaderRoute: typeof AcoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comercio': {
+      id: '/comercio'
+      path: '/comercio'
+      fullPath: '/comercio'
+      preLoaderRoute: typeof ComercioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/empregos': {
+      id: '/empregos'
+      path: '/empregos'
+      fullPath: '/empregos'
+      preLoaderRoute: typeof EmpregosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/imoveis': {
+      id: '/imoveis'
+      path: '/imoveis'
+      fullPath: '/imoveis'
+      preLoaderRoute: typeof ImoveisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/melhorias': {
+      id: '/melhorias'
+      path: '/melhorias'
+      fullPath: '/melhorias'
+      preLoaderRoute: typeof MelhoriasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/novidades': {
+      id: '/novidades'
+      path: '/novidades'
+      fullPath: '/novidades'
+      preLoaderRoute: typeof NovidadesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/saude': {
+      id: '/saude'
+      path: '/saude'
+      fullPath: '/saude'
+      preLoaderRoute: typeof SaudeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcoesRoute: AcoesRoute,
+  ComercioRoute: ComercioRoute,
+  ContatoRoute: ContatoRoute,
+  EmpregosRoute: EmpregosRoute,
+  EntrarRoute: EntrarRoute,
+  ImoveisRoute: ImoveisRoute,
+  MelhoriasRoute: MelhoriasRoute,
+  NovidadesRoute: NovidadesRoute,
+  SaudeRoute: SaudeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
