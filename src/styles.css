@@ -5,20 +5,23 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Conecta Santa Regina — design system.
- * Paleta: verde-mata do bairro, areia quente e amarelo sol.
+ * Design system — Santa Regina, bairro em rede.
+ * Paleta "papel + manga + verde", tipografia Fraunces / Manrope / JetBrains Mono.
+ * Todas as cores em oklch e usadas apenas por tokens semânticos.
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
+  --radius-sm: calc(var(--radius) - 6px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
-  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 10px);
+  --radius-3xl: calc(var(--radius) + 16px);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -33,106 +36,78 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-sun: var(--sun);
-  --color-sun-foreground: var(--sun-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --shadow-card: 0 1px 2px oklch(0.3 0.05 165 / 6%), 0 12px 28px -18px oklch(0.3 0.05 165 / 28%);
-  --shadow-lift: 0 18px 40px -20px oklch(0.3 0.05 165 / 40%);
+
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-mango: var(--mango);
+  --color-mango-deep: var(--mango-deep);
+  --color-sun: var(--sun);
+  --color-sun-foreground: var(--sun-foreground);
+  --color-brick: var(--brick);
+  --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
+
+  --color-chart-1: var(--mango);
+  --color-chart-2: var(--teal);
+  --color-chart-3: var(--sun);
+  --color-chart-4: var(--brick);
+  --color-chart-5: var(--teal-deep);
+
+  --color-sidebar: var(--card);
+  --color-sidebar-foreground: var(--foreground);
+  --color-sidebar-primary: var(--primary);
+  --color-sidebar-primary-foreground: var(--primary-foreground);
+  --color-sidebar-accent: var(--secondary);
+  --color-sidebar-accent-foreground: var(--secondary-foreground);
+  --color-sidebar-border: var(--border);
+  --color-sidebar-ring: var(--ring);
 }
 
 :root {
   --radius: 1rem;
-  --background: oklch(0.985 0.012 92);
-  --foreground: oklch(0.26 0.032 165);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.26 0.032 165);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.26 0.032 165);
-  --primary: oklch(0.5 0.105 172);
-  --primary-foreground: oklch(0.99 0.01 95);
-  --secondary: oklch(0.94 0.03 92);
-  --secondary-foreground: oklch(0.32 0.045 165);
-  --muted: oklch(0.955 0.018 95);
-  --muted-foreground: oklch(0.52 0.028 165);
-  --accent: oklch(0.93 0.055 160);
-  --accent-foreground: oklch(0.32 0.05 168);
-  --sun: oklch(0.79 0.155 68);
-  --sun-foreground: oklch(0.28 0.06 60);
-  --destructive: oklch(0.55 0.19 27);
-  --destructive-foreground: oklch(0.99 0.01 95);
-  --border: oklch(0.9 0.02 120);
-  --input: oklch(0.9 0.02 120);
-  --ring: oklch(0.5 0.105 172);
-  --chart-1: oklch(0.5 0.105 172);
-  --chart-2: oklch(0.79 0.155 68);
-  --chart-3: oklch(0.62 0.12 200);
-  --chart-4: oklch(0.68 0.15 30);
-  --chart-5: oklch(0.6 0.11 130);
-  --sidebar: oklch(0.97 0.02 95);
-  --sidebar-foreground: oklch(0.26 0.032 165);
-  --sidebar-primary: oklch(0.5 0.105 172);
-  --sidebar-primary-foreground: oklch(0.99 0.01 95);
-  --sidebar-accent: oklch(0.93 0.055 160);
-  --sidebar-accent-foreground: oklch(0.32 0.05 168);
-  --sidebar-border: oklch(0.9 0.02 120);
-  --sidebar-ring: oklch(0.5 0.105 172);
-  --gradient-hero: linear-gradient(
-    180deg,
-    oklch(0.24 0.05 168 / 25%) 0%,
-    oklch(0.22 0.05 168 / 55%) 55%,
-    oklch(0.2 0.05 168 / 88%) 100%
-  );
-  --gradient-sun: linear-gradient(100deg, oklch(0.79 0.155 68), oklch(0.83 0.14 92));
-}
 
-.dark {
-  --background: oklch(0.2 0.03 168);
-  --foreground: oklch(0.97 0.012 95);
-  --card: oklch(0.25 0.035 168);
-  --card-foreground: oklch(0.97 0.012 95);
-  --popover: oklch(0.25 0.035 168);
-  --popover-foreground: oklch(0.97 0.012 95);
-  --primary: oklch(0.72 0.12 172);
-  --primary-foreground: oklch(0.19 0.04 168);
-  --secondary: oklch(0.3 0.04 168);
-  --secondary-foreground: oklch(0.97 0.012 95);
-  --muted: oklch(0.3 0.04 168);
-  --muted-foreground: oklch(0.75 0.02 150);
-  --accent: oklch(0.34 0.05 168);
-  --accent-foreground: oklch(0.97 0.012 95);
-  --sun: oklch(0.79 0.155 68);
-  --sun-foreground: oklch(0.24 0.05 60);
-  --destructive: oklch(0.65 0.19 27);
-  --destructive-foreground: oklch(0.99 0.01 95);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.72 0.12 172);
-  --sidebar: oklch(0.25 0.035 168);
-  --sidebar-foreground: oklch(0.97 0.012 95);
-  --sidebar-primary: oklch(0.72 0.12 172);
-  --sidebar-primary-foreground: oklch(0.19 0.04 168);
-  --sidebar-accent: oklch(0.34 0.05 168);
-  --sidebar-accent-foreground: oklch(0.97 0.012 95);
-  --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: oklch(0.72 0.12 172);
+  --ink: oklch(0.27 0.035 163);
+  --ink-soft: oklch(0.43 0.031 165);
+  --paper: oklch(0.968 0.017 110);
+  --paper-deep: oklch(0.941 0.023 110);
+  --mango: oklch(0.687 0.164 46);
+  --mango-deep: oklch(0.612 0.166 44);
+  --sun: oklch(0.857 0.137 84);
+  --sun-foreground: oklch(0.36 0.062 76);
+  --brick: oklch(0.522 0.166 31);
+  --teal: oklch(0.503 0.076 168);
+  --teal-deep: oklch(0.396 0.062 168);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--ink);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--ink);
+  --primary: var(--mango);
+  --primary-foreground: oklch(0.995 0.005 90);
+  --secondary: var(--paper-deep);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-deep);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--sun);
+  --accent-foreground: var(--sun-foreground);
+  --destructive: oklch(0.55 0.19 27);
+  --destructive-foreground: oklch(0.99 0.005 90);
+  --border: oklch(0.27 0.035 163 / 14%);
+  --input: oklch(0.27 0.035 163 / 18%);
+  --ring: var(--teal);
+
+  --shadow-lift: 0 12px 30px -14px oklch(0.27 0.035 163 / 0.35);
+  --gradient-brand: linear-gradient(155deg, var(--mango), var(--brick));
+  --gradient-deep: linear-gradient(135deg, var(--teal-deep), var(--ink));
 }
 
 @layer base {
@@ -144,6 +119,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
   }
 
   h1,
@@ -151,17 +127,55 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
   }
 }
 
-@utility hero-overlay {
-  background-image: var(--gradient-hero);
-}
-
+/* Cartão padrão do site: papel branco com borda fina e hover elevado. */
 @utility surface-card {
   background-color: var(--color-card);
+  color: var(--color-card-foreground);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
+  border-radius: var(--radius);
+}
+
+/* Rótulo monoespaçado com traço laranja, usado antes dos títulos. */
+@utility eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  color: var(--teal-deep);
+
+  &::before {
+    content: "";
+    width: 18px;
+    height: 2px;
+    background: var(--mango);
+    display: inline-block;
+  }
+}
+
+@utility brand-mark {
+  background-image: var(--gradient-brand);
+}
+
+@utility band-deep {
+  background-image: var(--gradient-deep);
+}
+
+@utility lift-hover {
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+  }
 }
