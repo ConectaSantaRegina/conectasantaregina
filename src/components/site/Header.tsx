@@ -13,28 +13,28 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
-      <div className="mx-auto grid max-w-[1180px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5 lg:flex lg:justify-between">
+      <div className="mx-auto grid max-w-[1180px] grid-cols-[auto_auto] items-center justify-between gap-4 px-5 py-3.5 lg:flex lg:justify-between">
         <Link to="/" className="flex min-w-0 items-center gap-3">
           <span className="brand-mark grid h-[42px] w-[42px] shrink-0 place-items-center rounded-xl text-primary-foreground">
             <MapPinned className="h-5 w-5" />
           </span>
           <span className="min-w-0">
-            <span className="block truncate font-display text-[1.28rem] font-bold leading-tight">
+            <span className="block whitespace-nowrap font-display text-[1.28rem] font-bold leading-tight">
               Santa Regina
             </span>
-            <span className="block truncate font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            <span className="block whitespace-nowrap font-mono text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               bairro em rede
             </span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 xl:flex">
+        <nav className="hidden items-center gap-5 xl:flex">
           {NAV.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               className={cn(
-                "group relative py-1 text-[0.92rem] font-semibold text-muted-foreground transition-colors hover:text-foreground",
+                "group relative py-1 whitespace-nowrap text-[0.88rem] font-semibold text-muted-foreground transition-colors hover:text-foreground",
                 pathname === item.to && "text-foreground",
               )}
             >
