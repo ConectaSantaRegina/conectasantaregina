@@ -94,8 +94,6 @@ function Inicio() {
 
   return (
     <div>
-      <CarrosselNovidades />
-
       <section className="relative isolate overflow-hidden">
         <img
           src={heroBairro}
@@ -126,6 +124,8 @@ function Inicio() {
           </div>
         </div>
       </section>
+
+      <CarrosselNovidades />
 
       <Secao>
         <h2 className="font-display text-2xl font-extrabold md:text-3xl">O que você procura?</h2>
