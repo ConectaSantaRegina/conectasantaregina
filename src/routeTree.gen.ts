@@ -14,6 +14,7 @@ import { Route as AcoesRouteImport } from './routes/acoes'
 import { Route as ComercioRouteImport } from './routes/comercio'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as EmpregosRouteImport } from './routes/empregos'
+import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as ImoveisRouteImport } from './routes/imoveis'
 import { Route as MelhoriasRouteImport } from './routes/melhorias'
 import { Route as NovidadesRouteImport } from './routes/novidades'
@@ -44,6 +45,11 @@ const EmpregosRoute = EmpregosRouteImport.update({
   path: '/empregos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ImoveisRoute = ImoveisRouteImport.update({
   id: '/imoveis',
   path: '/imoveis',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/comercio': typeof ComercioRoute
   '/contato': typeof ContatoRoute
   '/empregos': typeof EmpregosRoute
+  '/entrar': typeof EntrarRoute
   '/imoveis': typeof ImoveisRoute
   '/melhorias': typeof MelhoriasRoute
   '/novidades': typeof NovidadesRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/comercio': typeof ComercioRoute
   '/contato': typeof ContatoRoute
   '/empregos': typeof EmpregosRoute
+  '/entrar': typeof EntrarRoute
   '/imoveis': typeof ImoveisRoute
   '/melhorias': typeof MelhoriasRoute
   '/novidades': typeof NovidadesRoute
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/comercio': typeof ComercioRoute
   '/contato': typeof ContatoRoute
   '/empregos': typeof EmpregosRoute
+  '/entrar': typeof EntrarRoute
   '/imoveis': typeof ImoveisRoute
   '/melhorias': typeof MelhoriasRoute
   '/novidades': typeof NovidadesRoute
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/comercio'
     | '/contato'
     | '/empregos'
+    | '/entrar'
     | '/imoveis'
     | '/melhorias'
     | '/novidades'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/comercio'
     | '/contato'
     | '/empregos'
+    | '/entrar'
     | '/imoveis'
     | '/melhorias'
     | '/novidades'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/comercio'
     | '/contato'
     | '/empregos'
+    | '/entrar'
     | '/imoveis'
     | '/melhorias'
     | '/novidades'
@@ -141,6 +153,7 @@ export interface RootRouteChildren {
   ComercioRoute: typeof ComercioRoute
   ContatoRoute: typeof ContatoRoute
   EmpregosRoute: typeof EmpregosRoute
+  EntrarRoute: typeof EntrarRoute
   ImoveisRoute: typeof ImoveisRoute
   MelhoriasRoute: typeof MelhoriasRoute
   NovidadesRoute: typeof NovidadesRoute
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmpregosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/imoveis': {
       id: '/imoveis'
       path: '/imoveis'
@@ -221,6 +241,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComercioRoute: ComercioRoute,
   ContatoRoute: ContatoRoute,
   EmpregosRoute: EmpregosRoute,
+  EntrarRoute: EntrarRoute,
   ImoveisRoute: ImoveisRoute,
   MelhoriasRoute: MelhoriasRoute,
   NovidadesRoute: NovidadesRoute,
