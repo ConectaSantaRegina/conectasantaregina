@@ -69,17 +69,7 @@ export function PublicarDialog({
       for (const campo of campos) {
         if (campo.type === "image") continue;
         const bruto = valores[campo.name];
-        if (campo.type === "horarios") {
-    return (
-      <HorarioSemana
-        label={campo.label}
-        valor={String(valor ?? "")}
-        onChange={(texto) => onChange(campo.name, texto)}
-      />
-    );
-  }
-
-  if (campo.type === "switch") {
+        if (campo.type === "switch") {
           payload[campo.name] = Boolean(bruto);
           continue;
         }
