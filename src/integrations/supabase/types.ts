@@ -366,6 +366,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      contar_apoios: {
+        Args: never
+        Returns: {
+          sugestao_id: string
+          total: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
