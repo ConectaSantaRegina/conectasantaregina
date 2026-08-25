@@ -54,7 +54,7 @@ function Saude() {
               },
               { name: "descricao", label: "O que atende", type: "textarea" },
               { name: "endereco", label: "Endereço" },
-              { name: "horario", label: "Horário de atendimento" },
+              { name: "horario", label: "Horário de atendimento", type: "horarios", max: 400 },
               { name: "telefone", label: "Telefone" },
               { name: "whatsapp", label: "WhatsApp (só números)" },
               { name: "imagem_url", label: "Foto do local", type: "image" },
