@@ -363,16 +363,23 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      apoios_totais: {
+        Row: {
+          sugestao_id: string | null
+          total: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sugestao_apoios_sugestao_id_fkey"
+            columns: ["sugestao_id"]
+            isOneToOne: false
+            referencedRelation: "sugestoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
-      contar_apoios: {
-        Args: never
-        Returns: {
-          sugestao_id: string
-          total: number
-        }[]
-      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
