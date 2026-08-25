@@ -163,6 +163,16 @@ function CampoForm({
     );
   }
 
+  if (campo.type === "horarios") {
+    return (
+      <HorarioSemana
+        label={campo.label}
+        valor={String(valor ?? "")}
+        onChange={(texto) => onChange(campo.name, texto)}
+      />
+    );
+  }
+
   if (campo.type === "switch") {
     return (
       <div className="flex items-center justify-between rounded-xl border border-border px-3 py-2.5">
