@@ -20,7 +20,13 @@ import { Switch } from "@/components/ui/switch";
 import { HorarioSemana } from "@/components/site/HorarioSemana";
 import { useAuth } from "@/hooks/useAuth";
 import { enviarImagem } from "@/lib/imagens";
-import { inserirRegistro, useInvalidar, type Tabela } from "@/lib/dados";
+import {
+  atualizarRegistro,
+  inserirRegistro,
+  useInvalidar,
+  type Registro,
+  type Tabela,
+} from "@/lib/dados";
 
 export type Campo = {
   name: string;
@@ -31,6 +37,120 @@ export type Campo = {
   required?: boolean;
   max?: number;
 };
+
+function valoresIniciais(campos: Campo[], registro?: Registro) {
+  const iniciais: Record<string, string | boolean> = {};
+  if (!registro) return iniciais;
+  for (const campo of campos) {
+    const valor = registro[campo.name];
+    if (campo.type === "switch") iniciais[campo.name] = Boolean(valor);
+    else if (campo.type !== "image") iniciais[campo.name] = valor == null ? "" : String(valor);
+  }
+  return iniciais;
+}
+
+function FormularioRegistro({
+  tabela,
+  titulo,
+  descricao,
+  campos,
+  registro,
+  rotuloSalvar,
+  onPronto,
+}: {
+  tabela: Tabela;
+  titulo: string;
+  descricao: string;
+  campos: Campo[];
+  registro?: Registro;
+  rotuloSalvar: string;
+  onPronto: () => void;
+}) {
+  const { user } = useAuth();
+  const invalidar = useInvalidar(tabela);
+  const [salvando, setSalvando] = useState(false);
+  const [valores, setValores] = useState<Record<string, string | boolean>>(() =>
+    valoresIniciais(campos, registro),
+  );
+  const [arquivo, setArquivo] = useState<File | null>(null);
+
+  const definir = (name: string, value: string | boolean) =>
+    setValores((atual) => ({ ...atual, [name]: value }));
+
+  async function salvar() {
+    try {
+      const payload: Record<string, unknown> = {};
+      for (const campo of campos) {
+        if (campo.type === "image") continue;
+        const bruto = valores[campo.name];
+        if (campo.type === "switch") {
+          payload[campo.name] = Boolean(bruto);
+          continue;
+        }
+        const texto = String(bruto ?? "").trim();
+        const schema = campo.required
+          ? z.string().trim().min(2, `Preencha o campo ${campo.label}.`).max(campo.max ?? 4000)
+          : z.string().trim().max(campo.max ?? 4000);
+        const resultado = schema.safeParse(texto);
+        if (!resultado.success) {
+          toast.error(resultado.error.issues[0]?.message ?? `Verifique o campo ${campo.label}.`);
+          return;
+        }
+        payload[campo.name] = texto === "" ? null : texto;
+      }
+
+      setSalvando(true);
+      const campoImagem = campos.find((c) => c.type === "image");
+      if (campoImagem && arquivo) {
+        payload[campoImagem.name] = await enviarImagem(arquivo, user!.id);
+      }
+
+      if (registro) {
+        await atualizarRegistro(tabela, registro.id, payload);
+      } else {
+        payload["user_id"] = user!.id;
+        await inserirRegistro(tabela, payload);
+      }
+      await invalidar();
+      toast.success(registro ? "Alterações salvas." : "Publicado! Obrigada por contribuir.");
+      setArquivo(null);
+      if (!registro) setValores({});
+      onPronto();
+    } catch (erro) {
+      toast.error(erro instanceof Error ? erro.message : "Não foi possível salvar agora.");
+    } finally {
+      setSalvando(false);
+    }
+  }
+
+  return (
+    <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+      <DialogHeader>
+        <DialogTitle>{titulo}</DialogTitle>
+        <DialogDescription>{descricao}</DialogDescription>
+      </DialogHeader>
+      <div className="grid gap-4">
+        {campos.map((campo) => (
+          <CampoForm
+            key={campo.name}
+            campo={campo}
+            valor={valores[campo.name]}
+            onChange={definir}
+            onFile={setArquivo}
+            arquivo={arquivo}
+            temImagem={Boolean(registro && registro[campo.name])}
+          />
+        ))}
+      </div>
+      <DialogFooter>
+        <Button onClick={salvar} disabled={salvando}>
+          {salvando && <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />}
+          {rotuloSalvar}
+        </Button>
+      </DialogFooter>
+    </DialogContent>
+  );
+}
 
 export function PublicarDialog({
   tabela,
@@ -46,11 +166,7 @@ export function PublicarDialog({
   rotulo?: string;
 }) {
   const { user } = useAuth();
-  const invalidar = useInvalidar(tabela);
   const [open, setOpen] = useState(false);
-  const [salvando, setSalvando] = useState(false);
-  const [valores, setValores] = useState<Record<string, string | boolean>>({});
-  const [arquivo, setArquivo] = useState<File | null>(null);
 
   if (!user) {
     return (
@@ -60,49 +176,6 @@ export function PublicarDialog({
     );
   }
 
-  const definir = (name: string, value: string | boolean) =>
-    setValores((atual) => ({ ...atual, [name]: value }));
-
-  async function salvar() {
-    try {
-      const payload: Record<string, unknown> = { user_id: user!.id };
-      for (const campo of campos) {
-        if (campo.type === "image") continue;
-        const bruto = valores[campo.name];
-        if (campo.type === "switch") {
-          payload[campo.name] = Boolean(bruto);
-          continue;
-        }
-        const texto = String(bruto ?? "").trim();
-        const schema = campo.required
-          ? z.string().trim().min(2, `Preencha o campo ${campo.label}.`).max(campo.max ?? 2000)
-          : z.string().trim().max(campo.max ?? 2000);
-        const resultado = schema.safeParse(texto);
-        if (!resultado.success) {
-          toast.error(resultado.error.issues[0]?.message ?? `Verifique o campo ${campo.label}.`);
-          return;
-        }
-        payload[campo.name] = texto === "" ? null : texto;
-      }
-
-      setSalvando(true);
-      const campoImagem = campos.find((c) => c.type === "image");
-      if (campoImagem && arquivo) {
-        payload[campoImagem.name] = await enviarImagem(arquivo, user!.id);
-      }
-      await inserirRegistro(tabela, payload);
-      await invalidar();
-      toast.success("Publicado! Obrigada por contribuir com o bairro.");
-      setValores({});
-      setArquivo(null);
-      setOpen(false);
-    } catch (erro) {
-      toast.error(erro instanceof Error ? erro.message : "Não foi possível publicar agora.");
-    } finally {
-      setSalvando(false);
-    }
-  }
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -110,30 +183,47 @@ export function PublicarDialog({
           <Plus className="mr-1.5 h-4 w-4" /> {rotulo}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle>{titulo}</DialogTitle>
-          <DialogDescription>{descricao}</DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4">
-          {campos.map((campo) => (
-            <CampoForm
-              key={campo.name}
-              campo={campo}
-              valor={valores[campo.name]}
-              onChange={definir}
-              onFile={setArquivo}
-              arquivo={arquivo}
-            />
-          ))}
-        </div>
-        <DialogFooter>
-          <Button onClick={salvar} disabled={salvando}>
-            {salvando && <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />}
-            Publicar
-          </Button>
-        </DialogFooter>
-      </DialogContent>
+      {open && (
+        <FormularioRegistro
+          tabela={tabela}
+          titulo={titulo}
+          descricao={descricao}
+          campos={campos}
+          rotuloSalvar="Publicar"
+          onPronto={() => setOpen(false)}
+        />
+      )}
+    </Dialog>
+  );
+}
+
+export function EditarDialog({
+  tabela,
+  campos,
+  registro,
+  gatilho,
+}: {
+  tabela: Tabela;
+  campos: Campo[];
+  registro: Registro;
+  gatilho: ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{gatilho}</DialogTrigger>
+      {open && (
+        <FormularioRegistro
+          tabela={tabela}
+          titulo="Editar publicação"
+          descricao="Altere as informações e salve para atualizar no site."
+          campos={campos}
+          registro={registro}
+          rotuloSalvar="Salvar alterações"
+          onPronto={() => setOpen(false)}
+        />
+      )}
     </Dialog>
   );
 }
@@ -144,12 +234,14 @@ function CampoForm({
   onChange,
   onFile,
   arquivo,
+  temImagem,
 }: {
   campo: Campo;
   valor: string | boolean | undefined;
   onChange: (name: string, value: string | boolean) => void;
   onFile: (file: File | null) => void;
   arquivo: File | null;
+  temImagem?: boolean;
 }) {
   const id = `campo-${campo.name}`;
 
@@ -162,7 +254,6 @@ function CampoForm({
       />
     );
   }
-
 
   if (campo.type === "switch") {
     return (
@@ -187,7 +278,7 @@ function CampoForm({
         <Textarea
           id={id}
           rows={4}
-          maxLength={campo.max ?? 2000}
+          maxLength={campo.max ?? 4000}
           placeholder={campo.placeholder}
           value={String(valor ?? "")}
           onChange={(e) => onChange(campo.name, e.target.value)}
@@ -215,7 +306,11 @@ function CampoForm({
             onChange={(e) => onFile(e.target.files?.[0] ?? null)}
           />
           <p className="text-xs text-muted-foreground">
-            {arquivo ? `Imagem selecionada: ${arquivo.name}` : "Opcional • até 6 MB"}
+            {arquivo
+              ? `Imagem selecionada: ${arquivo.name}`
+              : temImagem
+                ? "Já existe uma imagem. Escolha outra para substituir."
+                : "Opcional • até 6 MB"}
           </p>
         </div>
       ) : (
