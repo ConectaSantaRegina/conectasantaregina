@@ -55,7 +55,7 @@ function Comercio() {
               },
               { name: "descricao", label: "Descrição", type: "textarea" },
               { name: "endereco", label: "Endereço" },
-              { name: "horario", label: "Horário de funcionamento" },
+              { name: "horario", label: "Horário de funcionamento", type: "horarios", max: 400 },
               { name: "telefone", label: "Telefone" },
               { name: "whatsapp", label: "WhatsApp (só números)" },
               { name: "instagram", label: "Instagram (@)" },

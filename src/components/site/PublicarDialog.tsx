@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { HorarioSemana } from "@/components/site/HorarioSemana";
 import { useAuth } from "@/hooks/useAuth";
 import { enviarImagem } from "@/lib/imagens";
 import { inserirRegistro, useInvalidar, type Tabela } from "@/lib/dados";
@@ -24,7 +25,7 @@ import { inserirRegistro, useInvalidar, type Tabela } from "@/lib/dados";
 export type Campo = {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "select" | "switch" | "image";
+  type?: "text" | "textarea" | "select" | "switch" | "image" | "horarios";
   options?: string[];
   placeholder?: string;
   required?: boolean;
@@ -151,6 +152,17 @@ function CampoForm({
   arquivo: File | null;
 }) {
   const id = `campo-${campo.name}`;
+
+  if (campo.type === "horarios") {
+    return (
+      <HorarioSemana
+        label={campo.label}
+        valor={String(valor ?? "")}
+        onChange={(texto) => onChange(campo.name, texto)}
+      />
+    );
+  }
+
 
   if (campo.type === "switch") {
     return (

@@ -46,9 +46,9 @@ export function CardItem({
         {infos && infos.length > 0 && (
           <ul className="grid gap-1.5 text-sm text-muted-foreground">
             {infos.map((info, i) => (
-              <li key={i} className="flex min-w-0 items-center gap-2">
-                <span className="shrink-0 text-primary">{info.icone}</span>
-                <span className="min-w-0 break-words">{info.texto}</span>
+              <li key={i} className="flex min-w-0 items-start gap-2">
+                <span className="mt-0.5 shrink-0 text-primary">{info.icone}</span>
+                <span className="min-w-0 whitespace-pre-line break-words">{info.texto}</span>
               </li>
             ))}
           </ul>
