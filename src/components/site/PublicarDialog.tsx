@@ -163,15 +163,6 @@ function CampoForm({
     );
   }
 
-  if (campo.type === "horarios") {
-    return (
-      <HorarioSemana
-        label={campo.label}
-        valor={String(valor ?? "")}
-        onChange={(texto) => onChange(campo.name, texto)}
-      />
-    );
-  }
 
   if (campo.type === "switch") {
     return (
