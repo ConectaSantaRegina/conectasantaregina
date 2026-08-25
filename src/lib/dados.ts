@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Database } from "@/integrations/supabase/types";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 export type Tabela = keyof Database["public"]["Tables"];
 
@@ -10,15 +11,37 @@ export type Registro = Record<string, unknown> & {
   created_at?: string;
 };
 
-/** Consulta genérica: tudo da tabela, mais recentes primeiro. */
+/**
+ * Colunas visíveis para visitantes não autenticados.
+ * O user_id de quem publicou nunca é exposto publicamente.
+ */
+const COLUNAS_PUBLICAS: Partial<Record<Tabela, string>> = {
+  acoes: "id,titulo,tipo,descricao,meta,local,contato,imagem_url,created_at,updated_at",
+  comercios:
+    "id,nome,categoria,descricao,endereco,telefone,whatsapp,instagram,horario,delivery,imagem_url,created_at,updated_at",
+  imoveis:
+    "id,titulo,finalidade,tipo,preco,endereco,descricao,contato,imagem_url,created_at,updated_at",
+  novidades: "id,titulo,texto,categoria,imagem_url,created_at,updated_at",
+  sugestoes: "id,titulo,descricao,local,status,created_at,updated_at",
+  vagas: "id,titulo,empresa,descricao,tipo,salario,contato,created_at,updated_at",
+  sugestao_apoios: "sugestao_id",
+};
+
+const SEM_ORDENACAO: Tabela[] = ["sugestao_apoios"];
+
+/** Consulta genérica: mais recentes primeiro. */
 export function useLista(tabela: Tabela, limite?: number) {
+  const { user } = useAuth();
+  const autenticado = Boolean(user);
+
   return useQuery({
-    queryKey: [tabela, limite ?? "all"],
+    queryKey: [tabela, limite ?? "all", autenticado],
     queryFn: async (): Promise<Registro[]> => {
-      let query = supabase
-        .from(tabela as "comercios")
-        .select("*")
-        .order("created_at", { ascending: false });
+      const colunas = autenticado ? "*" : (COLUNAS_PUBLICAS[tabela] ?? "*");
+      let query = supabase.from(tabela as "comercios").select(colunas as "*");
+      if (!(autenticado === false && SEM_ORDENACAO.includes(tabela))) {
+        query = query.order("created_at", { ascending: false });
+      }
       if (limite) query = query.limit(limite);
       const { data, error } = await query;
       if (error) throw error;
