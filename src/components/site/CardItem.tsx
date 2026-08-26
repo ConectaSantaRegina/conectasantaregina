@@ -1,9 +1,22 @@
 import type { ReactNode } from "react";
-import { Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { SiteImage } from "@/components/site/SiteImage";
+import { EditarDialog } from "@/components/site/PublicarDialog";
+import { CAMPOS } from "@/lib/campos";
 import { useAuth } from "@/hooks/useAuth";
 import { apagarRegistro, useInvalidar, type Registro, type Tabela } from "@/lib/dados";
 
