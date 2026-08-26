@@ -363,7 +363,21 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      sugestao_apoios_contagem: {
+        Row: {
+          sugestao_id: string | null
+          total: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sugestao_apoios_sugestao_id_fkey"
+            columns: ["sugestao_id"]
+            isOneToOne: false
+            referencedRelation: "sugestoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       has_role: {
