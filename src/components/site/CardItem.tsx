@@ -1,9 +1,22 @@
 import type { ReactNode } from "react";
-import { Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { SiteImage } from "@/components/site/SiteImage";
+import { EditarDialog } from "@/components/site/PublicarDialog";
+import { CAMPOS } from "@/lib/campos";
 import { useAuth } from "@/hooks/useAuth";
 import { apagarRegistro, useInvalidar, type Registro, type Tabela } from "@/lib/dados";
 
@@ -55,36 +68,74 @@ export function CardItem({
         )}
         <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
           {rodape}
-          <BotaoApagar registro={registro} tabela={tabela} />
+          <AcoesRegistro registro={registro} tabela={tabela} />
         </div>
       </div>
     </article>
   );
 }
 
-export function BotaoApagar({ registro, tabela }: { registro: Registro; tabela: Tabela }) {
+/** Botões Editar e Apagar, visíveis para o autor da publicação ou para admins. */
+export function AcoesRegistro({ registro, tabela }: { registro: Registro; tabela: Tabela }) {
   const { user, isAdmin } = useAuth();
   const invalidar = useInvalidar(tabela);
-  const podeApagar = Boolean(user && (isAdmin || user.id === registro.user_id));
+  const podeGerenciar = Boolean(user && (isAdmin || user.id === registro.user_id));
+  const campos = CAMPOS[tabela];
 
-  if (!podeApagar) return null;
+  if (!podeGerenciar) return null;
+
+  async function apagar() {
+    try {
+      await apagarRegistro(tabela, registro.id);
+      await invalidar();
+      toast.success("Publicação removida.");
+    } catch {
+      toast.error("Não foi possível remover agora.");
+    }
+  }
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      className="ml-auto text-muted-foreground hover:text-destructive"
-      onClick={async () => {
-        try {
-          await apagarRegistro(tabela, registro.id);
-          await invalidar();
-          toast.success("Publicação removida.");
-        } catch {
-          toast.error("Não foi possível remover agora.");
-        }
-      }}
-    >
-      <Trash2 className="mr-1.5 h-4 w-4" /> Apagar
-    </Button>
+    <div className="ml-auto flex items-center gap-1">
+      {campos && (
+        <EditarDialog
+          tabela={tabela}
+          campos={campos}
+          registro={registro}
+          gatilho={
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
+              <Pencil className="mr-1.5 h-4 w-4" /> Editar
+            </Button>
+          }
+        />
+      )}
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-muted-foreground hover:text-destructive"
+          >
+            <Trash2 className="mr-1.5 h-4 w-4" /> Apagar
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Apagar esta publicação?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta ação não pode ser desfeita. A publicação sairá do site para todos os moradores.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={apagar}>Apagar</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   );
+}
+
+/** Mantido para compatibilidade: apenas o botão de apagar (com confirmação). */
+export function BotaoApagar({ registro, tabela }: { registro: Registro; tabela: Tabela }) {
+  return <AcoesRegistro registro={registro} tabela={tabela} />;
 }
