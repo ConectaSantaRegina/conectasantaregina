@@ -62,6 +62,18 @@ export async function inserirRegistro(tabela: Tabela, payload: Record<string, un
   if (error) throw error;
 }
 
+export async function atualizarRegistro(
+  tabela: Tabela,
+  id: string,
+  payload: Record<string, unknown>,
+) {
+  const { error } = await supabase
+    .from(tabela as "comercios")
+    .update(payload as never)
+    .eq("id", id);
+  if (error) throw error;
+}
+
 export async function apagarRegistro(tabela: Tabela, id: string) {
   const { error } = await supabase
     .from(tabela as "comercios")
