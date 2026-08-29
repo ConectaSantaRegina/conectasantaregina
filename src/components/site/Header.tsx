@@ -45,9 +45,16 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           {user ? (
-            <Button variant="outline" size="sm" onClick={() => signOut()}>
-              <LogOut className="mr-1.5 h-4 w-4" /> Sair
-            </Button>
+            <>
+              <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+                <Link to="/minhas-publicacoes">
+                  <LayoutList className="mr-1.5 h-4 w-4" /> Minhas publicações
+                </Link>
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => signOut()}>
+                <LogOut className="mr-1.5 h-4 w-4" /> Sair
+              </Button>
+            </>
           ) : (
             <Button asChild size="sm" className="hidden sm:inline-flex">
               <Link to="/entrar">Entrar</Link>
