@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X, LogOut, MapPinned } from "lucide-react";
+import { Menu, X, LogOut, MapPinned, LayoutList } from "lucide-react";
 import { NAV } from "@/lib/nav";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -45,9 +45,16 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           {user ? (
-            <Button variant="outline" size="sm" onClick={() => signOut()}>
-              <LogOut className="mr-1.5 h-4 w-4" /> Sair
-            </Button>
+            <>
+              <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+                <Link to="/minhas-publicacoes">
+                  <LayoutList className="mr-1.5 h-4 w-4" /> Minhas publicações
+                </Link>
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => signOut()}>
+                <LogOut className="mr-1.5 h-4 w-4" /> Sair
+              </Button>
+            </>
           ) : (
             <Button asChild size="sm" className="hidden sm:inline-flex">
               <Link to="/entrar">Entrar</Link>
@@ -81,7 +88,15 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            {!user && (
+            {user ? (
+              <Link
+                to="/minhas-publicacoes"
+                onClick={() => setOpen(false)}
+                className="rounded-xl bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground"
+              >
+                Minhas publicações
+              </Link>
+            ) : (
               <Link
                 to="/entrar"
                 onClick={() => setOpen(false)}

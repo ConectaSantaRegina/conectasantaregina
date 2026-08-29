@@ -17,6 +17,7 @@ import { Route as EmpregosRouteImport } from './routes/empregos'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as ImoveisRouteImport } from './routes/imoveis'
 import { Route as MelhoriasRouteImport } from './routes/melhorias'
+import { Route as MinhasPublicacoesRouteImport } from './routes/minhas-publicacoes'
 import { Route as NovidadesRouteImport } from './routes/novidades'
 import { Route as SaudeRouteImport } from './routes/saude'
 
@@ -60,6 +61,11 @@ const MelhoriasRoute = MelhoriasRouteImport.update({
   path: '/melhorias',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MinhasPublicacoesRoute = MinhasPublicacoesRouteImport.update({
+  id: '/minhas-publicacoes',
+  path: '/minhas-publicacoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NovidadesRoute = NovidadesRouteImport.update({
   id: '/novidades',
   path: '/novidades',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/entrar': typeof EntrarRoute
   '/imoveis': typeof ImoveisRoute
   '/melhorias': typeof MelhoriasRoute
+  '/minhas-publicacoes': typeof MinhasPublicacoesRoute
   '/novidades': typeof NovidadesRoute
   '/saude': typeof SaudeRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/entrar': typeof EntrarRoute
   '/imoveis': typeof ImoveisRoute
   '/melhorias': typeof MelhoriasRoute
+  '/minhas-publicacoes': typeof MinhasPublicacoesRoute
   '/novidades': typeof NovidadesRoute
   '/saude': typeof SaudeRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/entrar': typeof EntrarRoute
   '/imoveis': typeof ImoveisRoute
   '/melhorias': typeof MelhoriasRoute
+  '/minhas-publicacoes': typeof MinhasPublicacoesRoute
   '/novidades': typeof NovidadesRoute
   '/saude': typeof SaudeRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/entrar'
     | '/imoveis'
     | '/melhorias'
+    | '/minhas-publicacoes'
     | '/novidades'
     | '/saude'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/entrar'
     | '/imoveis'
     | '/melhorias'
+    | '/minhas-publicacoes'
     | '/novidades'
     | '/saude'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/entrar'
     | '/imoveis'
     | '/melhorias'
+    | '/minhas-publicacoes'
     | '/novidades'
     | '/saude'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   EntrarRoute: typeof EntrarRoute
   ImoveisRoute: typeof ImoveisRoute
   MelhoriasRoute: typeof MelhoriasRoute
+  MinhasPublicacoesRoute: typeof MinhasPublicacoesRoute
   NovidadesRoute: typeof NovidadesRoute
   SaudeRoute: typeof SaudeRoute
 }
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MelhoriasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/minhas-publicacoes': {
+      id: '/minhas-publicacoes'
+      path: '/minhas-publicacoes'
+      fullPath: '/minhas-publicacoes'
+      preLoaderRoute: typeof MinhasPublicacoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/novidades': {
       id: '/novidades'
       path: '/novidades'
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   EntrarRoute: EntrarRoute,
   ImoveisRoute: ImoveisRoute,
   MelhoriasRoute: MelhoriasRoute,
+  MinhasPublicacoesRoute: MinhasPublicacoesRoute,
   NovidadesRoute: NovidadesRoute,
   SaudeRoute: SaudeRoute,
 }
