@@ -88,7 +88,15 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            {!user && (
+            {user ? (
+              <Link
+                to="/minhas-publicacoes"
+                onClick={() => setOpen(false)}
+                className="rounded-xl bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground"
+              >
+                Minhas publicações
+              </Link>
+            ) : (
               <Link
                 to="/entrar"
                 onClick={() => setOpen(false)}
