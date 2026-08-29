@@ -52,7 +52,10 @@ export function useLista(tabela: Tabela, limite?: number) {
 
 export function useInvalidar(tabela: Tabela) {
   const queryClient = useQueryClient();
-  return () => queryClient.invalidateQueries({ queryKey: [tabela] });
+  return async () => {
+    await queryClient.invalidateQueries({ queryKey: [tabela] });
+    await queryClient.invalidateQueries({ queryKey: ["minhas-publicacoes"] });
+  };
 }
 
 export async function inserirRegistro(tabela: Tabela, payload: Record<string, unknown>) {
