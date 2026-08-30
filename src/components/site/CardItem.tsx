@@ -34,7 +34,7 @@ export function CardItem({
   badge?: string | null;
   imagem?: string | null;
   descricao?: string | null;
-  infos?: { icone: ReactNode; texto: string }[];
+  infos?: { icone: ReactNode; texto: ReactNode }[];
   rodape?: ReactNode;
   registro: Registro;
   tabela: Tabela;

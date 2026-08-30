@@ -1,64 +1,58 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Clock, Phone } from "lucide-react";
+import { MapPin, Clock, Phone, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CardItem } from "@/components/site/CardItem";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
-import { CATEGORIAS_SAUDE } from "@/lib/nav";
+import { CAMPOS } from "@/lib/campos";
+import { CATEGORIAS_SERVICOS_PUBLICOS } from "@/lib/nav";
 import { linkWhatsapp, txt, useLista } from "@/lib/dados";
 
 export const Route = createFileRoute("/saude")({
   head: () => ({
     meta: [
-      { title: "Saúde e Serviços do bairro Santa Regina" },
+      { title: "Serviços Públicos do bairro Santa Regina" },
       {
         name: "description",
         content:
-          "Farmácias, postos de saúde, clínicas, odontologia, salões de beleza e academias do bairro Santa Regina com endereço e contato.",
+          "Escolas, postos de saúde, subprefeitura, praças, bibliotecas, centros esportivos e demais estruturas comunitárias de Santa Regina.",
       },
-      { property: "og:title", content: "Saúde e Serviços do bairro Santa Regina" },
+      { property: "og:title", content: "Serviços Públicos do bairro Santa Regina" },
       {
         property: "og:description",
-        content: "Onde encontrar farmácias, postos de saúde, clínicas e salões em Santa Regina.",
+        content: "Encontre escolas, postos de saúde, praças, bibliotecas e estruturas públicas de Santa Regina.",
       },
     ],
   }),
   component: Saude,
 });
 
+function linkInstagram(handle?: string | null) {
+  if (!handle) return null;
+  const limpo = handle.replace(/^@/, "").trim();
+  if (!limpo) return null;
+  return `https://instagram.com/${limpo}`;
+}
 
 function Saude() {
   const { data, isLoading } = useLista("comercios");
-  const itens = (data ?? []).filter((item) => CATEGORIAS_SAUDE.includes(txt(item, "categoria")));
+  const itens = (data ?? []).filter((item) =>
+    CATEGORIAS_SERVICOS_PUBLICOS.includes(txt(item, "categoria")),
+  );
 
   return (
     <div>
       <PageHero
-        titulo="Saúde e Serviços"
-        subtitulo="A infraestrutura que cuida da gente: farmácias, postos de saúde, clínicas, odontologia, salões e academias do bairro."
+        titulo="Serviços Públicos"
+        subtitulo="A infraestrutura que serve a comunidade: escolas, postos de saúde, subprefeitura, praças, bibliotecas, centros esportivos e demais espaços coletivos do bairro."
         acao={
           <PublicarDialog
             tabela="comercios"
             rotulo="Cadastrar local"
-            titulo="Cadastrar serviço de saúde ou beleza"
-            descricao="Ajude os vizinhos indicando um local de saúde, beleza ou bem-estar do bairro."
-            campos={[
-              { name: "nome", label: "Nome do local", required: true },
-              {
-                name: "categoria",
-                label: "Categoria",
-                type: "select",
-                options: CATEGORIAS_SAUDE,
-                required: true,
-              },
-              { name: "descricao", label: "O que atende", type: "textarea" },
-              { name: "endereco", label: "Endereço" },
-              { name: "horario", label: "Horário de atendimento", type: "horarios", max: 400 },
-              { name: "telefone", label: "Telefone" },
-              { name: "whatsapp", label: "WhatsApp (só números)" },
-              { name: "imagem_url", label: "Foto do local", type: "image" },
-            ]}
+            titulo="Cadastrar serviço público ou comunitário"
+            descricao="Ajude os vizinhos indicando uma escola, posto de saúde, praça, biblioteca ou outro espaço público do bairro."
+            campos={CAMPOS.comercios ?? []}
           />
         }
       />
@@ -66,12 +60,13 @@ function Saude() {
         <ListaFiltrada
           itens={itens}
           carregando={isLoading}
-          categorias={CATEGORIAS_SAUDE}
+          categorias={CATEGORIAS_SERVICOS_PUBLICOS}
           campoCategoria="categoria"
           camposBusca={["nome", "descricao", "endereco", "categoria"]}
-          vazio="Nenhum local cadastrado ainda. Cadastre a farmácia ou o posto de saúde que você conhece."
+          vazio="Nenhum local cadastrado ainda. Cadastre a escola, praça ou posto de saúde que você conhece."
           render={(item) => {
             const wpp = linkWhatsapp(txt(item, "whatsapp"));
+            const ig = linkInstagram(txt(item, "instagram"));
             return (
               <CardItem
                 key={item.id}
@@ -90,6 +85,23 @@ function Saude() {
                     : []),
                   ...(txt(item, "telefone")
                     ? [{ icone: <Phone className="h-4 w-4" />, texto: txt(item, "telefone") }]
+                    : []),
+                  ...(ig
+                    ? [
+                        {
+                          icone: <Instagram className="h-4 w-4" />,
+                          texto: (
+                            <a
+                              href={ig}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-primary underline hover:text-primary/80"
+                            >
+                              @{txt(item, "instagram").replace(/^@/, "")}
+                            </a>
+                          ),
+                        },
+                      ]
                     : []),
                 ]}
                 rodape={

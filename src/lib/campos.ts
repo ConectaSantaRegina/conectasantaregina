@@ -1,6 +1,10 @@
 import type { Campo } from "@/components/site/PublicarDialog";
 import type { Tabela } from "@/lib/dados";
-import { CATEGORIAS_COMERCIO, CATEGORIAS_NOVIDADES, CATEGORIAS_SAUDE } from "@/lib/nav";
+import {
+  CATEGORIAS_COMERCIO,
+  CATEGORIAS_NOVIDADES,
+  CATEGORIAS_SERVICOS_PUBLICOS,
+} from "@/lib/nav";
 
 export const TIPOS_VAGA = ["Efetivo", "Temporário", "Freelance", "Estágio", "Bico"];
 export const TIPOS_ACAO = ["Doação", "Mutirão", "Campanha", "Evento solidário", "Voluntariado"];
@@ -22,7 +26,8 @@ export const CAMPOS: Partial<Record<Tabela, Campo[]>> = {
       name: "categoria",
       label: "Categoria",
       type: "select",
-      options: [...CATEGORIAS_COMERCIO, ...CATEGORIAS_SAUDE],
+      options: [...CATEGORIAS_COMERCIO, ...CATEGORIAS_SERVICOS_PUBLICOS, "Outra (personalizar)"],
+      allowCustom: true,
       required: true,
     },
     { name: "descricao", label: "Descrição", type: "textarea" },

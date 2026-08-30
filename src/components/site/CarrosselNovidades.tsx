@@ -46,13 +46,10 @@ export function CarrosselNovidades() {
   return (
     <section className="border-b bg-secondary/40">
       <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">
-        <div className="flex items-center justify-between gap-3">
-          <p className="flex items-center gap-2 text-sm font-semibold text-primary">
-            <Megaphone className="h-4 w-4" /> Destaques dos comerciantes
+        <div className="flex flex-col items-center justify-center gap-2 text-center">
+          <p className="flex items-center gap-2 text-lg font-extrabold text-primary md:text-2xl">
+            <Megaphone className="h-5 w-5 md:h-6 md:w-6" /> DESTAQUES
           </p>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/novidades">Ver todas as novidades</Link>
-          </Button>
         </div>
 
         <div className="relative mt-4 overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-card)]">

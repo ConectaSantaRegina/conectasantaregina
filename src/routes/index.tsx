@@ -1,22 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Store,
-  HeartPulse,
+  Landmark,
   Briefcase,
   Home,
   Megaphone,
   Lightbulb,
   HandHeart,
   Mail,
-  ArrowRight,
 } from "lucide-react";
 import heroBairro from "@/assets/hero-bairro.jpg";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { SiteImage } from "@/components/site/SiteImage";
 import { CarrosselNovidades } from "@/components/site/CarrosselNovidades";
 import { Secao } from "@/components/site/PageHero";
-import { formatarData, txt, useLista } from "@/lib/dados";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,15 +38,15 @@ export const Route = createFileRoute("/")({
 const ATALHOS = [
   {
     to: "/comercio",
-    label: "Comércio e Delivery",
-    texto: "Mercados, padarias, lanches e lojas do bairro",
+    label: "Comércio e Serviços",
+    texto: "Mercados, farmácias, restaurantes, bancos, academias e lojas",
     icone: Store,
   },
   {
     to: "/saude",
-    label: "Saúde e Serviços",
-    texto: "Farmácias, postos, clínicas e salões",
-    icone: HeartPulse,
+    label: "Serviços Públicos",
+    texto: "Escolas, postos de saúde, praças, bibliotecas e subprefeitura",
+    icone: Landmark,
   },
   {
     to: "/empregos",
@@ -90,8 +87,6 @@ const ATALHOS = [
 ] as const;
 
 function Inicio() {
-  const { data: novidades } = useLista("novidades");
-
   return (
     <div>
       <section className="relative isolate overflow-hidden">
@@ -112,16 +107,6 @@ function Inicio() {
             O ponto de encontro digital de Santa Regina: comércio, delivery, saúde, empregos,
             novidades e as ações que a comunidade organiza junto.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <Link to="/comercio">
-                Ver o comércio do bairro <ArrowRight className="ml-1.5 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="secondary">
-              <Link to="/novidades">Novidades de hoje</Link>
-            </Button>
-          </div>
         </div>
       </section>
 
@@ -150,15 +135,14 @@ function Inicio() {
         <div className="surface-card grid gap-4 p-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
           <div className="min-w-0">
             <h2 className="font-display text-2xl font-extrabold">
-              Tem uma ideia para melhorar Santa Regina?
+              Tem algo para publicar?
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Publique sua sugestão, veja o que os vizinhos propuseram e apoie as ideias que você
-              também quer ver acontecendo.
+              Cadastre-se para postar novidades, ofertas e avisos para todo o bairro.
             </p>
           </div>
           <Button asChild size="lg" className="shrink-0">
-            <Link to="/melhorias">Propor melhoria</Link>
+            <Link to="/entrar">Cadastre-se</Link>
           </Button>
         </div>
       </section>

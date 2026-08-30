@@ -1,7 +1,7 @@
 export const NAV = [
   { to: "/", label: "Início" },
-  { to: "/comercio", label: "Comércio e Delivery" },
-  { to: "/saude", label: "Saúde e Serviços" },
+  { to: "/comercio", label: "Comércio e Serviços" },
+  { to: "/saude", label: "Serviços Públicos" },
   { to: "/empregos", label: "Empregos" },
   { to: "/imoveis", label: "Aluguel e Venda" },
   { to: "/novidades", label: "Novidades" },
@@ -13,22 +13,29 @@ export const NAV = [
 export const CATEGORIAS_COMERCIO = [
   "Mercado e Padaria",
   "Restaurante e Lanchonete",
+  "Lanchonete",
   "Delivery",
   "Loja e Vestuário",
-  "Serviços",
-  "Pet",
-  "Outros",
-];
-
-export const CATEGORIAS_SAUDE = [
   "Farmácia",
-  "Posto de Saúde",
-  "Clínica",
-  "Odontologia",
+  "Banco",
+  "Academia",
   "Salão de Beleza",
   "Barbearia",
-  "Academia",
-  "Outros",
+  "Serviços",
+  "Pet",
+  "Outro comércio ou serviço",
+];
+
+export const CATEGORIAS_SERVICOS_PUBLICOS = [
+  "Escola",
+  "Posto de Saúde",
+  "UBS",
+  "Subprefeitura",
+  "Praça",
+  "Biblioteca",
+  "Centro Esportivo",
+  "Creche",
+  "Outra estrutura pública",
 ];
 
 export const CATEGORIAS_NOVIDADES = ["Promoção", "Obra", "Evento", "Aviso", "Segurança"];
