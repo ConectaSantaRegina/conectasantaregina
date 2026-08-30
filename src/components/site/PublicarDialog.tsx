@@ -36,6 +36,7 @@ export type Campo = {
   placeholder?: string;
   required?: boolean;
   max?: number;
+  allowCustom?: boolean;
 };
 
 function valoresIniciais(campos: Campo[], registro?: Registro) {
