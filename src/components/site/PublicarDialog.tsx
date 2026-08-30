@@ -229,6 +229,8 @@ export function EditarDialog({
   );
 }
 
+const OPCAO_CUSTOM = "Outra (personalizar)";
+
 function CampoForm({
   campo,
   valor,
@@ -245,6 +247,7 @@ function CampoForm({
   temImagem?: boolean;
 }) {
   const id = `campo-${campo.name}`;
+  const isCustom = campo.allowCustom && String(valor ?? "") === OPCAO_CUSTOM;
 
   if (campo.type === "horarios") {
     return (
@@ -285,19 +288,29 @@ function CampoForm({
           onChange={(e) => onChange(campo.name, e.target.value)}
         />
       ) : campo.type === "select" ? (
-        <select
-          id={id}
-          value={String(valor ?? "")}
-          onChange={(e) => onChange(campo.name, e.target.value)}
-          className="h-10 rounded-md border border-input bg-background px-3 text-sm"
-        >
-          <option value="">Selecione…</option>
-          {campo.options?.map((opcao) => (
-            <option key={opcao} value={opcao}>
-              {opcao}
-            </option>
-          ))}
-        </select>
+        <div className="grid gap-2">
+          <select
+            id={id}
+            value={String(valor ?? "")}
+            onChange={(e) => onChange(campo.name, e.target.value)}
+            className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+          >
+            <option value="">Selecione…</option>
+            {campo.options?.map((opcao) => (
+              <option key={opcao} value={opcao}>
+                {opcao}
+              </option>
+            ))}
+          </select>
+          {isCustom && (
+            <Input
+              placeholder="Digite a categoria"
+              value=""
+              onChange={(e) => onChange(campo.name, e.target.value.trimStart())}
+              required={campo.required}
+            />
+          )}
+        </div>
       ) : campo.type === "image" ? (
         <div className="grid gap-1.5">
           <Input
