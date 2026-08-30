@@ -11,7 +11,7 @@ export const TIPOS_ACAO = ["Doação", "Mutirão", "Campanha", "Evento solidári
 export const FINALIDADES_IMOVEL = ["Aluguel", "Venda"];
 export const TIPOS_IMOVEL = [
   "Casa",
-  "Apartaurto",
+  "Apartamento",
   "Quarto",
   "Sala comercial",
   "Terreno",
