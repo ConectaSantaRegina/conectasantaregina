@@ -247,7 +247,8 @@ function CampoForm({
   temImagem?: boolean;
 }) {
   const id = `campo-${campo.name}`;
-  const isCustom = campo.allowCustom && String(valor ?? "") === OPCAO_CUSTOM;
+  const opcoesPredefinidas = new Set(campo.options ?? []);
+  const isCustom = campo.allowCustom && !!valor && !opcoesPredefinidas.has(String(valor));
 
   if (campo.type === "horarios") {
     return (
@@ -291,8 +292,11 @@ function CampoForm({
         <div className="grid gap-2">
           <select
             id={id}
-            value={String(valor ?? "")}
-            onChange={(e) => onChange(campo.name, e.target.value)}
+            value={isCustom ? OPCAO_CUSTOM : String(valor ?? "")}
+            onChange={(e) => {
+              const v = e.target.value;
+              onChange(campo.name, v === OPCAO_CUSTOM ? "" : v);
+            }}
             className="h-10 rounded-md border border-input bg-background px-3 text-sm"
           >
             <option value="">Selecione…</option>
@@ -301,12 +305,13 @@ function CampoForm({
                 {opcao}
               </option>
             ))}
+            {campo.allowCustom && <option value={OPCAO_CUSTOM}>Outra (personalizar)</option>}
           </select>
           {isCustom && (
             <Input
               placeholder="Digite a categoria"
-              value=""
-              onChange={(e) => onChange(campo.name, e.target.value.trimStart())}
+              value={String(valor ?? "")}
+              onChange={(e) => onChange(campo.name, e.target.value)}
               required={campo.required}
             />
           )}
