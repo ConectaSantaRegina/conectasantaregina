@@ -307,8 +307,10 @@ function CampoForm({
             value={isCustom ? OPCAO_CUSTOM : String(valor ?? "")}
             onChange={(e) => {
               const v = e.target.value;
+              setModoCustom(v === OPCAO_CUSTOM);
               onChange(campo.name, v === OPCAO_CUSTOM ? "" : v);
             }}
+
             className="h-10 rounded-md border border-input bg-background px-3 text-sm"
           >
             <option value="">Selecione…</option>
