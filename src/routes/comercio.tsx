@@ -59,7 +59,9 @@ function Comercio() {
         <ListaFiltrada
           itens={itens}
           carregando={isLoading}
-          categorias={CATEGORIAS_COMERCIO}
+          categorias={Array.from(
+            new Set([...CATEGORIAS_COMERCIO, ...itens.map((i) => txt(i, "categoria"))].filter(Boolean)),
+          )}
           campoCategoria="categoria"
           camposBusca={["nome", "descricao", "endereco", "categoria"]}
           vazio="Nenhum comércio encontrado. Que tal cadastrar o primeiro?"

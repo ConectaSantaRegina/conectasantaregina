@@ -59,7 +59,9 @@ function Saude() {
         <ListaFiltrada
           itens={itens}
           carregando={isLoading}
-          categorias={CATEGORIAS_SERVICOS_PUBLICOS}
+          categorias={Array.from(
+            new Set([...CATEGORIAS_SERVICOS_PUBLICOS, ...itens.map((i) => txt(i, "categoria"))].filter(Boolean)),
+          )}
           campoCategoria="categoria"
           camposBusca={["nome", "descricao", "endereco", "categoria"]}
           vazio="Nenhum local cadastrado ainda. Cadastre a escola, praça ou posto de saúde que você conhece."
