@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Target, Phone } from "lucide-react";
 import { CardItem } from "@/components/site/CardItem";
+import { LinkEndereco } from "@/components/site/LinkEndereco";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
@@ -75,7 +76,10 @@ function Acoes() {
                   ? [{ icone: <Target className="h-4 w-4" />, texto: txt(item, "meta") }]
                   : []),
                 ...(txt(item, "local")
-                  ? [{ icone: <MapPin className="h-4 w-4" />, texto: txt(item, "local") }]
+                  ? [{
+                        icone: <MapPin className="h-4 w-4" />,
+                        texto: <LinkEndereco endereco={txt(item, "local")} />,
+                      }]
                   : []),
                 ...(txt(item, "contato")
                   ? [{ icone: <Phone className="h-4 w-4" />, texto: txt(item, "contato") }]

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Tag, Phone } from "lucide-react";
 import { CardItem } from "@/components/site/CardItem";
+import { LinkEndereco } from "@/components/site/LinkEndereco";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
@@ -83,7 +84,10 @@ function Imoveis() {
                   ? [{ icone: <Tag className="h-4 w-4" />, texto: txt(item, "preco") }]
                   : []),
                 ...(txt(item, "endereco")
-                  ? [{ icone: <MapPin className="h-4 w-4" />, texto: txt(item, "endereco") }]
+                  ? [{
+                        icone: <MapPin className="h-4 w-4" />,
+                        texto: <LinkEndereco endereco={txt(item, "endereco")} />,
+                      }]
                   : []),
                 ...(txt(item, "contato")
                   ? [{ icone: <Phone className="h-4 w-4" />, texto: txt(item, "contato") }]

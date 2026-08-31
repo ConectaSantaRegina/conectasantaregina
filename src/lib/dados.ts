@@ -112,3 +112,12 @@ export function linkWhatsapp(numero?: string | null) {
   if (limpo.length < 10) return null;
   return `https://wa.me/55${limpo}`;
 }
+
+/** Link de busca no Google Maps para um endereço livre. */
+export function linkMaps(endereco?: string | null) {
+  const limpo = (endereco ?? "").trim();
+  if (limpo.length < 4) return null;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${limpo}, Santa Regina`,
+  )}`;
+}
