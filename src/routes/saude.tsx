@@ -5,7 +5,7 @@ import { CardItem } from "@/components/site/CardItem";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
-import { CAMPOS } from "@/lib/campos";
+import { camposLocal } from "@/lib/campos";
 import { CATEGORIAS_SERVICOS_PUBLICOS } from "@/lib/nav";
 import { linkWhatsapp, txt, useLista } from "@/lib/dados";
 
@@ -37,9 +37,7 @@ function linkInstagram(handle?: string | null) {
 
 function Saude() {
   const { data, isLoading } = useLista("comercios");
-  const itens = (data ?? []).filter((item) =>
-    CATEGORIAS_SERVICOS_PUBLICOS.includes(txt(item, "categoria")),
-  );
+  const itens = (data ?? []).filter((item) => txt(item, "secao") === "publico");
 
   return (
     <div>
@@ -52,7 +50,8 @@ function Saude() {
             rotulo="Cadastrar local"
             titulo="Cadastrar serviço público ou comunitário"
             descricao="Ajude os vizinhos indicando uma escola, posto de saúde, praça, biblioteca ou outro espaço público do bairro."
-            campos={CAMPOS.comercios ?? []}
+            campos={camposLocal("publico")}
+            extra={{ secao: "publico" }}
           />
         }
       />
@@ -60,7 +59,9 @@ function Saude() {
         <ListaFiltrada
           itens={itens}
           carregando={isLoading}
-          categorias={CATEGORIAS_SERVICOS_PUBLICOS}
+          categorias={Array.from(
+            new Set([...CATEGORIAS_SERVICOS_PUBLICOS, ...itens.map((i) => txt(i, "categoria"))].filter(Boolean)),
+          )}
           campoCategoria="categoria"
           camposBusca={["nome", "descricao", "endereco", "categoria"]}
           vazio="Nenhum local cadastrado ainda. Cadastre a escola, praça ou posto de saúde que você conhece."

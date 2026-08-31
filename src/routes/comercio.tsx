@@ -5,8 +5,8 @@ import { CardItem } from "@/components/site/CardItem";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
-import { CAMPOS } from "@/lib/campos";
-import { CATEGORIAS_COMERCIO, CATEGORIAS_SERVICOS_PUBLICOS } from "@/lib/nav";
+import { camposLocal } from "@/lib/campos";
+import { CATEGORIAS_COMERCIO } from "@/lib/nav";
 import { bool, linkWhatsapp, txt, useLista } from "@/lib/dados";
 
 export const Route = createFileRoute("/comercio")({
@@ -37,9 +37,7 @@ function linkInstagram(handle?: string | null) {
 
 function Comercio() {
   const { data, isLoading } = useLista("comercios");
-  const itens = (data ?? []).filter(
-    (item) => !CATEGORIAS_SERVICOS_PUBLICOS.includes(txt(item, "categoria")),
-  );
+  const itens = (data ?? []).filter((item) => txt(item, "secao") !== "publico");
 
   return (
     <div>
@@ -52,7 +50,8 @@ function Comercio() {
             rotulo="Cadastrar comércio"
             titulo="Cadastrar comércio ou serviço"
             descricao="Preencha os dados do seu negócio para aparecer no guia do bairro."
-            campos={CAMPOS.comercios ?? []}
+            campos={camposLocal("comercio")}
+            extra={{ secao: "comercio" }}
           />
         }
       />
@@ -60,7 +59,9 @@ function Comercio() {
         <ListaFiltrada
           itens={itens}
           carregando={isLoading}
-          categorias={CATEGORIAS_COMERCIO}
+          categorias={Array.from(
+            new Set([...CATEGORIAS_COMERCIO, ...itens.map((i) => txt(i, "categoria"))].filter(Boolean)),
+          )}
           campoCategoria="categoria"
           camposBusca={["nome", "descricao", "endereco", "categoria"]}
           vazio="Nenhum comércio encontrado. Que tal cadastrar o primeiro?"

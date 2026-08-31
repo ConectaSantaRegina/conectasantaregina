@@ -68,6 +68,7 @@ export type Database = {
           imagem_url: string | null
           instagram: string | null
           nome: string
+          secao: string
           telefone: string | null
           updated_at: string
           user_id: string
@@ -84,6 +85,7 @@ export type Database = {
           imagem_url?: string | null
           instagram?: string | null
           nome: string
+          secao?: string
           telefone?: string | null
           updated_at?: string
           user_id: string
@@ -100,6 +102,7 @@ export type Database = {
           imagem_url?: string | null
           instagram?: string | null
           nome?: string
+          secao?: string
           telefone?: string | null
           updated_at?: string
           user_id?: string

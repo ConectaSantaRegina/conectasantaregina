@@ -18,27 +18,63 @@ export const TIPOS_IMOVEL = [
   "Galpão",
 ];
 
-/** Campos usados tanto para publicar como para editar cada tipo de conteúdo. */
-export const CAMPOS: Partial<Record<Tabela, Campo[]>> = {
-  comercios: [
+export type Secao = "comercio" | "publico";
+
+export const SECOES: { value: Secao; label: string }[] = [
+  { value: "comercio", label: "Comércio e Serviços" },
+  { value: "publico", label: "Serviços Públicos" },
+];
+
+const CAMPOS_LOCAL_BASE: Campo[] = [
+  { name: "descricao", label: "Descrição", type: "textarea" },
+  { name: "endereco", label: "Endereço" },
+  { name: "horario", label: "Horário de funcionamento", type: "horarios", max: 400 },
+  { name: "telefone", label: "Telefone" },
+  { name: "whatsapp", label: "WhatsApp (só números)" },
+  { name: "instagram", label: "Instagram (@)" },
+  { name: "delivery", label: "Faz entrega (delivery)", type: "switch" },
+  { name: "imagem_url", label: "Foto do local", type: "image" },
+];
+
+/** Campos de cadastro de um local, com as categorias da aba correspondente. */
+export function camposLocal(secao: Secao): Campo[] {
+  return [
     { name: "nome", label: "Nome do local", required: true },
     {
       name: "categoria",
       label: "Categoria",
       type: "select",
-      options: [...CATEGORIAS_COMERCIO, ...CATEGORIAS_SERVICOS_PUBLICOS, "Outra (personalizar)"],
+      options: secao === "publico" ? CATEGORIAS_SERVICOS_PUBLICOS : CATEGORIAS_COMERCIO,
       allowCustom: true,
       required: true,
     },
-    { name: "descricao", label: "Descrição", type: "textarea" },
-    { name: "endereco", label: "Endereço" },
-    { name: "horario", label: "Horário de funcionamento", type: "horarios", max: 400 },
-    { name: "telefone", label: "Telefone" },
-    { name: "whatsapp", label: "WhatsApp (só números)" },
-    { name: "instagram", label: "Instagram (@)" },
-    { name: "delivery", label: "Faz entrega (delivery)", type: "switch" },
-    { name: "imagem_url", label: "Foto do local", type: "image" },
+    ...CAMPOS_LOCAL_BASE,
+  ];
+}
+
+/** Campos usados tanto para publicar como para editar cada tipo de conteúdo. */
+export const CAMPOS: Partial<Record<Tabela, Campo[]>> = {
+  comercios: [
+    { name: "nome", label: "Nome do local", required: true },
+    {
+      name: "secao",
+      label: "Aparece na aba",
+      type: "select",
+      options: SECOES.map((s) => s.value),
+      optionLabels: Object.fromEntries(SECOES.map((s) => [s.value, s.label])),
+      required: true,
+    },
+    {
+      name: "categoria",
+      label: "Categoria",
+      type: "select",
+      options: [...CATEGORIAS_COMERCIO, ...CATEGORIAS_SERVICOS_PUBLICOS],
+      allowCustom: true,
+      required: true,
+    },
+    ...CAMPOS_LOCAL_BASE,
   ],
+
   vagas: [
     { name: "titulo", label: "Cargo ou serviço", required: true },
     { name: "empresa", label: "Empresa ou responsável" },
