@@ -237,7 +237,7 @@ export function EditarDialog({
   );
 }
 
-const OPCAO_CUSTOM = "Outra (personalizar)";
+const OPCAO_CUSTOM = "__personalizar__";
 
 function CampoForm({
   campo,
@@ -313,11 +313,11 @@ function CampoForm({
                 {campo.optionLabels?.[opcao] ?? opcao}
               </option>
             ))}
-            {campo.allowCustom && <option value={OPCAO_CUSTOM}>Outra (personalizar)</option>}
+            {campo.allowCustom && <option value={OPCAO_CUSTOM}>Personalizar…</option>}
           </select>
           {isCustom && (
             <Input
-              placeholder="Digite a categoria"
+              placeholder={`Digite ${campo.label.toLowerCase()}`}
               value={String(valor ?? "")}
               onChange={(e) => onChange(campo.name, e.target.value)}
               required={campo.required}
