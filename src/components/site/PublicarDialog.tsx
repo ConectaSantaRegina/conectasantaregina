@@ -59,6 +59,7 @@ function FormularioRegistro({
   campos,
   registro,
   rotuloSalvar,
+  extra,
   onPronto,
 }: {
   tabela: Tabela;
@@ -67,6 +68,7 @@ function FormularioRegistro({
   campos: Campo[];
   registro?: Registro;
   rotuloSalvar: string;
+  extra?: Record<string, unknown>;
   onPronto: () => void;
 }) {
   const { user } = useAuth();
@@ -111,6 +113,7 @@ function FormularioRegistro({
       if (registro) {
         await atualizarRegistro(tabela, registro.id, payload);
       } else {
+        Object.assign(payload, extra ?? {});
         payload["user_id"] = user!.id;
         await inserirRegistro(tabela, payload);
       }
@@ -161,12 +164,14 @@ export function PublicarDialog({
   descricao,
   campos,
   rotulo = "Publicar",
+  extra,
 }: {
   tabela: Tabela;
   titulo: string;
   descricao: string;
   campos: Campo[];
   rotulo?: string;
+  extra?: Record<string, unknown>;
 }) {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
@@ -192,6 +197,7 @@ export function PublicarDialog({
           titulo={titulo}
           descricao={descricao}
           campos={campos}
+          extra={extra}
           rotuloSalvar="Publicar"
           onPronto={() => setOpen(false)}
         />
@@ -304,7 +310,7 @@ function CampoForm({
             <option value="">Selecione…</option>
             {campo.options?.map((opcao) => (
               <option key={opcao} value={opcao}>
-                {opcao}
+                {campo.optionLabels?.[opcao] ?? opcao}
               </option>
             ))}
             {campo.allowCustom && <option value={OPCAO_CUSTOM}>Outra (personalizar)</option>}
