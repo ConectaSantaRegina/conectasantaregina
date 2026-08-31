@@ -18,7 +18,7 @@ export type Registro = Record<string, unknown> & {
 const COLUNAS_PUBLICAS: Partial<Record<Tabela, string>> = {
   acoes: "id,titulo,tipo,descricao,meta,local,contato,imagem_url,created_at,updated_at",
   comercios:
-    "id,nome,categoria,descricao,endereco,telefone,whatsapp,instagram,horario,delivery,imagem_url,created_at,updated_at",
+    "id,nome,secao,categoria,descricao,endereco,telefone,whatsapp,instagram,horario,delivery,imagem_url,created_at,updated_at",
   imoveis:
     "id,titulo,finalidade,tipo,preco,endereco,descricao,contato,imagem_url,created_at,updated_at",
   novidades: "id,titulo,texto,categoria,imagem_url,created_at,updated_at",
