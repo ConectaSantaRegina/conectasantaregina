@@ -256,7 +256,11 @@ function CampoForm({
 }) {
   const id = `campo-${campo.name}`;
   const opcoesPredefinidas = new Set(campo.options ?? []);
-  const isCustom = campo.allowCustom && !!valor && !opcoesPredefinidas.has(String(valor));
+  const [modoCustom, setModoCustom] = useState(
+    Boolean(campo.allowCustom && valor && !opcoesPredefinidas.has(String(valor))),
+  );
+  const isCustom = Boolean(campo.allowCustom) && modoCustom;
+
 
   if (campo.type === "horarios") {
     return (
