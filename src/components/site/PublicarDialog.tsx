@@ -237,7 +237,7 @@ export function EditarDialog({
   );
 }
 
-const OPCAO_CUSTOM = "Outra (personalizar)";
+const OPCAO_CUSTOM = "__personalizar__";
 
 function CampoForm({
   campo,
@@ -256,7 +256,11 @@ function CampoForm({
 }) {
   const id = `campo-${campo.name}`;
   const opcoesPredefinidas = new Set(campo.options ?? []);
-  const isCustom = campo.allowCustom && !!valor && !opcoesPredefinidas.has(String(valor));
+  const [modoCustom, setModoCustom] = useState(
+    Boolean(campo.allowCustom && valor && !opcoesPredefinidas.has(String(valor))),
+  );
+  const isCustom = Boolean(campo.allowCustom) && modoCustom;
+
 
   if (campo.type === "horarios") {
     return (
@@ -303,8 +307,10 @@ function CampoForm({
             value={isCustom ? OPCAO_CUSTOM : String(valor ?? "")}
             onChange={(e) => {
               const v = e.target.value;
+              setModoCustom(v === OPCAO_CUSTOM);
               onChange(campo.name, v === OPCAO_CUSTOM ? "" : v);
             }}
+
             className="h-10 rounded-md border border-input bg-background px-3 text-sm"
           >
             <option value="">Selecione…</option>
@@ -313,11 +319,11 @@ function CampoForm({
                 {campo.optionLabels?.[opcao] ?? opcao}
               </option>
             ))}
-            {campo.allowCustom && <option value={OPCAO_CUSTOM}>Outra (personalizar)</option>}
+            {campo.allowCustom && <option value={OPCAO_CUSTOM}>Personalizar…</option>}
           </select>
           {isCustom && (
             <Input
-              placeholder="Digite a categoria"
+              placeholder={`Digite ${campo.label.toLowerCase()}`}
               value={String(valor ?? "")}
               onChange={(e) => onChange(campo.name, e.target.value)}
               required={campo.required}

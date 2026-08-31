@@ -23,7 +23,6 @@ export const CATEGORIAS_COMERCIO = [
   "Barbearia",
   "Serviços",
   "Pet",
-  "Outro comércio ou serviço",
 ];
 
 export const CATEGORIAS_SERVICOS_PUBLICOS = [
@@ -35,7 +34,6 @@ export const CATEGORIAS_SERVICOS_PUBLICOS = [
   "Biblioteca",
   "Centro Esportivo",
   "Creche",
-  "Outra estrutura pública",
 ];
 
 export const CATEGORIAS_NOVIDADES = ["Promoção", "Obra", "Evento", "Aviso", "Segurança"];

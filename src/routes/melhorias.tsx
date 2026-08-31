@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MapPin, ThumbsUp } from "lucide-react";
+import { LinkEndereco } from "@/components/site/LinkEndereco";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -120,7 +121,7 @@ function CardSugestao({ sugestao, apoios }: { sugestao: Registro; apoios: Regist
       {txt(sugestao, "local") && (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
           <MapPin className="h-4 w-4 shrink-0 text-primary" />
-          {txt(sugestao, "local")}
+          <LinkEndereco endereco={txt(sugestao, "local")} />
         </p>
       )}
       <p className="text-xs text-muted-foreground">{formatarData(sugestao.created_at)}</p>

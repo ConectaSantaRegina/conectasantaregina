@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Clock, Phone, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CardItem } from "@/components/site/CardItem";
+import { LinkEndereco } from "@/components/site/LinkEndereco";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
@@ -79,7 +80,10 @@ function Saude() {
                 descricao={txt(item, "descricao") || null}
                 infos={[
                   ...(txt(item, "endereco")
-                    ? [{ icone: <MapPin className="h-4 w-4" />, texto: txt(item, "endereco") }]
+                    ? [{
+                        icone: <MapPin className="h-4 w-4" />,
+                        texto: <LinkEndereco endereco={txt(item, "endereco")} />,
+                      }]
                     : []),
                   ...(txt(item, "horario")
                     ? [{ icone: <Clock className="h-4 w-4" />, texto: txt(item, "horario") }]
