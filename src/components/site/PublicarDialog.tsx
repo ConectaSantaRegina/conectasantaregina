@@ -68,7 +68,7 @@ function FormularioRegistro({
   campos: Campo[];
   registro?: Registro;
   rotuloSalvar: string;
-  extra?: Record<string, unknown>;
+  extra?: Record<string, unknown> | undefined;
   onPronto: () => void;
 }) {
   const { user } = useAuth();
