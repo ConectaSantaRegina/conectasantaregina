@@ -33,11 +33,13 @@ export type Campo = {
   label: string;
   type?: "text" | "textarea" | "select" | "switch" | "image" | "horarios";
   options?: string[];
+  optionLabels?: Record<string, string>;
   placeholder?: string;
   required?: boolean;
   max?: number;
   allowCustom?: boolean;
 };
+
 
 function valoresIniciais(campos: Campo[], registro?: Registro) {
   const iniciais: Record<string, string | boolean> = {};
