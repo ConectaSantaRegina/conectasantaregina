@@ -4,6 +4,7 @@ import { CardItem } from "@/components/site/CardItem";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
+import { CAMPOS } from "@/lib/campos";
 import { CATEGORIAS_NOVIDADES } from "@/lib/nav";
 import { formatarData, txt, useLista } from "@/lib/dados";
 
@@ -40,18 +41,7 @@ function Novidades() {
             rotulo="Publicar novidade"
             titulo="Publicar uma novidade"
             descricao="Conte a novidade e, se quiser, adicione uma imagem da promoção ou do acontecimento."
-            campos={[
-              { name: "titulo", label: "Título", required: true },
-              {
-                name: "categoria",
-                label: "Categoria",
-                type: "select",
-                options: CATEGORIAS_NOVIDADES,
-                required: true,
-              },
-              { name: "texto", label: "Detalhes", type: "textarea", max: 4000 },
-              { name: "imagem_url", label: "Imagem", type: "image" },
-            ]}
+            campos={CAMPOS.novidades ?? []}
           />
         }
       />

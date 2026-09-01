@@ -5,6 +5,7 @@ import { LinkEndereco } from "@/components/site/LinkEndereco";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
+import { CAMPOS } from "@/lib/campos";
 import { txt, useLista } from "@/lib/dados";
 
 const TIPOS = ["Doação", "Mutirão", "Campanha", "Evento solidário", "Voluntariado"];
@@ -42,15 +43,7 @@ function Acoes() {
             rotulo="Criar ação"
             titulo="Criar uma ação comunitária"
             descricao="Descreva a ação, a meta e como as pessoas podem participar ou doar."
-            campos={[
-              { name: "titulo", label: "Nome da ação", required: true },
-              { name: "tipo", label: "Tipo", type: "select", options: TIPOS, required: true },
-              { name: "descricao", label: "Descrição", type: "textarea", max: 3000 },
-              { name: "meta", label: "Meta (ex.: 200 cestas)" },
-              { name: "local", label: "Local e data" },
-              { name: "contato", label: "Contato do organizador", required: true },
-              { name: "imagem_url", label: "Imagem da ação", type: "image" },
-            ]}
+            campos={CAMPOS.acoes ?? []}
           />
         }
       />

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { BotaoApagar } from "@/components/site/CardItem";
 import { EstadoVazio, PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
+import { CAMPOS } from "@/lib/campos";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -52,11 +53,7 @@ function Melhorias() {
             rotulo="Propor melhoria"
             titulo="Propor uma melhoria"
             descricao="Explique a ideia e onde ela deveria acontecer no bairro."
-            campos={[
-              { name: "titulo", label: "Sua proposta", required: true },
-              { name: "local", label: "Local no bairro" },
-              { name: "descricao", label: "Detalhes", type: "textarea", max: 3000 },
-            ]}
+            campos={CAMPOS.sugestoes ?? []}
           />
         }
       />

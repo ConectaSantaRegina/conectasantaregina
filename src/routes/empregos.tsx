@@ -4,6 +4,7 @@ import { CardItem } from "@/components/site/CardItem";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
+import { CAMPOS } from "@/lib/campos";
 import { txt, useLista } from "@/lib/dados";
 
 const TIPOS = ["Efetivo", "Temporário", "Freelance", "Estágio", "Bico"];
@@ -41,14 +42,7 @@ function Empregos() {
             rotulo="Publicar vaga"
             titulo="Publicar uma vaga"
             descricao="Descreva a oportunidade e como as pessoas devem entrar em contato."
-            campos={[
-              { name: "titulo", label: "Cargo ou serviço", required: true },
-              { name: "empresa", label: "Empresa ou responsável" },
-              { name: "tipo", label: "Tipo", type: "select", options: TIPOS, required: true },
-              { name: "salario", label: "Remuneração" },
-              { name: "descricao", label: "Descrição e requisitos", type: "textarea" },
-              { name: "contato", label: "Contato (telefone, WhatsApp ou e-mail)", required: true },
-            ]}
+            campos={CAMPOS.vagas ?? []}
           />
         }
       />
