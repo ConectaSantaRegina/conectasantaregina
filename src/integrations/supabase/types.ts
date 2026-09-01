@@ -215,6 +215,50 @@ export type Database = {
         }
         Relationships: []
       }
+      pedidos_destaque: {
+        Row: {
+          comercio_id: string | null
+          contato: string
+          created_at: string
+          id: string
+          mensagem: string | null
+          negocio: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comercio_id?: string | null
+          contato: string
+          created_at?: string
+          id?: string
+          mensagem?: string | null
+          negocio: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comercio_id?: string | null
+          contato?: string
+          created_at?: string
+          id?: string
+          mensagem?: string | null
+          negocio?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pedidos_destaque_comercio_id_fkey"
+            columns: ["comercio_id"]
+            isOneToOne: false
+            referencedRelation: "comercios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
