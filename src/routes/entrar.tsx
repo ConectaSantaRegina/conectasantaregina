@@ -36,12 +36,25 @@ const schema = z.object({
   senha: z.string().min(6, "A senha precisa de ao menos 6 caracteres.").max(72),
 });
 
+const schemaCadastro = z.object({
+  nome: z
+    .string()
+    .trim()
+    .min(5, "Digite seu nome completo.")
+    .max(120)
+    .refine((v) => v.split(/\s+/).length >= 2, "Digite nome e sobrenome."),
+  email: z.string().trim().email("E-mail inválido.").max(255),
+  senha: z.string().regex(/^\d{6}$/, "A senha deve ter exatamente 6 dígitos numéricos."),
+  morador: z.boolean(),
+});
+
 function Entrar() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [nome, setNome] = useState("");
+  const [morador, setMorador] = useState<"sim" | "nao" | "">("");
   const [carregando, setCarregando] = useState(false);
 
   useEffect(() => {
@@ -56,6 +69,7 @@ function Entrar() {
     }
     return resultado.data;
   }
+
 
   async function entrar() {
     const dados = validar();
