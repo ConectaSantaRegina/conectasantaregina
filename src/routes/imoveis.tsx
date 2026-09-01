@@ -70,10 +70,12 @@ function Imoveis() {
                   ? [{ icone: <Tag className="h-4 w-4" />, texto: txt(item, "preco") }]
                   : []),
                 ...(txt(item, "endereco")
-                  ? [{
+                  ? [
+                      {
                         icone: <MapPin className="h-4 w-4" />,
                         texto: <LinkEndereco endereco={txt(item, "endereco")} />,
-                      }]
+                      },
+                    ]
                   : []),
                 ...(txt(item, "contato")
                   ? [{ icone: <Phone className="h-4 w-4" />, texto: txt(item, "contato") }]

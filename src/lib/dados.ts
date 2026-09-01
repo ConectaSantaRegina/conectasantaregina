@@ -59,9 +59,7 @@ export function useInvalidar(tabela: Tabela) {
 }
 
 export async function inserirRegistro(tabela: Tabela, payload: Record<string, unknown>) {
-  const { error } = await supabase
-    .from(tabela as "comercios")
-    .insert(payload as never);
+  const { error } = await supabase.from(tabela as "comercios").insert(payload as never);
   if (error) throw error;
 }
 
@@ -97,7 +95,6 @@ export function bool(registro: Registro, campo: string): boolean {
 }
 
 export function formatarData(valor?: string) {
-
   if (!valor) return "";
   return new Date(valor).toLocaleDateString("pt-BR", {
     day: "2-digit",

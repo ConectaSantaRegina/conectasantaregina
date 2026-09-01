@@ -31,7 +31,8 @@ export const Route = createFileRoute("/melhorias")({
       { property: "og:title", content: "Propor melhorias para o bairro Santa Regina" },
       {
         property: "og:description",
-        content: "Ideias dos moradores para melhorar o bairro Santa Regina, com apoio da vizinhança.",
+        content:
+          "Ideias dos moradores para melhorar o bairro Santa Regina, com apoio da vizinhança.",
       },
     ],
   }),
@@ -124,11 +125,7 @@ function CardSugestao({ sugestao, apoios }: { sugestao: Registro; apoios: Regist
       <p className="text-xs text-muted-foreground">{formatarData(sugestao.created_at)}</p>
       <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
         {user ? (
-          <Button
-            size="sm"
-            variant={meuApoio ? "default" : "secondary"}
-            onClick={alternarApoio}
-          >
+          <Button size="sm" variant={meuApoio ? "default" : "secondary"} onClick={alternarApoio}>
             <ThumbsUp className="mr-1.5 h-4 w-4" />
             {meuApoio ? "Apoiando" : "Apoiar"} · {daSugestao.length}
           </Button>

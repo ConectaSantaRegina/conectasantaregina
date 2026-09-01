@@ -69,10 +69,12 @@ function Acoes() {
                   ? [{ icone: <Target className="h-4 w-4" />, texto: txt(item, "meta") }]
                   : []),
                 ...(txt(item, "local")
-                  ? [{
+                  ? [
+                      {
                         icone: <MapPin className="h-4 w-4" />,
                         texto: <LinkEndereco endereco={txt(item, "local")} />,
-                      }]
+                      },
+                    ]
                   : []),
                 ...(txt(item, "contato")
                   ? [{ icone: <Phone className="h-4 w-4" />, texto: txt(item, "contato") }]

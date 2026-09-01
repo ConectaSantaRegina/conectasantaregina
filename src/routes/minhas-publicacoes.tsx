@@ -34,11 +34,21 @@ export const Route = createFileRoute("/minhas-publicacoes")({
 
 const GRUPOS: { tabela: Tabela; rotulo: string; campoTitulo: string; rota: string }[] = [
   { tabela: "comercios", rotulo: "Comércios e serviços", campoTitulo: "nome", rota: "/comercio" },
-  { tabela: "novidades", rotulo: "Novidades e promoções", campoTitulo: "titulo", rota: "/novidades" },
+  {
+    tabela: "novidades",
+    rotulo: "Novidades e promoções",
+    campoTitulo: "titulo",
+    rota: "/novidades",
+  },
   { tabela: "vagas", rotulo: "Vagas de emprego", campoTitulo: "titulo", rota: "/empregos" },
   { tabela: "imoveis", rotulo: "Aluguel e venda", campoTitulo: "titulo", rota: "/imoveis" },
   { tabela: "acoes", rotulo: "Doações e ações", campoTitulo: "titulo", rota: "/acoes" },
-  { tabela: "sugestoes", rotulo: "Propostas de melhoria", campoTitulo: "titulo", rota: "/melhorias" },
+  {
+    tabela: "sugestoes",
+    rotulo: "Propostas de melhoria",
+    campoTitulo: "titulo",
+    rota: "/melhorias",
+  },
 ];
 
 function useMinhasPublicacoes(userId?: string) {

@@ -40,7 +40,6 @@ export type Campo = {
   allowCustom?: boolean;
 };
 
-
 function valoresIniciais(campos: Campo[], registro?: Registro) {
   const iniciais: Record<string, string | boolean> = {};
   if (!registro) return iniciais;
@@ -94,8 +93,15 @@ function FormularioRegistro({
         }
         const texto = String(bruto ?? "").trim();
         const schema = campo.required
-          ? z.string().trim().min(2, `Preencha o campo ${campo.label}.`).max(campo.max ?? 4000)
-          : z.string().trim().max(campo.max ?? 4000);
+          ? z
+              .string()
+              .trim()
+              .min(2, `Preencha o campo ${campo.label}.`)
+              .max(campo.max ?? 4000)
+          : z
+              .string()
+              .trim()
+              .max(campo.max ?? 4000);
         const resultado = schema.safeParse(texto);
         if (!resultado.success) {
           toast.error(resultado.error.issues[0]?.message ?? `Verifique o campo ${campo.label}.`);
@@ -261,7 +267,6 @@ function CampoForm({
   );
   const isCustom = Boolean(campo.allowCustom) && modoCustom;
 
-
   if (campo.type === "horarios") {
     return (
       <HorarioSemana
@@ -276,11 +281,7 @@ function CampoForm({
     return (
       <div className="flex items-center justify-between rounded-xl border border-border px-3 py-2.5">
         <Label htmlFor={id}>{campo.label}</Label>
-        <Switch
-          id={id}
-          checked={Boolean(valor)}
-          onCheckedChange={(v) => onChange(campo.name, v)}
-        />
+        <Switch id={id} checked={Boolean(valor)} onCheckedChange={(v) => onChange(campo.name, v)} />
       </div>
     );
   }

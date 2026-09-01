@@ -99,7 +99,9 @@ function Inicio() {
         />
         <div className="hero-overlay absolute inset-0" />
         <div className="relative mx-auto max-w-7xl px-4 py-24 md:py-36">
-          <Badge className="bg-sun text-sun-foreground hover:bg-sun px-5 py-2 text-lg md:text-2xl font-extrabold tracking-tight">Conecta Santa Regina</Badge>
+          <Badge className="bg-sun text-sun-foreground hover:bg-sun px-5 py-2 text-lg md:text-2xl font-extrabold tracking-tight">
+            Conecta Santa Regina
+          </Badge>
           <h1 className="mt-5 max-w-3xl font-display text-4xl font-extrabold text-primary-foreground md:text-6xl">
             Tudo o que o nosso bairro tem, em um só lugar
           </h1>
@@ -134,9 +136,7 @@ function Inicio() {
       <section className="mx-auto max-w-7xl px-4 pb-4">
         <div className="surface-card grid gap-4 p-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
           <div className="min-w-0">
-            <h2 className="font-display text-2xl font-extrabold">
-              Tem algo para publicar?
-            </h2>
+            <h2 className="font-display text-2xl font-extrabold">Tem algo para publicar?</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Cadastre-se para postar novidades, ofertas e avisos para todo o bairro.
             </p>
