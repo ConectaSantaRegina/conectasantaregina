@@ -183,27 +183,65 @@ function Entrar() {
 
             <TabsContent value="criar" className="grid gap-4 pt-6">
               <div className="grid gap-1.5">
-                <Label htmlFor="nome">Seu nome</Label>
-                <Input id="nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+                <Label htmlFor="nome">Nome completo</Label>
+                <Input
+                  id="nome"
+                  autoComplete="name"
+                  placeholder="Nome e sobrenome"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                />
               </div>
               <div className="grid gap-1.5">
                 <Label htmlFor="email-novo">E-mail</Label>
                 <Input
                   id="email-novo"
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-1.5">
-                <Label htmlFor="senha-nova">Senha</Label>
+                <Label htmlFor="senha-nova">Senha de 6 dígitos</Label>
                 <Input
                   id="senha-nova"
                   type="password"
+                  inputMode="numeric"
+                  autoComplete="new-password"
+                  maxLength={6}
+                  placeholder="******"
                   value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
+                  onChange={(e) => setSenha(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 />
+                <p className="text-xs text-muted-foreground">Use 6 números, ex.: 123456.</p>
               </div>
+              <div className="grid gap-2">
+                <Label>Você mora no bairro Santa Regina?</Label>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant={morador === "sim" ? "default" : "secondary"}
+                    className="flex-1"
+                    onClick={() => setMorador("sim")}
+                  >
+                    Sim, sou morador(a)
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={morador === "nao" ? "default" : "secondary"}
+                    className="flex-1"
+                    onClick={() => setMorador("nao")}
+                  >
+                    Não moro no bairro
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Quem não mora no bairro também pode se cadastrar — a pergunta é só para sabermos
+                  quem usa o site.
+                </p>
+              </div>
+
               <Button onClick={cadastrar} disabled={carregando}>
                 {carregando && <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />}
                 Criar minha conta
