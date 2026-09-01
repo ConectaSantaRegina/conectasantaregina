@@ -36,12 +36,25 @@ const schema = z.object({
   senha: z.string().min(6, "A senha precisa de ao menos 6 caracteres.").max(72),
 });
 
+const schemaCadastro = z.object({
+  nome: z
+    .string()
+    .trim()
+    .min(5, "Digite seu nome completo.")
+    .max(120)
+    .refine((v) => v.split(/\s+/).length >= 2, "Digite nome e sobrenome."),
+  email: z.string().trim().email("E-mail inválido.").max(255),
+  senha: z.string().regex(/^\d{6}$/, "A senha deve ter exatamente 6 dígitos numéricos."),
+  morador: z.boolean(),
+});
+
 function Entrar() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [nome, setNome] = useState("");
+  const [morador, setMorador] = useState<"sim" | "nao" | "">("");
   const [carregando, setCarregando] = useState(false);
 
   useEffect(() => {
@@ -56,6 +69,7 @@ function Entrar() {
     }
     return resultado.data;
   }
+
 
   async function entrar() {
     const dados = validar();
@@ -75,19 +89,28 @@ function Entrar() {
   }
 
   async function cadastrar() {
-    const dados = validar();
-    if (!dados) return;
-    if (nome.trim().length < 2) {
-      toast.error("Diga seu nome.");
+    if (morador === "") {
+      toast.error("Diga se você mora no bairro.");
       return;
     }
+    const resultado = schemaCadastro.safeParse({
+      nome,
+      email,
+      senha,
+      morador: morador === "sim",
+    });
+    if (!resultado.success) {
+      toast.error(resultado.error.issues[0]?.message ?? "Confira os dados do cadastro.");
+      return;
+    }
+    const dados = resultado.data;
     setCarregando(true);
     const { error } = await supabase.auth.signUp({
       email: dados.email,
       password: dados.senha,
       options: {
         emailRedirectTo: window.location.origin,
-        data: { nome: nome.trim() },
+        data: { nome: dados.nome, morador: dados.morador },
       },
     });
     setCarregando(false);
@@ -97,6 +120,7 @@ function Entrar() {
     }
     toast.success("Conta criada! Confirme seu e-mail para começar a publicar.");
   }
+
 
   async function entrarComGoogle() {
     const result = await lovable.auth.signInWithOAuth("google", {
@@ -159,27 +183,65 @@ function Entrar() {
 
             <TabsContent value="criar" className="grid gap-4 pt-6">
               <div className="grid gap-1.5">
-                <Label htmlFor="nome">Seu nome</Label>
-                <Input id="nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+                <Label htmlFor="nome">Nome completo</Label>
+                <Input
+                  id="nome"
+                  autoComplete="name"
+                  placeholder="Nome e sobrenome"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                />
               </div>
               <div className="grid gap-1.5">
                 <Label htmlFor="email-novo">E-mail</Label>
                 <Input
                   id="email-novo"
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-1.5">
-                <Label htmlFor="senha-nova">Senha</Label>
+                <Label htmlFor="senha-nova">Senha de 6 dígitos</Label>
                 <Input
                   id="senha-nova"
                   type="password"
+                  inputMode="numeric"
+                  autoComplete="new-password"
+                  maxLength={6}
+                  placeholder="******"
                   value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
+                  onChange={(e) => setSenha(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 />
+                <p className="text-xs text-muted-foreground">Use 6 números, ex.: 123456.</p>
               </div>
+              <div className="grid gap-2">
+                <Label>Você mora no bairro Santa Regina?</Label>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant={morador === "sim" ? "default" : "secondary"}
+                    className="flex-1"
+                    onClick={() => setMorador("sim")}
+                  >
+                    Sim, sou morador(a)
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={morador === "nao" ? "default" : "secondary"}
+                    className="flex-1"
+                    onClick={() => setMorador("nao")}
+                  >
+                    Não moro no bairro
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Quem não mora no bairro também pode se cadastrar — a pergunta é só para sabermos
+                  quem usa o site.
+                </p>
+              </div>
+
               <Button onClick={cadastrar} disabled={carregando}>
                 {carregando && <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />}
                 Criar minha conta
