@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { BotaoApagar } from "@/components/site/CardItem";
 import { EstadoVazio, PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
+import { CAMPOS } from "@/lib/campos";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -30,7 +31,8 @@ export const Route = createFileRoute("/melhorias")({
       { property: "og:title", content: "Propor melhorias para o bairro Santa Regina" },
       {
         property: "og:description",
-        content: "Ideias dos moradores para melhorar o bairro Santa Regina, com apoio da vizinhança.",
+        content:
+          "Ideias dos moradores para melhorar o bairro Santa Regina, com apoio da vizinhança.",
       },
     ],
   }),
@@ -52,11 +54,7 @@ function Melhorias() {
             rotulo="Propor melhoria"
             titulo="Propor uma melhoria"
             descricao="Explique a ideia e onde ela deveria acontecer no bairro."
-            campos={[
-              { name: "titulo", label: "Sua proposta", required: true },
-              { name: "local", label: "Local no bairro" },
-              { name: "descricao", label: "Detalhes", type: "textarea", max: 3000 },
-            ]}
+            campos={CAMPOS.sugestoes ?? []}
           />
         }
       />
@@ -127,11 +125,7 @@ function CardSugestao({ sugestao, apoios }: { sugestao: Registro; apoios: Regist
       <p className="text-xs text-muted-foreground">{formatarData(sugestao.created_at)}</p>
       <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
         {user ? (
-          <Button
-            size="sm"
-            variant={meuApoio ? "default" : "secondary"}
-            onClick={alternarApoio}
-          >
+          <Button size="sm" variant={meuApoio ? "default" : "secondary"} onClick={alternarApoio}>
             <ThumbsUp className="mr-1.5 h-4 w-4" />
             {meuApoio ? "Apoiando" : "Apoiar"} · {daSugestao.length}
           </Button>

@@ -1,10 +1,6 @@
 import type { Campo } from "@/components/site/PublicarDialog";
 import type { Tabela } from "@/lib/dados";
-import {
-  CATEGORIAS_COMERCIO,
-  CATEGORIAS_NOVIDADES,
-  CATEGORIAS_SERVICOS_PUBLICOS,
-} from "@/lib/nav";
+import { CATEGORIAS_COMERCIO, CATEGORIAS_NOVIDADES, CATEGORIAS_SERVICOS_PUBLICOS } from "@/lib/nav";
 
 export const TIPOS_VAGA = ["Efetivo", "Temporário", "Freelance", "Estágio", "Bico"];
 export const TIPOS_ACAO = ["Doação", "Mutirão", "Campanha", "Evento solidário", "Voluntariado"];
@@ -78,7 +74,14 @@ export const CAMPOS: Partial<Record<Tabela, Campo[]>> = {
   vagas: [
     { name: "titulo", label: "Cargo ou serviço", required: true },
     { name: "empresa", label: "Empresa ou responsável" },
-    { name: "tipo", label: "Tipo", type: "select", options: TIPOS_VAGA, allowCustom: true, required: true },
+    {
+      name: "tipo",
+      label: "Tipo",
+      type: "select",
+      options: TIPOS_VAGA,
+      allowCustom: true,
+      required: true,
+    },
     { name: "salario", label: "Remuneração" },
     { name: "descricao", label: "Descrição e requisitos", type: "textarea" },
     { name: "contato", label: "Contato (telefone, WhatsApp ou e-mail)", required: true },
@@ -105,7 +108,14 @@ export const CAMPOS: Partial<Record<Tabela, Campo[]>> = {
       options: FINALIDADES_IMOVEL,
       required: true,
     },
-    { name: "tipo", label: "Tipo", type: "select", options: TIPOS_IMOVEL, allowCustom: true, required: true },
+    {
+      name: "tipo",
+      label: "Tipo",
+      type: "select",
+      options: TIPOS_IMOVEL,
+      allowCustom: true,
+      required: true,
+    },
     { name: "preco", label: "Valor" },
     { name: "endereco", label: "Endereço ou região" },
     { name: "descricao", label: "Descrição", type: "textarea" },
@@ -114,7 +124,14 @@ export const CAMPOS: Partial<Record<Tabela, Campo[]>> = {
   ],
   acoes: [
     { name: "titulo", label: "Nome da ação", required: true },
-    { name: "tipo", label: "Tipo", type: "select", options: TIPOS_ACAO, allowCustom: true, required: true },
+    {
+      name: "tipo",
+      label: "Tipo",
+      type: "select",
+      options: TIPOS_ACAO,
+      allowCustom: true,
+      required: true,
+    },
     { name: "descricao", label: "Descrição", type: "textarea", max: 3000 },
     { name: "meta", label: "Meta (ex.: 200 cestas)" },
     { name: "local", label: "Local e data" },

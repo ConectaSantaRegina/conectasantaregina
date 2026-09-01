@@ -22,7 +22,8 @@ export const Route = createFileRoute("/saude")({
       { property: "og:title", content: "Serviços Públicos do bairro Santa Regina" },
       {
         property: "og:description",
-        content: "Encontre escolas, postos de saúde, praças, bibliotecas e estruturas públicas de Santa Regina.",
+        content:
+          "Encontre escolas, postos de saúde, praças, bibliotecas e estruturas públicas de Santa Regina.",
       },
     ],
   }),
@@ -61,7 +62,11 @@ function Saude() {
           itens={itens}
           carregando={isLoading}
           categorias={Array.from(
-            new Set([...CATEGORIAS_SERVICOS_PUBLICOS, ...itens.map((i) => txt(i, "categoria"))].filter(Boolean)),
+            new Set(
+              [...CATEGORIAS_SERVICOS_PUBLICOS, ...itens.map((i) => txt(i, "categoria"))].filter(
+                Boolean,
+              ),
+            ),
           )}
           campoCategoria="categoria"
           camposBusca={["nome", "descricao", "endereco", "categoria"]}
@@ -80,10 +85,12 @@ function Saude() {
                 descricao={txt(item, "descricao") || null}
                 infos={[
                   ...(txt(item, "endereco")
-                    ? [{
-                        icone: <MapPin className="h-4 w-4" />,
-                        texto: <LinkEndereco endereco={txt(item, "endereco")} />,
-                      }]
+                    ? [
+                        {
+                          icone: <MapPin className="h-4 w-4" />,
+                          texto: <LinkEndereco endereco={txt(item, "endereco")} />,
+                        },
+                      ]
                     : []),
                   ...(txt(item, "horario")
                     ? [{ icone: <Clock className="h-4 w-4" />, texto: txt(item, "horario") }]

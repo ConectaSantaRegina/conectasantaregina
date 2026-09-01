@@ -21,7 +21,7 @@ const cache = new Map<string, string>();
 
 /** Gera (e reaproveita) uma URL temporária para exibir uma imagem do álbum. */
 export function useImagemUrl(path: string | null | undefined) {
-  const [url, setUrl] = useState<string | null>(() => (path ? cache.get(path) ?? null : null));
+  const [url, setUrl] = useState<string | null>(() => (path ? (cache.get(path) ?? null) : null));
 
   useEffect(() => {
     if (!path) {

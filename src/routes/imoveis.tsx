@@ -5,6 +5,7 @@ import { LinkEndereco } from "@/components/site/LinkEndereco";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
+import { CAMPOS } from "@/lib/campos";
 import { txt, useLista } from "@/lib/dados";
 
 const FINALIDADES = ["Aluguel", "Venda"];
@@ -43,22 +44,7 @@ function Imoveis() {
             rotulo="Anunciar imóvel"
             titulo="Anunciar um imóvel"
             descricao="Conte os detalhes do imóvel e como falar com você."
-            campos={[
-              { name: "titulo", label: "Título do anúncio", required: true },
-              {
-                name: "finalidade",
-                label: "Finalidade",
-                type: "select",
-                options: FINALIDADES,
-                required: true,
-              },
-              { name: "tipo", label: "Tipo", type: "select", options: TIPOS, required: true },
-              { name: "preco", label: "Valor" },
-              { name: "endereco", label: "Endereço ou região" },
-              { name: "descricao", label: "Descrição", type: "textarea" },
-              { name: "contato", label: "Contato", required: true },
-              { name: "imagem_url", label: "Foto do imóvel", type: "image" },
-            ]}
+            campos={CAMPOS.imoveis ?? []}
           />
         }
       />
@@ -84,10 +70,12 @@ function Imoveis() {
                   ? [{ icone: <Tag className="h-4 w-4" />, texto: txt(item, "preco") }]
                   : []),
                 ...(txt(item, "endereco")
-                  ? [{
+                  ? [
+                      {
                         icone: <MapPin className="h-4 w-4" />,
                         texto: <LinkEndereco endereco={txt(item, "endereco")} />,
-                      }]
+                      },
+                    ]
                   : []),
                 ...(txt(item, "contato")
                   ? [{ icone: <Phone className="h-4 w-4" />, texto: txt(item, "contato") }]

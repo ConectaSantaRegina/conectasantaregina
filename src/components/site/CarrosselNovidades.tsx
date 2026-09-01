@@ -59,10 +59,7 @@ export function CarrosselNovidades() {
           >
             {destaques.map((item) => (
               <article key={item.id} className="w-full shrink-0">
-                <Link
-                  to="/novidades"
-                  className="grid md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]"
-                >
+                <Link to="/novidades" className="grid md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
                   <SiteImage
                     path={txt(item, "imagem_url")}
                     alt={txt(item, "titulo")}

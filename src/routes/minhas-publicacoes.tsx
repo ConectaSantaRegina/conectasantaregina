@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { AcoesRegistro } from "@/components/site/CardItem";
 import { PageHero, Secao, EstadoVazio } from "@/components/site/PageHero";
+import { PedirDestaque, ListaPedidosDestaque } from "@/components/site/PedirDestaque";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SiteImage } from "@/components/site/SiteImage";
@@ -33,11 +34,21 @@ export const Route = createFileRoute("/minhas-publicacoes")({
 
 const GRUPOS: { tabela: Tabela; rotulo: string; campoTitulo: string; rota: string }[] = [
   { tabela: "comercios", rotulo: "Comércios e serviços", campoTitulo: "nome", rota: "/comercio" },
-  { tabela: "novidades", rotulo: "Novidades e promoções", campoTitulo: "titulo", rota: "/novidades" },
+  {
+    tabela: "novidades",
+    rotulo: "Novidades e promoções",
+    campoTitulo: "titulo",
+    rota: "/novidades",
+  },
   { tabela: "vagas", rotulo: "Vagas de emprego", campoTitulo: "titulo", rota: "/empregos" },
   { tabela: "imoveis", rotulo: "Aluguel e venda", campoTitulo: "titulo", rota: "/imoveis" },
   { tabela: "acoes", rotulo: "Doações e ações", campoTitulo: "titulo", rota: "/acoes" },
-  { tabela: "sugestoes", rotulo: "Propostas de melhoria", campoTitulo: "titulo", rota: "/melhorias" },
+  {
+    tabela: "sugestoes",
+    rotulo: "Propostas de melhoria",
+    campoTitulo: "titulo",
+    rota: "/melhorias",
+  },
 ];
 
 function useMinhasPublicacoes(userId?: string) {
@@ -71,6 +82,7 @@ function MinhasPublicacoes() {
       <PageHero
         titulo="Minhas publicações"
         subtitulo="Tudo o que você publicou no bairro em um só lugar: revise, atualize os dados e remova o que não está mais valendo."
+        acao={<PedirDestaque />}
       />
       <Secao>
         {loading ? (
@@ -90,7 +102,10 @@ function MinhasPublicacoes() {
         ) : isLoading ? (
           <p className="text-sm text-muted-foreground">Carregando suas publicações…</p>
         ) : total === 0 ? (
-          <EstadoVazio texto="Você ainda não publicou nada. Comece cadastrando seu comércio ou uma promoção." />
+          <div className="grid gap-10">
+            <EstadoVazio texto="Você ainda não publicou nada. Comece cadastrando seu comércio ou uma promoção." />
+            <ListaPedidosDestaque />
+          </div>
         ) : (
           <div className="grid gap-10">
             {(data ?? [])
@@ -147,6 +162,7 @@ function MinhasPublicacoes() {
                   </ul>
                 </section>
               ))}
+            <ListaPedidosDestaque />
           </div>
         )}
       </Secao>

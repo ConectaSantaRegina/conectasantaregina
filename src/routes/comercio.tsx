@@ -61,7 +61,9 @@ function Comercio() {
           itens={itens}
           carregando={isLoading}
           categorias={Array.from(
-            new Set([...CATEGORIAS_COMERCIO, ...itens.map((i) => txt(i, "categoria"))].filter(Boolean)),
+            new Set(
+              [...CATEGORIAS_COMERCIO, ...itens.map((i) => txt(i, "categoria"))].filter(Boolean),
+            ),
           )}
           campoCategoria="categoria"
           camposBusca={["nome", "descricao", "endereco", "categoria"]}
@@ -80,10 +82,12 @@ function Comercio() {
                 descricao={txt(item, "descricao") || null}
                 infos={[
                   ...(txt(item, "endereco")
-                    ? [{
-                        icone: <MapPin className="h-4 w-4" />,
-                        texto: <LinkEndereco endereco={txt(item, "endereco")} />,
-                      }]
+                    ? [
+                        {
+                          icone: <MapPin className="h-4 w-4" />,
+                          texto: <LinkEndereco endereco={txt(item, "endereco")} />,
+                        },
+                      ]
                     : []),
                   ...(txt(item, "horario")
                     ? [{ icone: <Clock className="h-4 w-4" />, texto: txt(item, "horario") }]
