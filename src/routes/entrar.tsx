@@ -89,19 +89,28 @@ function Entrar() {
   }
 
   async function cadastrar() {
-    const dados = validar();
-    if (!dados) return;
-    if (nome.trim().length < 2) {
-      toast.error("Diga seu nome.");
+    if (morador === "") {
+      toast.error("Diga se você mora no bairro.");
       return;
     }
+    const resultado = schemaCadastro.safeParse({
+      nome,
+      email,
+      senha,
+      morador: morador === "sim",
+    });
+    if (!resultado.success) {
+      toast.error(resultado.error.issues[0]?.message ?? "Confira os dados do cadastro.");
+      return;
+    }
+    const dados = resultado.data;
     setCarregando(true);
     const { error } = await supabase.auth.signUp({
       email: dados.email,
       password: dados.senha,
       options: {
         emailRedirectTo: window.location.origin,
-        data: { nome: nome.trim() },
+        data: { nome: dados.nome, morador: dados.morador },
       },
     });
     setCarregando(false);
@@ -111,6 +120,7 @@ function Entrar() {
     }
     toast.success("Conta criada! Confirme seu e-mail para começar a publicar.");
   }
+
 
   async function entrarComGoogle() {
     const result = await lovable.auth.signInWithOAuth("google", {
