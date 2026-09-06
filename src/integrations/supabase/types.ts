@@ -259,6 +259,47 @@ export type Database = {
           },
         ]
       }
+      premium: {
+        Row: {
+          ativo: boolean
+          comercio_id: string | null
+          created_at: string
+          id: string
+          observacao: string | null
+          updated_at: string
+          user_id: string
+          valido_ate: string
+        }
+        Insert: {
+          ativo?: boolean
+          comercio_id?: string | null
+          created_at?: string
+          id?: string
+          observacao?: string | null
+          updated_at?: string
+          user_id: string
+          valido_ate: string
+        }
+        Update: {
+          ativo?: boolean
+          comercio_id?: string | null
+          created_at?: string
+          id?: string
+          observacao?: string | null
+          updated_at?: string
+          user_id?: string
+          valido_ate?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "premium_comercio_id_fkey"
+            columns: ["comercio_id"]
+            isOneToOne: false
+            referencedRelation: "comercios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -423,6 +464,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      premium_ativo: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"

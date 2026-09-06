@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X, LogOut, MapPinned, LayoutList } from "lucide-react";
+import { Menu, X, LogOut, MapPinned, LayoutList, Crown } from "lucide-react";
 import { NAV } from "@/lib/nav";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, signOut, isAdmin } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
@@ -51,6 +51,13 @@ export function Header() {
                   <LayoutList className="mr-1.5 h-4 w-4" /> Minhas publicações
                 </Link>
               </Button>
+              {isAdmin && (
+                <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+                  <Link to="/admin">
+                    <Crown className="mr-1.5 h-4 w-4" /> Admin
+                  </Link>
+                </Button>
+              )}
               <Button variant="outline" size="sm" onClick={() => signOut()}>
                 <LogOut className="mr-1.5 h-4 w-4" /> Sair
               </Button>
@@ -96,7 +103,17 @@ export function Header() {
               >
                 Minhas publicações
               </Link>
-            ) : (
+            ) : null}
+            {user && isAdmin ? (
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="rounded-xl border border-border px-3 py-2.5 text-sm font-semibold"
+              >
+                Painel do administrador
+              </Link>
+            ) : null}
+            {!user ? (
               <Link
                 to="/entrar"
                 onClick={() => setOpen(false)}
@@ -104,7 +121,8 @@ export function Header() {
               >
                 Entrar / Criar conta
               </Link>
-            )}
+            ) : null}
+
           </div>
         </nav>
       )}

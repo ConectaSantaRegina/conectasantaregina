@@ -118,3 +118,25 @@ export function linkMaps(endereco?: string | null) {
     `${limpo}, Santa Regina`,
   )}`;
 }
+
+/**
+ * IDs dos comércios com Premium ligado e dentro da validade.
+ * Serve de base para o feed de destaques da home.
+ */
+export function usePremiumAtivos() {
+  return useQuery({
+    queryKey: ["premium-ativos"],
+    queryFn: async () => {
+      const hoje = new Date().toISOString().slice(0, 10);
+      const { data, error } = await supabase
+        .from("premium")
+        .select("comercio_id,valido_ate")
+        .eq("ativo", true)
+        .gte("valido_ate", hoje);
+      if (error) throw error;
+      return (data ?? [])
+        .map((r) => r.comercio_id)
+        .filter((id): id is string => Boolean(id));
+    },
+  });
+}
