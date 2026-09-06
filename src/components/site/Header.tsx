@@ -112,7 +112,8 @@ export function Header() {
               >
                 Painel do administrador
               </Link>
-            ) : (
+            ) : null}
+            {!user ? (
               <Link
                 to="/entrar"
                 onClick={() => setOpen(false)}
@@ -120,7 +121,8 @@ export function Header() {
               >
                 Entrar / Criar conta
               </Link>
-            )}
+            ) : null}
+
           </div>
         </nav>
       )}
