@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AcoesRouteImport } from './routes/acoes'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ComercioRouteImport } from './routes/comercio'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as EmpregosRouteImport } from './routes/empregos'
@@ -29,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const AcoesRoute = AcoesRouteImport.update({
   id: '/acoes',
   path: '/acoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComercioRoute = ComercioRouteImport.update({
@@ -80,6 +86,7 @@ const SaudeRoute = SaudeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acoes': typeof AcoesRoute
+  '/admin': typeof AdminRoute
   '/comercio': typeof ComercioRoute
   '/contato': typeof ContatoRoute
   '/empregos': typeof EmpregosRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acoes': typeof AcoesRoute
+  '/admin': typeof AdminRoute
   '/comercio': typeof ComercioRoute
   '/contato': typeof ContatoRoute
   '/empregos': typeof EmpregosRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/acoes': typeof AcoesRoute
+  '/admin': typeof AdminRoute
   '/comercio': typeof ComercioRoute
   '/contato': typeof ContatoRoute
   '/empregos': typeof EmpregosRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/acoes'
+    | '/admin'
     | '/comercio'
     | '/contato'
     | '/empregos'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/acoes'
+    | '/admin'
     | '/comercio'
     | '/contato'
     | '/empregos'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/acoes'
+    | '/admin'
     | '/comercio'
     | '/contato'
     | '/empregos'
@@ -162,6 +174,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AcoesRoute: typeof AcoesRoute
+  AdminRoute: typeof AdminRoute
   ComercioRoute: typeof ComercioRoute
   ContatoRoute: typeof ContatoRoute
   EmpregosRoute: typeof EmpregosRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/acoes'
       fullPath: '/acoes'
       preLoaderRoute: typeof AcoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/comercio': {
@@ -258,6 +278,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcoesRoute: AcoesRoute,
+  AdminRoute: AdminRoute,
   ComercioRoute: ComercioRoute,
   ContatoRoute: ContatoRoute,
   EmpregosRoute: EmpregosRoute,
