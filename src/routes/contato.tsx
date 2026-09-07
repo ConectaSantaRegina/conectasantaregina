@@ -124,8 +124,7 @@ function Contato() {
               <div className="min-w-0">
                 <h2 className="font-display text-base font-bold">Quer divulgar seu comércio?</h2>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  É gratuito. Crie sua conta e publique o cadastro na aba Comércio e Serviços,
-                  incluindo suas promoções em Novidades.
+                  É gratuito. Crie sua conta e publique o cadastro na aba Comércio e Serviços.
                 </p>
               </div>
             </div>

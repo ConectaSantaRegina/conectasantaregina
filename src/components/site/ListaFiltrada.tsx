@@ -51,7 +51,7 @@ export function ListaFiltrada({
         </div>
         {categorias && (
           <div className="flex flex-wrap gap-2">
-            {["Todos", ...categorias].map((opcao) => (
+            {["Todos", ...[...categorias].sort((a, b) => a.localeCompare(b, "pt-BR"))].map((opcao) => (
               <Button
                 key={opcao}
                 size="sm"
