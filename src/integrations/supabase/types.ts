@@ -184,6 +184,9 @@ export type Database = {
       }
       novidades: {
         Row: {
+          aprovado: boolean
+          aprovado_em: string | null
+          aprovado_por: string | null
           categoria: string
           created_at: string
           id: string
@@ -194,6 +197,9 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          aprovado?: boolean
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           categoria?: string
           created_at?: string
           id?: string
@@ -204,6 +210,9 @@ export type Database = {
           user_id: string
         }
         Update: {
+          aprovado?: boolean
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           categoria?: string
           created_at?: string
           id?: string
@@ -464,6 +473,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      meu_premium_ativo: { Args: never; Returns: boolean }
       premium_ativo: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
