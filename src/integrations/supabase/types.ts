@@ -184,6 +184,9 @@ export type Database = {
       }
       novidades: {
         Row: {
+          aprovado: boolean
+          aprovado_em: string | null
+          aprovado_por: string | null
           categoria: string
           created_at: string
           id: string
@@ -194,6 +197,9 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          aprovado?: boolean
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           categoria?: string
           created_at?: string
           id?: string
@@ -204,6 +210,9 @@ export type Database = {
           user_id: string
         }
         Update: {
+          aprovado?: boolean
+          aprovado_em?: string | null
+          aprovado_por?: string | null
           categoria?: string
           created_at?: string
           id?: string
