@@ -473,7 +473,6 @@ export type Database = {
         }
         Returns: boolean
       }
-      meu_premium_ativo: { Args: never; Returns: boolean }
       premium_ativo: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
