@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Megaphone } from "lucide-react";
+import { ChevronLeft, ChevronRight, Crown, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SiteImage } from "@/components/site/SiteImage";
-import { bool, formatarData, txt, useLista } from "@/lib/dados";
+import { txt, useComerciosPremium, linkMaps } from "@/lib/dados";
 
 export function CarrosselNovidades() {
-  const { data: novidades } = useLista("novidades");
+  const { data: comercios } = useComerciosPremium();
   const [atual, setAtual] = useState(0);
 
-  const destaques = (novidades ?? [])
-    .filter((item) => txt(item, "imagem_url") && bool(item, "aprovado"))
-    .slice(0, 6);
+  const destaques = (comercios ?? []).filter((item) => txt(item, "imagem_url")).slice(0, 6);
   const total = destaques.length;
 
   useEffect(() => {
@@ -31,14 +29,14 @@ export function CarrosselNovidades() {
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="flex items-center gap-2 text-sm font-semibold text-primary">
-              <Megaphone className="h-4 w-4" /> Espaço de destaque do bairro
+              <Crown className="h-4 w-4" /> Espaço de destaque do bairro
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Comerciantes podem colocar promoções com foto aqui, no topo do site.
+              Comércios Premium aparecem aqui, no topo do site. Quer divulgar? Fale com a gente.
             </p>
           </div>
           <Button asChild>
-            <Link to="/novidades">Ver novidades do bairro</Link>
+            <Link to="/comercio">Ver comércios do bairro</Link>
           </Button>
         </div>
       </section>
@@ -50,7 +48,7 @@ export function CarrosselNovidades() {
       <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">
         <div className="flex flex-col items-center justify-center gap-2 text-center">
           <p className="flex items-center gap-2 text-lg font-extrabold text-primary md:text-2xl">
-            <Megaphone className="h-5 w-5 md:h-6 md:w-6" /> DESTAQUES
+            <Crown className="h-5 w-5 md:h-6 md:w-6" /> DESTAQUES
           </p>
         </div>
 
@@ -59,29 +57,35 @@ export function CarrosselNovidades() {
             className="flex transition-transform duration-500 ease-out"
             style={{ transform: `translateX(-${atual * 100}%)` }}
           >
-            {destaques.map((item) => (
-              <article key={item.id} className="w-full shrink-0">
-                <Link to="/novidades" className="grid md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-                  <SiteImage
-                    path={txt(item, "imagem_url")}
-                    alt={txt(item, "titulo")}
-                    className="aspect-[16/9] w-full md:aspect-[16/8] md:h-full"
-                  />
-                  <div className="p-5 md:p-8">
-                    <Badge variant="secondary">{txt(item, "categoria")}</Badge>
-                    <h2 className="mt-3 font-display text-xl font-extrabold md:text-3xl">
-                      {txt(item, "titulo")}
-                    </h2>
-                    <p className="mt-2 line-clamp-3 text-sm text-muted-foreground md:text-base">
-                      {txt(item, "texto")}
-                    </p>
-                    <p className="mt-3 text-xs text-muted-foreground">
-                      {formatarData(item.created_at)}
-                    </p>
-                  </div>
-                </Link>
-              </article>
-            ))}
+            {destaques.map((item) => {
+              const maps = linkMaps(txt(item, "endereco"));
+              return (
+                <article key={item.id} className="w-full shrink-0">
+                  <Link to="/comercio" className="grid md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+                    <SiteImage
+                      path={txt(item, "imagem_url")}
+                      alt={txt(item, "nome")}
+                      className="aspect-[16/9] w-full md:aspect-[16/8] md:h-full"
+                    />
+                    <div className="p-5 md:p-8">
+                      <Badge variant="secondary">{txt(item, "categoria")}</Badge>
+                      <h2 className="mt-3 font-display text-xl font-extrabold md:text-3xl">
+                        {txt(item, "nome")}
+                      </h2>
+                      <p className="mt-2 line-clamp-3 text-sm text-muted-foreground md:text-base">
+                        {txt(item, "descricao")}
+                      </p>
+                      {maps ? (
+                        <p className="mt-3 flex items-center gap-1 text-xs text-primary">
+                          <MapPin className="h-3.5 w-3.5" />
+                          Como chegar
+                        </p>
+                      ) : null}
+                    </div>
+                  </Link>
+                </article>
+              );
+            })}
           </div>
 
           {total > 1 ? (

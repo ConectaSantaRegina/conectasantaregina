@@ -140,3 +140,35 @@ export function usePremiumAtivos() {
     },
   });
 }
+
+/** Comércios marcados como Premium e dentro da validade, para o carrossel de destaques. */
+export function useComerciosPremium() {
+  return useQuery({
+    queryKey: ["comercios-premium"],
+    queryFn: async () => {
+      const hoje = new Date().toISOString().slice(0, 10);
+      const { data: premiumRows, error: err1 } = await supabase
+        .from("premium")
+        .select("comercio_id")
+        .eq("ativo", true)
+        .gte("valido_ate", hoje)
+        .not("comercio_id", "is", null);
+      if (err1) throw err1;
+
+      const ids = (premiumRows ?? [])
+        .map((r) => r.comercio_id)
+        .filter((id): id is string => Boolean(id));
+
+      if (ids.length === 0) return [];
+
+      const { data: comercios, error: err2 } = await supabase
+        .from("comercios")
+        .select(COLUNAS_PUBLICAS.comercios)
+        .in("id", ids)
+        .order("created_at", { ascending: false });
+      if (err2) throw err2;
+
+      return (comercios ?? []) as unknown as Registro[];
+    },
+  });
+}
