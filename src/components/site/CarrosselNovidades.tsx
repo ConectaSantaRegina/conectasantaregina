@@ -4,13 +4,15 @@ import { ChevronLeft, ChevronRight, Megaphone } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SiteImage } from "@/components/site/SiteImage";
-import { formatarData, txt, useLista } from "@/lib/dados";
+import { bool, formatarData, txt, useLista } from "@/lib/dados";
 
 export function CarrosselNovidades() {
   const { data: novidades } = useLista("novidades");
   const [atual, setAtual] = useState(0);
 
-  const destaques = (novidades ?? []).filter((item) => txt(item, "imagem_url")).slice(0, 6);
+  const destaques = (novidades ?? [])
+    .filter((item) => txt(item, "imagem_url") && bool(item, "aprovado"))
+    .slice(0, 6);
   const total = destaques.length;
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export function CarrosselNovidades() {
             </p>
           </div>
           <Button asChild>
-            <Link to="/novidades">Publicar novidade com foto</Link>
+            <Link to="/novidades">Ver novidades do bairro</Link>
           </Button>
         </div>
       </section>
