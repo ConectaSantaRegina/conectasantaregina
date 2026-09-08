@@ -1,12 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { CalendarDays } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { CalendarDays, Crown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { usePremium } from "@/hooks/usePremium";
 import { CardItem } from "@/components/site/CardItem";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
 import { CAMPOS } from "@/lib/campos";
 import { CATEGORIAS_NOVIDADES } from "@/lib/nav";
-import { formatarData, txt, useLista } from "@/lib/dados";
+import { bool, formatarData, txt, useLista } from "@/lib/dados";
 
 export const Route = createFileRoute("/novidades")({
   head: () => ({
@@ -29,6 +32,8 @@ export const Route = createFileRoute("/novidades")({
 
 function Novidades() {
   const { data, isLoading } = useLista("novidades");
+  const { user } = useAuth();
+  const { podePublicarNovidades } = usePremium();
 
   return (
     <div>
@@ -36,6 +41,7 @@ function Novidades() {
         titulo="Novidades do bairro"
         subtitulo="Promoções, obras, eventos e avisos. Publique com foto para todo mundo ver o que está acontecendo em Santa Regina."
         acao={
+          podePublicarNovidades ? (
           <PublicarDialog
             tabela="novidades"
             rotulo="Publicar novidade"
@@ -43,6 +49,13 @@ function Novidades() {
             descricao="Conte a novidade e, se quiser, adicione uma imagem da promoção ou do acontecimento."
             campos={CAMPOS.novidades ?? []}
           />
+          ) : (
+            <Button asChild variant="secondary">
+              <Link to={user ? "/contato" : "/entrar"}>
+                <Crown className="mr-1.5 h-4 w-4" /> Quero publicar aqui
+              </Link>
+            </Button>
+          )
         }
       />
       <Secao>
@@ -59,7 +72,11 @@ function Novidades() {
               registro={item}
               tabela="novidades"
               titulo={txt(item, "titulo")}
-              badge={txt(item, "categoria")}
+              badge={
+                bool(item, "aprovado")
+                  ? txt(item, "categoria")
+                  : "Aguardando aprovação"
+              }
               imagem={txt(item, "imagem_url") || null}
               descricao={txt(item, "texto") || null}
               infos={[
