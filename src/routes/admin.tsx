@@ -20,6 +20,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { formatarData } from "@/lib/dados";
+import {
+  AdminUsuariosPremium,
+  AdminNovidadesPendentes,
+} from "@/components/site/AdminAprovacoes";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -198,9 +202,13 @@ function Admin() {
     <div>
       <PageHero
         titulo="Painel do administrador"
-        subtitulo="Marque manualmente um comércio como Premium e defina até quando o destaque vale. O pagamento é combinado por fora (PIX) — aqui você só registra."
+        subtitulo="Libere pessoas e comércios como Premium (com data de validade) e aprove cada publicação antes de ela aparecer no site. O pagamento é combinado por fora (PIX) — aqui você só registra."
       />
       <Secao>
+        <div className="mb-12 grid gap-12">
+          <AdminNovidadesPendentes />
+          <AdminUsuariosPremium />
+        </div>
         <div className="grid gap-10 lg:grid-cols-[380px_minmax(0,1fr)]">
           <form
             className="surface-card grid h-fit gap-4 p-6"
