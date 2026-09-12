@@ -463,7 +463,36 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      destaques_premium: {
+        Row: {
+          categoria: string | null
+          created_at: string | null
+          id: string | null
+          imagem_url: string | null
+          texto: string | null
+          titulo: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          categoria?: string | null
+          created_at?: string | null
+          id?: string | null
+          imagem_url?: string | null
+          texto?: string | null
+          titulo?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          categoria?: string | null
+          created_at?: string | null
+          id?: string | null
+          imagem_url?: string | null
+          texto?: string | null
+          titulo?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
