@@ -191,6 +191,7 @@ export type Database = {
           created_at: string
           id: string
           imagem_url: string | null
+          premium_valido_ate: string | null
           texto: string | null
           titulo: string
           updated_at: string
@@ -204,6 +205,7 @@ export type Database = {
           created_at?: string
           id?: string
           imagem_url?: string | null
+          premium_valido_ate?: string | null
           texto?: string | null
           titulo: string
           updated_at?: string
@@ -217,6 +219,7 @@ export type Database = {
           created_at?: string
           id?: string
           imagem_url?: string | null
+          premium_valido_ate?: string | null
           texto?: string | null
           titulo?: string
           updated_at?: string
@@ -463,36 +466,7 @@ export type Database = {
       }
     }
     Views: {
-      destaques_premium: {
-        Row: {
-          categoria: string | null
-          created_at: string | null
-          id: string | null
-          imagem_url: string | null
-          texto: string | null
-          titulo: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          categoria?: string | null
-          created_at?: string | null
-          id?: string | null
-          imagem_url?: string | null
-          texto?: string | null
-          titulo?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          categoria?: string | null
-          created_at?: string | null
-          id?: string | null
-          imagem_url?: string | null
-          texto?: string | null
-          titulo?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       has_role: {
@@ -501,18 +475,6 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
-      }
-      novidades_premium_aprovadas: {
-        Args: { _limite?: number }
-        Returns: {
-          categoria: string
-          created_at: string
-          id: string
-          imagem_url: string
-          texto: string
-          titulo: string
-          updated_at: string
-        }[]
       }
       premium_ativo: { Args: { _user_id: string }; Returns: boolean }
     }
