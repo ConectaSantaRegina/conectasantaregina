@@ -473,6 +473,18 @@ export type Database = {
         }
         Returns: boolean
       }
+      novidades_premium_aprovadas: {
+        Args: { _limite?: number }
+        Returns: {
+          categoria: string
+          created_at: string
+          id: string
+          imagem_url: string
+          texto: string
+          titulo: string
+          updated_at: string
+        }[]
+      }
       premium_ativo: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
