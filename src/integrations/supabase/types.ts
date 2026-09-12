@@ -191,6 +191,7 @@ export type Database = {
           created_at: string
           id: string
           imagem_url: string | null
+          premium_valido_ate: string | null
           texto: string | null
           titulo: string
           updated_at: string
@@ -204,6 +205,7 @@ export type Database = {
           created_at?: string
           id?: string
           imagem_url?: string | null
+          premium_valido_ate?: string | null
           texto?: string | null
           titulo: string
           updated_at?: string
@@ -217,6 +219,7 @@ export type Database = {
           created_at?: string
           id?: string
           imagem_url?: string | null
+          premium_valido_ate?: string | null
           texto?: string | null
           titulo?: string
           updated_at?: string

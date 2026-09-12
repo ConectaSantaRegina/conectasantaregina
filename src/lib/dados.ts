@@ -21,7 +21,8 @@ const COLUNAS_PUBLICAS: Partial<Record<Tabela, string>> = {
     "id,nome,secao,categoria,descricao,endereco,telefone,whatsapp,instagram,horario,delivery,imagem_url,created_at,updated_at",
   imoveis:
     "id,titulo,finalidade,tipo,preco,endereco,descricao,contato,imagem_url,created_at,updated_at",
-  novidades: "id,titulo,texto,categoria,imagem_url,created_at,updated_at",
+  novidades:
+    "id,titulo,texto,categoria,imagem_url,premium_valido_ate,created_at,updated_at",
   sugestoes: "id,titulo,descricao,local,status,created_at,updated_at",
   vagas: "id,titulo,empresa,descricao,tipo,salario,contato,created_at,updated_at",
   sugestao_apoios: "sugestao_id",
@@ -44,6 +45,26 @@ export function useLista(tabela: Tabela, limite?: number) {
       }
       if (limite) query = query.limit(limite);
       const { data, error } = await query;
+      if (error) throw error;
+      return (data ?? []) as unknown as Registro[];
+    },
+  });
+}
+
+/** Publicações aprovadas, com imagem e Premium válido para os Destaques da home. */
+export function useDestaquesPremium(limite = 6) {
+  return useQuery({
+    queryKey: ["destaques-premium", limite],
+    queryFn: async (): Promise<Registro[]> => {
+      const hoje = new Date().toISOString().slice(0, 10);
+      const { data, error } = await supabase
+        .from("novidades")
+        .select(COLUNAS_PUBLICAS.novidades)
+        .eq("aprovado", true)
+        .not("imagem_url", "is", null)
+        .gte("premium_valido_ate", hoje)
+        .order("created_at", { ascending: false })
+        .limit(limite);
       if (error) throw error;
       return (data ?? []) as unknown as Registro[];
     },

@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Crown, MapPin } from "lucide-react";
+import { ChevronLeft, ChevronRight, Crown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SiteImage } from "@/components/site/SiteImage";
-import { txt, useComerciosPremium, linkMaps } from "@/lib/dados";
+import { formatarData, txt, useDestaquesPremium } from "@/lib/dados";
 
 export function CarrosselNovidades() {
-  const { data: comercios } = useComerciosPremium();
+  const { data: novidades } = useDestaquesPremium();
   const [atual, setAtual] = useState(0);
 
-  const destaques = (comercios ?? []).filter((item) => txt(item, "imagem_url")).slice(0, 6);
+  const destaques = novidades ?? [];
   const total = destaques.length;
 
   useEffect(() => {
@@ -32,11 +32,11 @@ export function CarrosselNovidades() {
               <Crown className="h-4 w-4" /> Espaço de destaque do bairro
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Comércios Premium aparecem aqui, no topo do site. Quer divulgar? Fale com a gente.
+              Publicações de comerciantes Premium aparecem aqui, no topo do site.
             </p>
           </div>
           <Button asChild>
-            <Link to="/comercio">Ver comércios do bairro</Link>
+            <Link to="/novidades">Ver novidades do bairro</Link>
           </Button>
         </div>
       </section>
@@ -58,29 +58,25 @@ export function CarrosselNovidades() {
             style={{ transform: `translateX(-${atual * 100}%)` }}
           >
             {destaques.map((item) => {
-              const maps = linkMaps(txt(item, "endereco"));
               return (
                 <article key={item.id} className="w-full shrink-0">
-                  <Link to="/comercio" className="grid md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+                  <Link to="/novidades" className="grid md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
                     <SiteImage
                       path={txt(item, "imagem_url")}
-                      alt={txt(item, "nome")}
+                      alt={txt(item, "titulo")}
                       className="aspect-[16/9] w-full md:aspect-[16/8] md:h-full"
                     />
                     <div className="p-5 md:p-8">
                       <Badge variant="secondary">{txt(item, "categoria")}</Badge>
                       <h2 className="mt-3 font-display text-xl font-extrabold md:text-3xl">
-                        {txt(item, "nome")}
+                        {txt(item, "titulo")}
                       </h2>
                       <p className="mt-2 line-clamp-3 text-sm text-muted-foreground md:text-base">
-                        {txt(item, "descricao")}
+                        {txt(item, "texto")}
                       </p>
-                      {maps ? (
-                        <p className="mt-3 flex items-center gap-1 text-xs text-primary">
-                          <MapPin className="h-3.5 w-3.5" />
-                          Como chegar
-                        </p>
-                      ) : null}
+                      <p className="mt-3 text-xs text-muted-foreground">
+                        {formatarData(item.created_at)}
+                      </p>
                     </div>
                   </Link>
                 </article>
