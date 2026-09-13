@@ -51,18 +51,16 @@ export function useLista(tabela: Tabela, limite?: number) {
   });
 }
 
-/** Publicações aprovadas, com imagem e Premium válido para os Destaques da home. */
+/** Publicações aprovadas com imagem para o carrossel de Novidades da home. */
 export function useDestaquesPremium(limite = 6) {
   return useQuery({
     queryKey: ["destaques-premium", limite],
     queryFn: async (): Promise<Registro[]> => {
-      const hoje = new Date().toISOString().slice(0, 10);
       const { data, error } = await supabase
         .from("novidades")
         .select(COLUNAS_PUBLICAS.novidades)
         .eq("aprovado", true)
         .not("imagem_url", "is", null)
-        .gte("premium_valido_ate", hoje)
         .order("created_at", { ascending: false })
         .limit(limite);
       if (error) throw error;
