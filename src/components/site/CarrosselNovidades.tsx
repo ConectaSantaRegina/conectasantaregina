@@ -29,10 +29,10 @@ export function CarrosselNovidades() {
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="flex items-center gap-2 text-sm font-semibold text-primary">
-              <Crown className="h-4 w-4" /> Espaço de destaque do bairro
+              <Crown className="h-4 w-4" /> Novidades do bairro
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Publicações de comerciantes Premium aparecem aqui, no topo do site.
+              As publicações aprovadas com fotos aparecerão aqui em carrossel.
             </p>
           </div>
           <Button asChild>
