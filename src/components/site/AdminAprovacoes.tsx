@@ -145,8 +145,8 @@ export function AdminUsuariosPremium() {
           <Crown className="mr-1.5 inline h-4 w-4 text-primary" /> Liberar pessoa como Premium
         </h2>
         <p className="text-xs text-muted-foreground">
-          Só quem está Premium e dentro da validade vê o botão de publicar em Novidades e nos
-          Destaques. Toda publicação ainda passa pela sua aprovação.
+          Só quem está Premium e dentro da validade pode publicar no Feed. Toda publicação ainda
+          passa pela sua aprovação.
         </p>
 
         <div className="grid gap-2">
@@ -315,6 +315,8 @@ export function AdminNovidadesPendentes() {
   const invalidar = () => {
     queryClient.invalidateQueries({ queryKey: ["admin-novidades-pendentes"] });
     queryClient.invalidateQueries({ queryKey: ["novidades"] });
+    queryClient.invalidateQueries({ queryKey: ["feed-aprovado"] });
+    queryClient.invalidateQueries({ queryKey: ["destaques-premium"] });
   };
 
   const aprovar = useMutation({

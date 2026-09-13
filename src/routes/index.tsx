@@ -13,6 +13,7 @@ import heroBairro from "@/assets/hero-bairro.jpg";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CarrosselNovidades } from "@/components/site/CarrosselNovidades";
+import { FeedComunidade } from "@/components/site/FeedComunidade";
 import { Secao } from "@/components/site/PageHero";
 
 export const Route = createFileRoute("/")({
@@ -30,6 +31,8 @@ export const Route = createFileRoute("/")({
         content:
           "Encontre comércios, serviços de saúde, vagas, imóveis, novidades e ações da comunidade de Santa Regina.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Inicio,
@@ -113,6 +116,8 @@ function Inicio() {
       </section>
 
       <CarrosselNovidades />
+
+      <FeedComunidade />
 
       <Secao>
         <h2 className="font-display text-2xl font-extrabold md:text-3xl">O que você procura?</h2>

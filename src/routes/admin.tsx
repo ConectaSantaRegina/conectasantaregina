@@ -24,7 +24,6 @@ import {
   AdminUsuariosPremium,
   AdminNovidadesPendentes,
 } from "@/components/site/AdminAprovacoes";
-
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
