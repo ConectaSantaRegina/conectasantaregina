@@ -315,6 +315,8 @@ export function AdminNovidadesPendentes() {
   const invalidar = () => {
     queryClient.invalidateQueries({ queryKey: ["admin-novidades-pendentes"] });
     queryClient.invalidateQueries({ queryKey: ["novidades"] });
+    queryClient.invalidateQueries({ queryKey: ["feed-aprovado"] });
+    queryClient.invalidateQueries({ queryKey: ["destaques-premium"] });
   };
 
   const aprovar = useMutation({

@@ -1,13 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { CalendarDays, Crown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
-import { usePremium } from "@/hooks/usePremium";
+import { createFileRoute } from "@tanstack/react-router";
+import { CalendarDays } from "lucide-react";
 import { CardItem } from "@/components/site/CardItem";
 import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
-import { PublicarDialog } from "@/components/site/PublicarDialog";
-import { CAMPOS } from "@/lib/campos";
 import { CATEGORIAS_NOVIDADES } from "@/lib/nav";
 import { bool, formatarData, txt, useLista } from "@/lib/dados";
 
@@ -25,6 +20,8 @@ export const Route = createFileRoute("/novidades")({
         property: "og:description",
         content: "Fique por dentro das promoções, obras e eventos do bairro Santa Regina.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Novidades,
@@ -32,31 +29,11 @@ export const Route = createFileRoute("/novidades")({
 
 function Novidades() {
   const { data, isLoading } = useLista("novidades");
-  const { user } = useAuth();
-  const { podePublicarNovidades } = usePremium();
-
   return (
     <div>
       <PageHero
         titulo="Novidades do bairro"
         subtitulo="Promoções, obras, eventos e avisos. Publique com foto para todo mundo ver o que está acontecendo em Santa Regina."
-        acao={
-          podePublicarNovidades ? (
-          <PublicarDialog
-            tabela="novidades"
-            rotulo="Publicar novidade"
-            titulo="Publicar uma novidade"
-            descricao="Conte a novidade e, se quiser, adicione uma imagem da promoção ou do acontecimento."
-            campos={CAMPOS.novidades ?? []}
-          />
-          ) : (
-            <Button asChild variant="secondary">
-              <Link to={user ? "/contato" : "/entrar"}>
-                <Crown className="mr-1.5 h-4 w-4" /> Quero publicar aqui
-              </Link>
-            </Button>
-          )
-        }
       />
       <Secao>
         <ListaFiltrada

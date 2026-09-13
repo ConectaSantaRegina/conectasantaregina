@@ -59,6 +59,7 @@ function FormularioRegistro({
   registro,
   rotuloSalvar,
   extra,
+  mensagemSucesso,
   onPronto,
 }: {
   tabela: Tabela;
@@ -68,6 +69,7 @@ function FormularioRegistro({
   registro?: Registro;
   rotuloSalvar: string;
   extra?: Record<string, unknown> | undefined;
+  mensagemSucesso?: string;
   onPronto: () => void;
 }) {
   const { user } = useAuth();
@@ -111,20 +113,29 @@ function FormularioRegistro({
       }
 
       setSalvando(true);
+      if (!user) {
+        toast.error("Entre na sua conta para publicar.");
+        return;
+      }
+
       const campoImagem = campos.find((c) => c.type === "image");
       if (campoImagem && arquivo) {
-        payload[campoImagem.name] = await enviarImagem(arquivo, user!.id);
+        payload[campoImagem.name] = await enviarImagem(arquivo, user.id);
       }
 
       if (registro) {
         await atualizarRegistro(tabela, registro.id, payload);
       } else {
         Object.assign(payload, extra ?? {});
-        payload["user_id"] = user!.id;
+        payload["user_id"] = user.id;
         await inserirRegistro(tabela, payload);
       }
       await invalidar();
-      toast.success(registro ? "Alterações salvas." : "Publicado! Obrigada por contribuir.");
+      toast.success(
+        registro
+          ? "Alterações salvas."
+          : (mensagemSucesso ?? "Publicado! Obrigada por contribuir."),
+      );
       setArquivo(null);
       if (!registro) setValores({});
       onPronto();
@@ -171,6 +182,8 @@ export function PublicarDialog({
   campos,
   rotulo = "Publicar",
   extra,
+  gatilho,
+  mensagemSucesso,
 }: {
   tabela: Tabela;
   titulo: string;
@@ -178,6 +191,8 @@ export function PublicarDialog({
   campos: Campo[];
   rotulo?: string;
   extra?: Record<string, unknown>;
+  gatilho?: ReactNode;
+  mensagemSucesso?: string;
 }) {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
@@ -193,9 +208,11 @@ export function PublicarDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-1.5 h-4 w-4" /> {rotulo}
-        </Button>
+        {gatilho ?? (
+          <Button>
+            <Plus className="mr-1.5 h-4 w-4" /> {rotulo}
+          </Button>
+        )}
       </DialogTrigger>
       {open && (
         <FormularioRegistro
@@ -204,6 +221,7 @@ export function PublicarDialog({
           descricao={descricao}
           campos={campos}
           extra={extra}
+          mensagemSucesso={mensagemSucesso}
           rotuloSalvar="Publicar"
           onPronto={() => setOpen(false)}
         />

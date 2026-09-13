@@ -71,11 +71,33 @@ export function useDestaquesPremium(limite = 6) {
   });
 }
 
+/** Feed público da home: somente publicações que já passaram pela aprovação. */
+export function useFeedAprovado(limite = 30) {
+  return useQuery({
+    queryKey: ["feed-aprovado", limite],
+    queryFn: async (): Promise<Registro[]> => {
+      const { data, error } = await supabase
+        .from("novidades")
+        .select(COLUNAS_PUBLICAS.novidades)
+        .eq("aprovado", true)
+        .order("created_at", { ascending: false })
+        .limit(limite);
+      if (error) throw error;
+      return (data ?? []) as unknown as Registro[];
+    },
+  });
+}
+
 export function useInvalidar(tabela: Tabela) {
   const queryClient = useQueryClient();
   return async () => {
     await queryClient.invalidateQueries({ queryKey: [tabela] });
     await queryClient.invalidateQueries({ queryKey: ["minhas-publicacoes"] });
+    if (tabela === "novidades") {
+      await queryClient.invalidateQueries({ queryKey: ["feed-aprovado"] });
+      await queryClient.invalidateQueries({ queryKey: ["destaques-premium"] });
+      await queryClient.invalidateQueries({ queryKey: ["admin-novidades-pendentes"] });
+    }
   };
 }
 
