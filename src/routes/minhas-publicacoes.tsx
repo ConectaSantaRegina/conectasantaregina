@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { AcoesRegistro } from "@/components/site/CardItem";
 import { PageHero, Secao, EstadoVazio } from "@/components/site/PageHero";
-import { PedirDestaque, ListaPedidosDestaque } from "@/components/site/PedirDestaque";
+import { ListaPedidosDestaque } from "@/components/site/PedirDestaque";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SiteImage } from "@/components/site/SiteImage";
@@ -82,7 +82,6 @@ function MinhasPublicacoes() {
       <PageHero
         titulo="Minhas publicações"
         subtitulo="Tudo o que você publicou no bairro em um só lugar: revise, atualize os dados e remova o que não está mais valendo."
-        acao={<PedirDestaque />}
       />
       <Secao>
         {loading ? (
