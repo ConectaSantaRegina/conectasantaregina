@@ -26,18 +26,18 @@ export function CarrosselNovidades() {
   if (total === 0) {
     return (
       <section className="border-b bg-secondary/50">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="flex items-center gap-2 text-sm font-semibold text-primary">
-              <Crown className="h-4 w-4" /> Novidades do bairro
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
+        <div className="mx-auto max-w-7xl px-4 py-8 text-center">
+          <p className="flex items-center justify-center gap-2 text-lg font-extrabold text-primary md:text-2xl">
+            <Crown className="h-5 w-5 md:h-6 md:w-6" /> NOVIDADES
+          </p>
+          <div className="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <p className="text-sm text-muted-foreground">
               As publicações aprovadas com fotos aparecerão aqui em carrossel.
             </p>
+            <Button asChild>
+              <Link to="/novidades">Ver novidades do bairro</Link>
+            </Button>
           </div>
-          <Button asChild>
-            <Link to="/novidades">Ver novidades do bairro</Link>
-          </Button>
         </div>
       </section>
     );
@@ -48,7 +48,7 @@ export function CarrosselNovidades() {
       <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">
         <div className="flex flex-col items-center justify-center gap-2 text-center">
           <p className="flex items-center gap-2 text-lg font-extrabold text-primary md:text-2xl">
-            <Crown className="h-5 w-5 md:h-6 md:w-6" /> DESTAQUES
+            <Crown className="h-5 w-5 md:h-6 md:w-6" /> NOVIDADES
           </p>
         </div>
 
