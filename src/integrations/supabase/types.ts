@@ -190,6 +190,7 @@ export type Database = {
           aprovado: boolean
           aprovado_em: string | null
           aprovado_por: string | null
+          canal: string
           categoria: string
           created_at: string
           id: string
@@ -204,6 +205,7 @@ export type Database = {
           aprovado?: boolean
           aprovado_em?: string | null
           aprovado_por?: string | null
+          canal?: string
           categoria?: string
           created_at?: string
           id?: string
@@ -218,6 +220,7 @@ export type Database = {
           aprovado?: boolean
           aprovado_em?: string | null
           aprovado_por?: string | null
+          canal?: string
           categoria?: string
           created_at?: string
           id?: string

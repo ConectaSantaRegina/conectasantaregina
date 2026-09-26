@@ -15,6 +15,13 @@
       "when": 1790446778556,
       "tag": "0001_gallery_premium_visibility",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790447967269,
+      "tag": "0002_separate_news_carousel_and_community_feed",
+      "breakpoints": true
     }
   ]
 }
