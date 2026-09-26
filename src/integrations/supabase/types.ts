@@ -63,6 +63,7 @@ export type Database = {
           delivery: boolean
           descricao: string | null
           endereco: string | null
+          fotos_extras: string[]
           horario: string | null
           id: string
           imagem_url: string | null
@@ -80,6 +81,7 @@ export type Database = {
           delivery?: boolean
           descricao?: string | null
           endereco?: string | null
+          fotos_extras?: string[]
           horario?: string | null
           id?: string
           imagem_url?: string | null
@@ -97,6 +99,7 @@ export type Database = {
           delivery?: boolean
           descricao?: string | null
           endereco?: string | null
+          fotos_extras?: string[]
           horario?: string | null
           id?: string
           imagem_url?: string | null
