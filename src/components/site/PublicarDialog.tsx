@@ -144,7 +144,7 @@ function FormularioRegistro({
       toast.success(
         registro
           ? "Alterações salvas."
-          : (mensagemSucesso ?? "Publicado! Obrigada por contribuir."),
+          : (mensagemSucesso ?? "Enviado! Sua publicação aparecerá após a aprovação da administração."),
       );
       setArquivo(null);
       setFotosExtras([]);
@@ -274,7 +274,7 @@ export function EditarDialog({
         <FormularioRegistro
           tabela={tabela}
           titulo="Editar publicação"
-          descricao="Altere as informações e salve para atualizar no site."
+           descricao="Ao salvar, as alterações precisarão de nova aprovação antes de aparecer no site."
           campos={campos}
           registro={registro}
           rotuloSalvar="Salvar alterações"
