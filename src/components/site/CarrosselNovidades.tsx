@@ -48,7 +48,7 @@ export function CarrosselNovidades() {
       <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">
         <div className="flex flex-col items-center justify-center gap-2 text-center">
           <p className="flex items-center gap-2 text-lg font-extrabold text-primary md:text-2xl">
-            <Crown className="h-5 w-5 md:h-6 md:w-6" /> DESTAQUES
+            <Crown className="h-5 w-5 md:h-6 md:w-6" /> NOVIDADES
           </p>
         </div>
 
