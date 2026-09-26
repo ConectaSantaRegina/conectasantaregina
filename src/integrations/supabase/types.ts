@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       acoes: {
         Row: {
+          aprovado: boolean
           contato: string | null
           created_at: string
           descricao: string | null
@@ -29,6 +30,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          aprovado?: boolean
           contato?: string | null
           created_at?: string
           descricao?: string | null
@@ -42,6 +44,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          aprovado?: boolean
           contato?: string | null
           created_at?: string
           descricao?: string | null
@@ -58,6 +61,7 @@ export type Database = {
       }
       comercios: {
         Row: {
+          aprovado: boolean
           categoria: string
           created_at: string
           delivery: boolean
@@ -76,6 +80,7 @@ export type Database = {
           whatsapp: string | null
         }
         Insert: {
+          aprovado?: boolean
           categoria: string
           created_at?: string
           delivery?: boolean
@@ -94,6 +99,7 @@ export type Database = {
           whatsapp?: string | null
         }
         Update: {
+          aprovado?: boolean
           categoria?: string
           created_at?: string
           delivery?: boolean
@@ -115,6 +121,7 @@ export type Database = {
       }
       imoveis: {
         Row: {
+          aprovado: boolean
           contato: string | null
           created_at: string
           descricao: string | null
@@ -129,6 +136,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          aprovado?: boolean
           contato?: string | null
           created_at?: string
           descricao?: string | null
@@ -143,6 +151,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          aprovado?: boolean
           contato?: string | null
           created_at?: string
           descricao?: string | null
@@ -379,6 +388,7 @@ export type Database = {
       }
       sugestoes: {
         Row: {
+          aprovado: boolean
           created_at: string
           descricao: string | null
           id: string
@@ -389,6 +399,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          aprovado?: boolean
           created_at?: string
           descricao?: string | null
           id?: string
@@ -399,6 +410,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          aprovado?: boolean
           created_at?: string
           descricao?: string | null
           id?: string
@@ -433,6 +445,7 @@ export type Database = {
       }
       vagas: {
         Row: {
+          aprovado: boolean
           contato: string | null
           created_at: string
           descricao: string | null
@@ -445,6 +458,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          aprovado?: boolean
           contato?: string | null
           created_at?: string
           descricao?: string | null
@@ -457,6 +471,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          aprovado?: boolean
           contato?: string | null
           created_at?: string
           descricao?: string | null

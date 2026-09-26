@@ -22,6 +22,13 @@
       "when": 1790447967269,
       "tag": "0002_separate_news_carousel_and_community_feed",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790448577097,
+      "tag": "0003_moderate_all_new_publications",
+      "breakpoints": true
     }
   ]
 }
