@@ -22,7 +22,7 @@ const COLUNAS_PUBLICAS: Partial<Record<Tabela, string>> = {
   imoveis:
     "id,titulo,finalidade,tipo,preco,endereco,descricao,contato,imagem_url,created_at,updated_at",
   novidades:
-    "id,titulo,texto,categoria,imagem_url,premium_valido_ate,created_at,updated_at",
+    "id,titulo,texto,categoria,imagem_url,premium_valido_ate,canal,created_at,updated_at",
   sugestoes: "id,titulo,descricao,local,status,created_at,updated_at",
   vagas: "id,titulo,empresa,descricao,tipo,salario,contato,created_at,updated_at",
   sugestao_apoios: "sugestao_id",
@@ -60,8 +60,11 @@ export function useDestaquesPremium(limite = 6) {
         .from("novidades")
         .select(COLUNAS_PUBLICAS.novidades)
         .eq("aprovado", true)
+        .eq("canal", "novidades")
         .not("imagem_url", "is", null)
-        .gte("premium_valido_ate", new Date().toISOString().slice(0, 10))
+        .or(
+          `premium_valido_ate.gte.${new Date().toISOString().slice(0, 10)},premium_valido_ate.is.null`,
+        )
         .order("created_at", { ascending: false })
         .limit(limite);
       if (error) throw error;
@@ -79,6 +82,7 @@ export function useFeedAprovado(limite = 30) {
         .from("novidades")
         .select(COLUNAS_PUBLICAS.novidades)
         .eq("aprovado", true)
+        .eq("canal", "feed")
         .order("created_at", { ascending: false })
         .limit(limite);
       if (error) throw error;

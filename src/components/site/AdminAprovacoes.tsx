@@ -292,6 +292,7 @@ type NovidadeRow = {
   texto: string | null;
   categoria: string;
   imagem_url: string | null;
+  canal: "novidades" | "feed";
   aprovado: boolean;
   created_at: string;
 };
@@ -305,7 +306,7 @@ export function AdminNovidadesPendentes() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("novidades")
-        .select("id,user_id,titulo,texto,categoria,imagem_url,aprovado,created_at")
+        .select("id,user_id,titulo,texto,categoria,imagem_url,canal,aprovado,created_at")
         .eq("aprovado", false)
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -381,6 +382,9 @@ export function AdminNovidadesPendentes() {
                 <p className="font-semibold">{row.titulo}</p>
                 <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                   <Badge variant="secondary">{row.categoria}</Badge>
+                  <Badge variant="outline">
+                    {row.canal === "feed" ? "Feed" : "Carrossel de Novidades"}
+                  </Badge>
                   <span>{formatarData(row.created_at)}</span>
                 </div>
                 {row.texto ? (
