@@ -62,7 +62,9 @@ export function useDestaquesPremium(limite = 6) {
         .eq("aprovado", true)
         .eq("canal", "novidades")
         .not("imagem_url", "is", null)
-        .gte("premium_valido_ate", new Date().toISOString().slice(0, 10))
+        .or(
+          `premium_valido_ate.gte.${new Date().toISOString().slice(0, 10)},premium_valido_ate.is.null`,
+        )
         .order("created_at", { ascending: false })
         .limit(limite);
       if (error) throw error;
