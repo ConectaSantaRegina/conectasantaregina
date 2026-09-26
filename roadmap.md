@@ -6,3 +6,6 @@
 - [x] Permitir fotos extras em comércios Premium, com carrossel no card e apenas capa para contas comuns
 - [x] Exibir prévia com imagem ao compartilhar o site no WhatsApp
 - [x] Confirmar login por e-mail, Destaques Premium, aprovação, menu mobile, texto de contato e filtros alfabéticos
+- [ ] Exibir e tratar pedidos de Premium no painel admin
+- [ ] Exigir aprovação admin para novos comércios, serviços públicos, vagas, imóveis, melhorias e ações; manter Novidades e Feed sob aprovação
+- [ ] Mostrar pendências ao autor e testar o fluxo de moderação
