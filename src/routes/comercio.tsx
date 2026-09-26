@@ -20,6 +20,8 @@ export const Route = createFileRoute("/comercio")({
           "Mercados, farmácias, restaurantes, bancos, academias, salões e demais comércios e serviços privados do bairro Santa Regina.",
       },
       { property: "og:title", content: "Comércio e Serviços do bairro Santa Regina" },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
         content: "O guia completo dos comércios e serviços privados do bairro Santa Regina.",

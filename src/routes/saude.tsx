@@ -20,6 +20,8 @@ export const Route = createFileRoute("/saude")({
           "Escolas, postos de saúde, subprefeitura, praças, bibliotecas, centros esportivos e demais estruturas comunitárias de Santa Regina.",
       },
       { property: "og:title", content: "Serviços Públicos do bairro Santa Regina" },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
         content:
