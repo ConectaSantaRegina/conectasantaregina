@@ -8,7 +8,7 @@ import { PageHero, Secao, EstadoVazio } from "@/components/site/PageHero";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SiteImage } from "@/components/site/SiteImage";
-import { formatarData, txt, type Registro, type Tabela } from "@/lib/dados";
+import { formatarData, txt, TABELAS_MODERADAS, type Registro, type Tabela } from "@/lib/dados";
 
 export const Route = createFileRoute("/minhas-publicacoes")({
   head: () => ({
@@ -146,6 +146,11 @@ function MinhasPublicacoes() {
                                 </Badge>
                               )}
                               {txt(item, "status") && <Badge>{txt(item, "status")}</Badge>}
+                               {(grupo.tabela === "novidades" || TABELAS_MODERADAS.some((t) => t === grupo.tabela)) && (
+                                 <Badge variant={item["aprovado"] ? "secondary" : "outline"}>
+                                   {item["aprovado"] ? "Aprovado" : "Aguardando aprovação"}
+                                 </Badge>
+                               )}
                               <span className="inline-flex items-center gap-1">
                                 <CalendarDays className="h-3.5 w-3.5" />
                                 {formatarData(item.created_at)}

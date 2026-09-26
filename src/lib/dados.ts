@@ -5,6 +5,8 @@ import { useAuth } from "@/hooks/useAuth";
 
 export type Tabela = keyof Database["public"]["Tables"];
 
+export const TABELAS_MODERADAS = ["comercios", "vagas", "imoveis", "sugestoes", "acoes"] as const;
+
 export type Registro = Record<string, unknown> & {
   id: string;
   user_id?: string;
@@ -40,6 +42,9 @@ export function useLista(tabela: Tabela, limite?: number) {
     queryFn: async (): Promise<Registro[]> => {
       const colunas = autenticado ? "*" : (COLUNAS_PUBLICAS[tabela] ?? "*");
       let query = supabase.from(tabela as "comercios").select(colunas as "*");
+      if (tabela === "novidades" || TABELAS_MODERADAS.some((item) => item === tabela)) {
+        query = query.eq("aprovado", true);
+      }
       if (!(autenticado === false && SEM_ORDENACAO.includes(tabela))) {
         query = query.order("created_at", { ascending: false });
       }
@@ -97,6 +102,10 @@ export function useInvalidar(tabela: Tabela) {
     await queryClient.invalidateQueries({ queryKey: [tabela] });
     await queryClient.invalidateQueries({ queryKey: ["minhas-publicacoes"] });
     if (tabela === "comercios") await queryClient.invalidateQueries({ queryKey: ["galerias-premium"] });
+    if (TABELAS_MODERADAS.some((item) => item === tabela)) {
+      await queryClient.invalidateQueries({ queryKey: ["admin-publicacoes-pendentes"] });
+      if (tabela === "comercios") await queryClient.invalidateQueries({ queryKey: ["admin-comercios"] });
+    }
     if (tabela === "novidades") {
       await queryClient.invalidateQueries({ queryKey: ["feed-aprovado"] });
       await queryClient.invalidateQueries({ queryKey: ["destaques-premium"] });
@@ -211,6 +220,7 @@ export function useComerciosPremium() {
       const { data: comercios, error: err2 } = await supabase
         .from("comercios")
         .select(COLUNAS_PUBLICAS.comercios)
+        .eq("aprovado", true)
         .in("id", ids)
         .order("created_at", { ascending: false });
       if (err2) throw err2;

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { SiteImage } from "@/components/site/SiteImage";
 import { EstadoVazio } from "@/components/site/PageHero";
-import { formatarData } from "@/lib/dados";
+import { formatarData, TABELAS_MODERADAS } from "@/lib/dados";
 
 function dataEmDias(dias: number) {
   const d = new Date();
@@ -43,9 +43,10 @@ type PremiumUsuario = {
 };
 
 /** Aprovação de cadastros de moradores: marcar (ou não) como Premium. */
-export function AdminUsuariosPremium() {
+export function AdminUsuariosPremium({ selecionado }: { selecionado?: string }) {
   const queryClient = useQueryClient();
   const [userId, setUserId] = useState("");
+  const pessoaSelecionada = selecionado || userId;
   const [validoAte, setValidoAte] = useState(dataEmDias(30));
   const [observacao, setObservacao] = useState("");
 
@@ -83,24 +84,26 @@ export function AdminUsuariosPremium() {
 
   const salvar = useMutation({
     mutationFn: async () => {
-      if (!userId) throw new Error("Escolha a pessoa na lista.");
+       if (!pessoaSelecionada) throw new Error("Escolha a pessoa na lista.");
       if (!validoAte) throw new Error("Informe até quando o Premium vale.");
-      const { error } = await supabase.from("premium").upsert(
-        {
-          user_id: userId,
-          comercio_id: null,
-          valido_ate: validoAte,
-          ativo: true,
-          observacao: observacao.trim() || null,
-        },
-        { onConflict: "user_id" },
-      );
+       const existente = (premiumUsuarios.data ?? []).find((p) => p.user_id === pessoaSelecionada);
+       const dados = { valido_ate: validoAte, ativo: true, observacao: observacao.trim() || null };
+       const { error } = existente
+         ? await supabase.from("premium").update(dados).eq("id", existente.id)
+         : await supabase.from("premium").insert({ ...dados, user_id: pessoaSelecionada, comercio_id: null });
       if (error) throw error;
     },
-    onSuccess: () => {
+     onSuccess: async () => {
+       const { error } = await supabase.from("pedidos_destaque")
+         .update({ status: "aprovado" })
+         .eq("user_id", pessoaSelecionada)
+         .in("status", ["novo", "em contato"]);
+       if (error) toast.error("Premium liberado, mas o pedido continua pendente. Atualize-o no painel.");
       toast.success("Pessoa liberada como Premium.");
       setObservacao("");
       invalidar();
+       queryClient.invalidateQueries({ queryKey: ["admin-pedidos-premium"] });
+       queryClient.invalidateQueries({ queryKey: ["meus-pedidos-premium"] });
     },
     onError: (e: Error) => toast.error(e.message || "Não foi possível salvar."),
   });
@@ -152,7 +155,7 @@ export function AdminUsuariosPremium() {
 
         <div className="grid gap-2">
           <Label>Pessoa cadastrada</Label>
-          <Select value={userId} onValueChange={setUserId}>
+           <Select value={pessoaSelecionada} onValueChange={setUserId}>
             <SelectTrigger>
               <SelectValue placeholder="Escolha quem se cadastrou" />
             </SelectTrigger>
@@ -206,7 +209,7 @@ export function AdminUsuariosPremium() {
           />
         </div>
 
-        <Button type="submit" disabled={salvar.isPending || !userId}>
+         <Button type="submit" disabled={salvar.isPending || !pessoaSelecionada}>
           {salvar.isPending ? "Salvando…" : "Liberar Premium"}
         </Button>
       </form>
@@ -283,6 +286,101 @@ export function AdminUsuariosPremium() {
       </section>
     </div>
   );
+}
+
+/** Todos os pedidos Premium enviados pelo formulário da página inicial. */
+export function AdminPedidosPremium({ onSelecionar }: { onSelecionar: (id: string) => void }) {
+  const queryClient = useQueryClient();
+  const pedidos = useQuery({
+    queryKey: ["admin-pedidos-premium"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("pedidos_destaque")
+        .select("id,user_id,negocio,contato,mensagem,status,created_at")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const alterar = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const { error } = await supabase.from("pedidos_destaque").update({ status }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-pedidos-premium"] });
+      queryClient.invalidateQueries({ queryKey: ["pedidos-destaque"] });
+      toast.success("Pedido atualizado.");
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+  const pendentes = (pedidos.data ?? []).filter((p) => p.status === "novo" || p.status === "em contato");
+  return (
+    <section className="grid gap-4">
+      <h2 className="font-display text-lg font-bold">Pedidos de Premium ({pendentes.length})</h2>
+      {pedidos.isError ? <p role="alert">Não foi possível carregar os pedidos.</p> : pedidos.isLoading ? <p>Carregando…</p> : pendentes.length === 0 ? <EstadoVazio texto="Nenhum pedido de Premium aguardando atendimento." /> : (
+        <ul className="grid gap-3">
+          {pendentes.map((p) => <li key={p.id} className="surface-card grid gap-2 p-4">
+            <div className="flex flex-wrap items-center gap-2"><strong>{p.negocio}</strong><Badge variant="secondary">{p.status}</Badge><span className="text-xs text-muted-foreground">{formatarData(p.created_at)}</span></div>
+            <p className="text-sm">Contato: {p.contato}</p>
+            {p.mensagem && <p className="whitespace-pre-line text-sm text-muted-foreground">{p.mensagem}</p>}
+            <div className="flex flex-wrap gap-2">
+              <Button size="sm" variant="outline" disabled={alterar.isPending} onClick={() => alterar.mutate({ id: p.id, status: "em contato" })}>Em contato</Button>
+              <Button size="sm" onClick={() => { onSelecionar(p.user_id); document.getElementById("premium-usuarios")?.scrollIntoView({ behavior: "smooth" }); }}>Selecionar pessoa</Button>
+              <Button size="sm" variant="outline" disabled={alterar.isPending} onClick={() => alterar.mutate({ id: p.id, status: "recusado" })}>Recusar pedido</Button>
+            </div>
+          </li>)}
+        </ul>
+      )}
+    </section>
+  );
+}
+
+const ROTULOS_PUBLICACOES: Record<(typeof TABELAS_MODERADAS)[number], string> = {
+  comercios: "Comércio ou serviço público", vagas: "Vaga de emprego", imoveis: "Imóvel",
+  sugestoes: "Melhoria", acoes: "Doação ou ação",
+};
+
+export function AdminPublicacoesPendentes() {
+  const queryClient = useQueryClient();
+  const pendentes = useQuery({
+    queryKey: ["admin-publicacoes-pendentes"],
+    queryFn: async () => {
+      const resultados = await Promise.all(TABELAS_MODERADAS.map(async (tabela) => {
+        const { data, error } = await supabase.from(tabela).select("*").eq("aprovado", false).order("created_at", { ascending: false });
+        if (error) throw error;
+        return (data ?? []).map((item) => ({ ...item, tabela, titulo: "nome" in item ? item.nome : item.titulo }));
+      }));
+      return resultados.flat().sort((a, b) => b.created_at.localeCompare(a.created_at));
+    },
+  });
+  const decidir = useMutation({
+    mutationFn: async ({ tabela, id, aprovar }: { tabela: (typeof TABELAS_MODERADAS)[number]; id: string; aprovar: boolean }) => {
+      const { error } = aprovar
+        ? await supabase.from(tabela).update({ aprovado: true }).eq("id", id)
+        : await supabase.from(tabela).delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: (_result, { tabela, aprovar }) => {
+      toast.success(aprovar ? "Cadastro aprovado e publicado." : "Cadastro recusado e removido.");
+      for (const key of [["admin-publicacoes-pendentes"], [tabela], ["minhas-publicacoes"], ["admin-comercios"], ["comercios-premium"]]) queryClient.invalidateQueries({ queryKey: key });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+  const lista = pendentes.data ?? [];
+  return <section className="grid gap-4">
+    <h2 className="font-display text-lg font-bold">Cadastros aguardando aprovação ({lista.length})</h2>
+    {pendentes.isError ? <p role="alert">Não foi possível carregar os cadastros pendentes.</p> : pendentes.isLoading ? <p>Carregando…</p> : lista.length === 0 ? <EstadoVazio texto="Nenhum cadastro esperando aprovação." /> : (
+      <ul className="grid gap-3">{lista.map((item) => <li key={`${item.tabela}-${item.id}`} className="surface-card grid gap-3 p-4">
+        <div className="flex flex-wrap items-center gap-2"><strong>{item.titulo}</strong><Badge variant="outline">{ROTULOS_PUBLICACOES[item.tabela]}</Badge><span className="text-xs text-muted-foreground">{formatarData(item.created_at)}</span></div>
+        <div className="grid gap-1 text-sm text-muted-foreground">
+          {Object.entries(item).filter(([key, value]) => !["id", "user_id", "aprovado", "created_at", "updated_at", "imagem_url", "fotos_extras", "tabela", "titulo"].includes(key) && value !== null && value !== "" && typeof value !== "object").map(([key, value]) => <p key={key}><span className="font-medium">{key.replaceAll("_", " ")}: </span>{String(value)}</p>)}
+        </div>
+        {"imagem_url" in item && typeof item.imagem_url === "string" && <SiteImage path={item.imagem_url} alt={item.titulo} className="h-36 w-52" />}
+        <div className="flex gap-2"><Button size="sm" disabled={decidir.isPending} onClick={() => decidir.mutate({ tabela: item.tabela, id: item.id, aprovar: true })}><Check className="mr-1 h-4 w-4" /> Aprovar</Button>
+        <Button size="sm" variant="outline" disabled={decidir.isPending} onClick={() => { if (confirm("Recusar e remover este cadastro?")) decidir.mutate({ tabela: item.tabela, id: item.id, aprovar: false }); }}><X className="mr-1 h-4 w-4" /> Recusar</Button></div>
+      </li>)}</ul>
+    )}
+  </section>;
 }
 
 type NovidadeRow = {

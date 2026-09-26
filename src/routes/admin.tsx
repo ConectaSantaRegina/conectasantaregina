@@ -23,6 +23,8 @@ import { formatarData } from "@/lib/dados";
 import {
   AdminUsuariosPremium,
   AdminNovidadesPendentes,
+  AdminPedidosPremium,
+  AdminPublicacoesPendentes,
 } from "@/components/site/AdminAprovacoes";
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -99,6 +101,7 @@ function Admin() {
   });
 
   const [comercioId, setComercioId] = useState("");
+  const [pessoaSelecionada, setPessoaSelecionada] = useState("");
   const [validoAte, setValidoAte] = useState(dataEmDias(30));
   const [observacao, setObservacao] = useState("");
 
@@ -119,16 +122,11 @@ function Admin() {
       const comercio = nomePorComercio.get(comercioId);
       if (!comercio) throw new Error("Escolha um comércio da lista.");
       if (!validoAte) throw new Error("Informe a data de validade.");
-      const { error } = await supabase.from("premium").upsert(
-        {
-          comercio_id: comercio.id,
-          user_id: comercio.user_id,
-          valido_ate: validoAte,
-          ativo: true,
-          observacao: observacao.trim() || null,
-        },
-        { onConflict: "comercio_id" },
-      );
+       const existente = (premium.data ?? []).find((p) => p.comercio_id === comercio.id);
+       const dados = { valido_ate: validoAte, ativo: true, observacao: observacao.trim() || null };
+       const { error } = existente
+         ? await supabase.from("premium").update(dados).eq("id", existente.id)
+         : await supabase.from("premium").insert({ ...dados, comercio_id: comercio.id, user_id: comercio.user_id });
       if (error) throw error;
     },
     onSuccess: () => {
@@ -202,12 +200,14 @@ function Admin() {
     <div>
       <PageHero
         titulo="Painel do administrador"
-        subtitulo="Libere pessoas e comércios como Premium (com data de validade) e aprove cada publicação antes de ela aparecer no site. O pagamento é combinado por fora (PIX) — aqui você só registra."
+         subtitulo="Analise pedidos Premium e aprove cadastros e publicações antes de aparecerem no site. O pagamento é combinado por fora (PIX)."
       />
       <Secao>
-        <div className="mb-12 grid gap-12">
+         <div className="mb-12 grid gap-12">
+           <AdminPedidosPremium onSelecionar={setPessoaSelecionada} />
           <AdminNovidadesPendentes />
-          <AdminUsuariosPremium />
+           <AdminPublicacoesPendentes />
+           <div id="premium-usuarios"><AdminUsuariosPremium selecionado={pessoaSelecionada} /></div>
         </div>
         <div className="grid gap-10 lg:grid-cols-[380px_minmax(0,1fr)]">
           <form
@@ -237,7 +237,7 @@ function Admin() {
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
-                O Premium fica ligado ao dono do cadastro escolhido.
+                 O Premium fica ligado ao dono do cadastro escolhido.
               </p>
             </div>
 
