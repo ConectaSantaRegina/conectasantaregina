@@ -1,0 +1,1 @@
+GRANT SELECT (aprovado) ON public.comercios, public.vagas, public.imoveis, public.sugestoes, public.acoes TO anon;
