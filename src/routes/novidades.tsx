@@ -29,6 +29,7 @@ export const Route = createFileRoute("/novidades")({
 
 function Novidades() {
   const { data, isLoading } = useLista("novidades");
+  const novidades = (data ?? []).filter((item) => txt(item, "canal") !== "feed");
   return (
     <div>
       <PageHero
@@ -37,7 +38,7 @@ function Novidades() {
       />
       <Secao>
         <ListaFiltrada
-          itens={data ?? []}
+          itens={novidades}
           carregando={isLoading}
           categorias={CATEGORIAS_NOVIDADES}
           campoCategoria="categoria"

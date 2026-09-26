@@ -40,6 +40,7 @@ export function FeedComunidade() {
                 titulo="Publicar no feed"
                 descricao="Sua publicação será analisada antes de aparecer para a comunidade."
                 campos={CAMPOS.novidades ?? []}
+                extra={{ canal: "feed" }}
                 mensagemSucesso="Publicação enviada! Ela aparecerá no feed depois da aprovação."
                 gatilho={
                   <Button
