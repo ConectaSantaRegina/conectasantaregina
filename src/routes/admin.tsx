@@ -111,6 +111,7 @@ function Admin() {
   const invalidar = () => {
     queryClient.invalidateQueries({ queryKey: ["admin-premium"] });
     queryClient.invalidateQueries({ queryKey: ["premium-ativos"] });
+    queryClient.invalidateQueries({ queryKey: ["galerias-premium"] });
   };
 
   const salvar = useMutation({

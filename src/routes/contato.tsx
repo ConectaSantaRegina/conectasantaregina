@@ -20,6 +20,8 @@ export const Route = createFileRoute("/contato")({
           "Envie sugestões, dúvidas ou avisos para a equipe do Conecta Santa Regina, o portal do nosso bairro.",
       },
       { property: "og:title", content: "Fale com o Conecta Santa Regina" },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
         content: "Mande sua mensagem para quem cuida do portal do bairro Santa Regina.",

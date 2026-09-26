@@ -28,7 +28,7 @@ const esquema = z.object({
   mensagem: z.string().trim().max(2000),
 });
 
-/** Botão "Quero aparecer no feed": registra o interesse do comerciante em anúncio destacado. */
+/** Botão "Quero aparecer no feed": registra o interesse do comerciante em acesso Premium. */
 export function PedirDestaque({ variante = "default" }: { variante?: "default" | "secondary" }) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -85,8 +85,8 @@ export function PedirDestaque({ variante = "default" }: { variante?: "default" |
         <DialogHeader>
           <DialogTitle>Quero aparecer no feed</DialogTitle>
           <DialogDescription>
-            Preencha seus dados para anunciar em destaque no carrossel da página inicial. A
-            administração do site entra em contato para combinar o pagamento.
+             Preencha seus dados para solicitar acesso Premium e aparecer no feed da página inicial.
+             A administração entra em contato para combinar os detalhes.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4">

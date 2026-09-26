@@ -19,6 +19,8 @@ export const Route = createFileRoute("/empregos")({
           "Vagas de trabalho, bicos e serviços oferecidos por comerciantes e moradores do bairro Santa Regina.",
       },
       { property: "og:title", content: "Balcão de Empregos de Santa Regina" },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
         content: "Vagas e oportunidades de trabalho aqui pertinho, no bairro Santa Regina.",

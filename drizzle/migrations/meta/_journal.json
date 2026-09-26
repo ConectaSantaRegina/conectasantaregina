@@ -8,6 +8,13 @@
       "when": 1790446700931,
       "tag": "0000_premium_comercio_gallery",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790446778556,
+      "tag": "0001_gallery_premium_visibility",
+      "breakpoints": true
     }
   ]
 }

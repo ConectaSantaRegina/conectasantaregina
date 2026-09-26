@@ -29,6 +29,8 @@ export const Route = createFileRoute("/melhorias")({
           "Sugira melhorias para Santa Regina, veja as ideias dos vizinhos e apoie as propostas que você quer ver acontecendo.",
       },
       { property: "og:title", content: "Propor melhorias para o bairro Santa Regina" },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
         content:

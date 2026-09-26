@@ -33,6 +33,8 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+       { property: "og:image", content: "https://www.conectasantaregina.com.br/conecta-santa-regina.jpg" },
+       { name: "twitter:image", content: "https://www.conectasantaregina.com.br/conecta-santa-regina.jpg" },
     ],
   }),
   component: Inicio,
@@ -143,7 +145,7 @@ function Inicio() {
           <div className="min-w-0">
             <h2 className="font-display text-2xl font-extrabold">Tem algo para publicar?</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Cadastre-se para postar novidades, ofertas e avisos para todo o bairro.
+              Cadastre seu comércio gratuitamente. Publicações no feed e em Novidades estão disponíveis para contas Premium.
             </p>
           </div>
           <Button asChild size="lg" className="shrink-0">

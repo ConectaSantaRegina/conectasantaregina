@@ -20,6 +20,8 @@ export const Route = createFileRoute("/acoes")({
           "Campanhas de doação, mutirões e ações voluntárias organizadas pelos moradores do bairro Santa Regina.",
       },
       { property: "og:title", content: "Doações e Ações Comunitárias em Santa Regina" },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
         content: "Participe das campanhas e mutirões da comunidade de Santa Regina.",

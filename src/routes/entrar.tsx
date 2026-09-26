@@ -22,6 +22,8 @@ export const Route = createFileRoute("/entrar")({
           "Crie sua conta gratuita para cadastrar comércios, publicar vagas, novidades e apoiar melhorias no bairro Santa Regina.",
       },
       { property: "og:title", content: "Entrar no Conecta Santa Regina" },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
         content: "Acesse sua conta para publicar no portal do bairro Santa Regina.",

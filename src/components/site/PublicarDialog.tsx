@@ -19,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { HorarioSemana } from "@/components/site/HorarioSemana";
 import { useAuth } from "@/hooks/useAuth";
+import { usePremium } from "@/hooks/usePremium";
 import { enviarImagem } from "@/lib/imagens";
 import {
   atualizarRegistro,
@@ -73,12 +74,17 @@ function FormularioRegistro({
   onPronto: () => void;
 }) {
   const { user } = useAuth();
+  const { podePublicarNovidades: podeGaleria } = usePremium();
   const invalidar = useInvalidar(tabela);
   const [salvando, setSalvando] = useState(false);
   const [valores, setValores] = useState<Record<string, string | boolean>>(() =>
     valoresIniciais(campos, registro),
   );
   const [arquivo, setArquivo] = useState<File | null>(null);
+  const [fotosExtras, setFotosExtras] = useState<File[]>([]);
+  const [fotosAtuais, setFotosAtuais] = useState<string[]>(
+    Array.isArray(registro?.["fotos_extras"]) ? registro["fotos_extras"].filter((foto): foto is string => typeof foto === "string") : [],
+  );
 
   const definir = (name: string, value: string | boolean) =>
     setValores((atual) => ({ ...atual, [name]: value }));
@@ -122,6 +128,10 @@ function FormularioRegistro({
       if (campoImagem && arquivo) {
         payload[campoImagem.name] = await enviarImagem(arquivo, user.id);
       }
+      if (tabela === "comercios" && podeGaleria && (fotosExtras.length > 0 || fotosAtuais.length !== (Array.isArray(registro?.["fotos_extras"]) ? registro["fotos_extras"].length : 0))) {
+        if (fotosExtras.length + fotosAtuais.length > 5) throw new Error("Escolha até cinco fotos extras.");
+        payload["fotos_extras"] = [...fotosAtuais, ...await Promise.all(fotosExtras.map((foto) => enviarImagem(foto, user.id)))];
+      }
 
       if (registro) {
         await atualizarRegistro(tabela, registro.id, payload);
@@ -137,6 +147,7 @@ function FormularioRegistro({
           : (mensagemSucesso ?? "Publicado! Obrigada por contribuir."),
       );
       setArquivo(null);
+      setFotosExtras([]);
       if (!registro) setValores({});
       onPronto();
     } catch (erro) {
@@ -164,6 +175,19 @@ function FormularioRegistro({
             temImagem={Boolean(registro && registro[campo.name])}
           />
         ))}
+        {tabela === "comercios" && podeGaleria && (
+          <div className="grid gap-2">
+            <Label htmlFor="fotos-extras">Fotos extras (Premium, até 5)</Label>
+            {fotosAtuais.map((foto, indice) => (
+              <div key={foto} className="flex items-center justify-between gap-2 text-sm">
+                <span>Foto {indice + 1}</span>
+                <Button type="button" variant="ghost" size="sm" onClick={() => setFotosAtuais((atual) => atual.filter((item) => item !== foto))}>Remover</Button>
+              </div>
+            ))}
+            <Input id="fotos-extras" type="file" accept="image/*" multiple onChange={(e) => setFotosExtras(Array.from(e.target.files ?? []))} />
+            {fotosExtras.length > 0 && <p className="text-xs text-muted-foreground">{fotosExtras.length} foto(s) selecionada(s)</p>}
+          </div>
+        )}
       </div>
       <DialogFooter>
         <Button onClick={salvar} disabled={salvando}>

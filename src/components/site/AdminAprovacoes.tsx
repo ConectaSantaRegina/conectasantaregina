@@ -78,6 +78,7 @@ export function AdminUsuariosPremium() {
     queryClient.invalidateQueries({ queryKey: ["admin-premium-usuarios"] });
     queryClient.invalidateQueries({ queryKey: ["meu-premium"] });
     queryClient.invalidateQueries({ queryKey: ["premium-ativos"] });
+    queryClient.invalidateQueries({ queryKey: ["galerias-premium"] });
   };
 
   const salvar = useMutation({

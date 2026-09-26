@@ -21,6 +21,8 @@ export const Route = createFileRoute("/imoveis")({
           "Casas, apartamentos, quartos, salas comerciais e terrenos para alugar ou comprar no bairro Santa Regina.",
       },
       { property: "og:title", content: "Aluguel e Venda em Santa Regina" },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
         content: "Imóveis para alugar e vender anunciados por moradores do bairro Santa Regina.",
