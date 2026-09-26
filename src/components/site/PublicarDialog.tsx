@@ -83,7 +83,7 @@ function FormularioRegistro({
   const [arquivo, setArquivo] = useState<File | null>(null);
   const [fotosExtras, setFotosExtras] = useState<File[]>([]);
   const [fotosAtuais, setFotosAtuais] = useState<string[]>(
-    Array.isArray(registro?.fotos_extras) ? registro.fotos_extras.filter((foto): foto is string => typeof foto === "string") : [],
+    Array.isArray(registro?.["fotos_extras"]) ? registro["fotos_extras"].filter((foto): foto is string => typeof foto === "string") : [],
   );
 
   const definir = (name: string, value: string | boolean) =>
@@ -128,9 +128,9 @@ function FormularioRegistro({
       if (campoImagem && arquivo) {
         payload[campoImagem.name] = await enviarImagem(arquivo, user.id);
       }
-      if (tabela === "comercios" && podeGaleria && (fotosExtras.length > 0 || fotosAtuais.length !== (Array.isArray(registro?.fotos_extras) ? registro.fotos_extras.length : 0))) {
+      if (tabela === "comercios" && podeGaleria && (fotosExtras.length > 0 || fotosAtuais.length !== (Array.isArray(registro?.["fotos_extras"]) ? registro["fotos_extras"].length : 0))) {
         if (fotosExtras.length + fotosAtuais.length > 5) throw new Error("Escolha até cinco fotos extras.");
-        payload.fotos_extras = [...fotosAtuais, ...await Promise.all(fotosExtras.map((foto) => enviarImagem(foto, user.id)))];
+        payload["fotos_extras"] = [...fotosAtuais, ...await Promise.all(fotosExtras.map((foto) => enviarImagem(foto, user.id)))];
       }
 
       if (registro) {

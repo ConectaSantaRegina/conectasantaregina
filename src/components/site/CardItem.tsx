@@ -51,8 +51,8 @@ export function CardItem({
       return data ?? [];
     },
   });
-  const extras = tabela === "comercios" && premiumIds?.includes(registro.id) && Array.isArray(registro.fotos_extras)
-    ? registro.fotos_extras.filter((foto): foto is string => typeof foto === "string" && foto.length > 0)
+  const extras = tabela === "comercios" && premiumIds?.includes(registro.id) && Array.isArray(registro["fotos_extras"])
+    ? registro["fotos_extras"].filter((foto): foto is string => typeof foto === "string" && foto.length > 0)
     : [];
   const fotos = [...(imagem ? [imagem] : []), ...extras];
   return (
