@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { AcoesRegistro } from "@/components/site/CardItem";
 import { PageHero, Secao, EstadoVazio } from "@/components/site/PageHero";
-import { ListaPedidosDestaque } from "@/components/site/PedirDestaque";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SiteImage } from "@/components/site/SiteImage";
@@ -103,7 +102,6 @@ function MinhasPublicacoes() {
         ) : total === 0 ? (
           <div className="grid gap-10">
             <EstadoVazio texto="Você ainda não publicou nada. Comece cadastrando seu comércio ou uma promoção." />
-            <ListaPedidosDestaque />
           </div>
         ) : (
           <div className="grid gap-10">
@@ -161,7 +159,6 @@ function MinhasPublicacoes() {
                   </ul>
                 </section>
               ))}
-            <ListaPedidosDestaque />
           </div>
         )}
       </Secao>

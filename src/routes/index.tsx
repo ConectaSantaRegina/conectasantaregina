@@ -33,6 +33,8 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+       { property: "og:image", content: "https://www.conectasantaregina.com.br/conecta-santa-regina.jpg" },
+       { name: "twitter:image", content: "https://www.conectasantaregina.com.br/conecta-santa-regina.jpg" },
     ],
   }),
   component: Inicio,

@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
 import { SiteImage } from "@/components/site/SiteImage";
+import { PedirDestaque } from "@/components/site/PedirDestaque";
 import { useAuth } from "@/hooks/useAuth";
 import { usePremium } from "@/hooks/usePremium";
 import { CAMPOS } from "@/lib/campos";
@@ -73,6 +74,8 @@ export function FeedComunidade() {
             </Button>
           </div>
         ) : null}
+
+        <div className="mb-6 flex justify-end"><PedirDestaque variante="secondary" /></div>
 
         {isLoading ? (
           <div className="surface-card p-8 text-center text-sm text-muted-foreground">

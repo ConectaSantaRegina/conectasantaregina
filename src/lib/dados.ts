@@ -18,7 +18,7 @@ export type Registro = Record<string, unknown> & {
 const COLUNAS_PUBLICAS: Partial<Record<Tabela, string>> = {
   acoes: "id,titulo,tipo,descricao,meta,local,contato,imagem_url,created_at,updated_at",
   comercios:
-    "id,nome,secao,categoria,descricao,endereco,telefone,whatsapp,instagram,horario,delivery,imagem_url,created_at,updated_at",
+    "id,nome,secao,categoria,descricao,endereco,telefone,whatsapp,instagram,horario,delivery,imagem_url,fotos_extras,created_at,updated_at",
   imoveis:
     "id,titulo,finalidade,tipo,preco,endereco,descricao,contato,imagem_url,created_at,updated_at",
   novidades:
@@ -61,6 +61,7 @@ export function useDestaquesPremium(limite = 6) {
         .select(COLUNAS_PUBLICAS.novidades)
         .eq("aprovado", true)
         .not("imagem_url", "is", null)
+        .gte("premium_valido_ate", new Date().toISOString().slice(0, 10))
         .order("created_at", { ascending: false })
         .limit(limite);
       if (error) throw error;
