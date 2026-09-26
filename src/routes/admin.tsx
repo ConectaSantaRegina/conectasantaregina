@@ -200,7 +200,7 @@ function Admin() {
     <div>
       <PageHero
         titulo="Painel do administrador"
-        subtitulo="Libere pessoas e comércios como Premium (com data de validade) e aprove cada publicação antes de ela aparecer no site. O pagamento é combinado por fora (PIX) — aqui você só registra."
+         subtitulo="Analise pedidos Premium e aprove cadastros e publicações antes de aparecerem no site. O pagamento é combinado por fora (PIX)."
       />
       <Secao>
          <div className="mb-12 grid gap-12">

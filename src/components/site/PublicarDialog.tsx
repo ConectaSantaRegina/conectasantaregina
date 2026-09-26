@@ -246,7 +246,7 @@ export function PublicarDialog({
           campos={campos}
           extra={extra}
           mensagemSucesso={mensagemSucesso}
-          rotuloSalvar="Publicar"
+           rotuloSalvar="Enviar para aprovação"
           onPronto={() => setOpen(false)}
         />
       )}

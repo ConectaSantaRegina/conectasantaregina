@@ -84,7 +84,7 @@ export function AdminUsuariosPremium({ selecionado }: { selecionado?: string }) 
 
   const salvar = useMutation({
     mutationFn: async () => {
-      if (!userId) throw new Error("Escolha a pessoa na lista.");
+       if (!pessoaSelecionada) throw new Error("Escolha a pessoa na lista.");
       if (!validoAte) throw new Error("Informe até quando o Premium vale.");
        const existente = (premiumUsuarios.data ?? []).find((p) => p.user_id === pessoaSelecionada);
        const dados = { valido_ate: validoAte, ativo: true, observacao: observacao.trim() || null };
