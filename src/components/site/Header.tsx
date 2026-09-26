@@ -49,16 +49,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/90 backdrop-blur">
-      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 lg:flex lg:justify-between">
-        <Link to="/" className="flex min-w-0 items-center gap-2">
+      <div className="mx-auto grid max-w-[110rem] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 lg:flex lg:justify-between">
+        <Link to="/" className="flex min-w-0 items-center gap-2 xl:min-w-52 xl:shrink-0">
           <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground">
             <MapPinned className="h-5 w-5" />
           </span>
-          <span className="min-w-0">
-            <span className="block truncate font-display text-base font-extrabold leading-tight">
+          <span className="min-w-0 xl:whitespace-nowrap">
+            <span className="block font-display text-base font-extrabold leading-tight">
               Conecta Santa Regina
             </span>
-            <span className="block truncate text-xs text-muted-foreground">
+            <span className="block text-xs text-muted-foreground">
               O ponto de encontro do nosso bairro
             </span>
           </span>
