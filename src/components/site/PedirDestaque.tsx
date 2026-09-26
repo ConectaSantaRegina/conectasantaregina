@@ -37,6 +37,15 @@ export function PedirDestaque({ variante = "default" }: { variante?: "default" |
   const [negocio, setNegocio] = useState("");
   const [contato, setContato] = useState("");
   const [mensagem, setMensagem] = useState("");
+  const pedidos = useQuery({
+    queryKey: ["meus-pedidos-premium", user?.id],
+    enabled: Boolean(user),
+    queryFn: async () => {
+      const { data, error } = await supabase.from("pedidos_destaque").select("id,status").eq("user_id", user?.id ?? "").in("status", ["novo", "em contato"]).limit(1);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
 
   if (!user) {
     return (
@@ -55,13 +64,14 @@ export function PedirDestaque({ variante = "default" }: { variante?: "default" |
     setEnviando(true);
     try {
       const { error } = await supabase.from("pedidos_destaque").insert({
-        user_id: user!.id,
+         user_id: user.id,
         negocio: resultado.data.negocio,
         contato: resultado.data.contato,
         mensagem: resultado.data.mensagem || null,
       });
       if (error) throw error;
       await queryClient.invalidateQueries({ queryKey: ["pedidos-destaque"] });
+       await queryClient.invalidateQueries({ queryKey: ["meus-pedidos-premium"] });
       toast.success("Pedido enviado! Vamos entrar em contato para combinar os detalhes.");
       setNegocio("");
       setContato("");
@@ -73,6 +83,8 @@ export function PedirDestaque({ variante = "default" }: { variante?: "default" |
       setEnviando(false);
     }
   }
+
+  if (pedidos.data?.length) return <Badge variant="secondary">Pedido Premium em análise</Badge>;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
