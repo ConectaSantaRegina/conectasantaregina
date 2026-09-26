@@ -93,10 +93,17 @@ export function AdminUsuariosPremium({ selecionado }: { selecionado?: string }) 
          : await supabase.from("premium").insert({ ...dados, user_id: pessoaSelecionada, comercio_id: null });
       if (error) throw error;
     },
-    onSuccess: () => {
+     onSuccess: async () => {
+       const { error } = await supabase.from("pedidos_destaque")
+         .update({ status: "aprovado" })
+         .eq("user_id", pessoaSelecionada)
+         .in("status", ["novo", "em contato"]);
+       if (error) toast.error("Premium liberado, mas o pedido continua pendente. Atualize-o no painel.");
       toast.success("Pessoa liberada como Premium.");
       setObservacao("");
       invalidar();
+       queryClient.invalidateQueries({ queryKey: ["admin-pedidos-premium"] });
+       queryClient.invalidateQueries({ queryKey: ["meus-pedidos-premium"] });
     },
     onError: (e: Error) => toast.error(e.message || "Não foi possível salvar."),
   });
@@ -319,7 +326,6 @@ export function AdminPedidosPremium({ onSelecionar }: { onSelecionar: (id: strin
             <div className="flex flex-wrap gap-2">
               <Button size="sm" variant="outline" disabled={alterar.isPending} onClick={() => alterar.mutate({ id: p.id, status: "em contato" })}>Em contato</Button>
               <Button size="sm" onClick={() => { onSelecionar(p.user_id); document.getElementById("premium-usuarios")?.scrollIntoView({ behavior: "smooth" }); }}>Selecionar pessoa</Button>
-              <Button size="sm" variant="outline" disabled={alterar.isPending} onClick={() => alterar.mutate({ id: p.id, status: "aprovado" })}>Concluir pedido</Button>
               <Button size="sm" variant="outline" disabled={alterar.isPending} onClick={() => alterar.mutate({ id: p.id, status: "recusado" })}>Recusar pedido</Button>
             </div>
           </li>)}
