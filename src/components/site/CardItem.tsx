@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +16,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { SiteImage } from "@/components/site/SiteImage";
+import { GaleriaComercio } from "@/components/site/GaleriaComercio";
+import { supabase } from "@/integrations/supabase/client";
 import { EditarDialog } from "@/components/site/PublicarDialog";
 import { CAMPOS } from "@/lib/campos";
 import { useAuth } from "@/hooks/useAuth";
@@ -39,9 +42,22 @@ export function CardItem({
   registro: Registro;
   tabela: Tabela;
 }) {
+  const { data: premiumIds } = useQuery({
+    queryKey: ["galerias-premium", new Date().toISOString().slice(0, 10)],
+    enabled: tabela === "comercios",
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("comercios_galeria_premium");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const extras = tabela === "comercios" && premiumIds?.includes(registro.id) && Array.isArray(registro.fotos_extras)
+    ? registro.fotos_extras.filter((foto): foto is string => typeof foto === "string" && foto.length > 0)
+    : [];
+  const fotos = [...(imagem ? [imagem] : []), ...extras];
   return (
     <article className="surface-card flex flex-col overflow-hidden transition-shadow hover:shadow-[var(--shadow-lift)]">
-      {imagem && <SiteImage path={imagem} alt={titulo} className="aspect-[16/10] w-full" />}
+      {fotos.length > 1 ? <GaleriaComercio fotos={fotos} titulo={titulo} /> : imagem ? <SiteImage path={imagem} alt={titulo} className="aspect-[16/10] w-full" /> : null}
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
           <h3 className="min-w-0 font-display text-lg font-bold leading-snug">{titulo}</h3>

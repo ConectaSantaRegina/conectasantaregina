@@ -92,6 +92,7 @@ export function useInvalidar(tabela: Tabela) {
   return async () => {
     await queryClient.invalidateQueries({ queryKey: [tabela] });
     await queryClient.invalidateQueries({ queryKey: ["minhas-publicacoes"] });
+    if (tabela === "comercios") await queryClient.invalidateQueries({ queryKey: ["galerias-premium"] });
     if (tabela === "novidades") {
       await queryClient.invalidateQueries({ queryKey: ["feed-aprovado"] });
       await queryClient.invalidateQueries({ queryKey: ["destaques-premium"] });
