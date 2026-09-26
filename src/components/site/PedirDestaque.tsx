@@ -28,7 +28,7 @@ const esquema = z.object({
   mensagem: z.string().trim().max(2000),
 });
 
-/** Botão "Quero aparecer no feed": registra o interesse do comerciante em anúncio destacado. */
+/** Botão "Quero aparecer no feed": registra o interesse do comerciante em acesso Premium. */
 export function PedirDestaque({ variante = "default" }: { variante?: "default" | "secondary" }) {
   const { user } = useAuth();
   const queryClient = useQueryClient();

@@ -57,7 +57,7 @@ export function CardItem({
   const fotos = [...(imagem ? [imagem] : []), ...extras];
   return (
     <article className="surface-card flex flex-col overflow-hidden transition-shadow hover:shadow-[var(--shadow-lift)]">
-      {fotos.length > 1 ? <GaleriaComercio fotos={fotos} titulo={titulo} /> : imagem ? <SiteImage path={imagem} alt={titulo} className="aspect-[16/10] w-full" /> : null}
+      {extras.length > 0 ? <GaleriaComercio fotos={fotos} titulo={titulo} /> : imagem ? <SiteImage path={imagem} alt={titulo} className="aspect-[16/10] w-full" /> : null}
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
           <h3 className="min-w-0 font-display text-lg font-bold leading-snug">{titulo}</h3>
