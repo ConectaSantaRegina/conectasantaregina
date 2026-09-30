@@ -56,6 +56,10 @@ export function PedirDestaque({ variante = "default" }: { variante?: "default" |
   }
 
   async function enviar() {
+    if (!user) {
+      toast.error("Entre na sua conta para enviar o pedido.");
+      return;
+    }
     const resultado = esquema.safeParse({ negocio, contato, mensagem });
     if (!resultado.success) {
       toast.error(resultado.error.issues[0]?.message ?? "Verifique os dados.");
