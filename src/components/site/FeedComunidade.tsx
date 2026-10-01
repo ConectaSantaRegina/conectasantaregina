@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
 import { SiteImage } from "@/components/site/SiteImage";
-import { useAuth } from "@/hooks/useAuth";
 import { usePremium } from "@/hooks/usePremium";
 import { CAMPOS } from "@/lib/campos";
 import { formatarData, txt, useFeedAprovado } from "@/lib/dados";
@@ -13,7 +12,6 @@ const REGRA_CONTEUDO =
   "Publique assuntos relacionados às categorias do site: comércio, serviços, saúde, empregos, imóveis e ações do bairro. Notícias úteis para Santa Regina são bem-vindas, mas não fofocas, intrigas ou conteúdo alarmista.";
 
 export function FeedComunidade() {
-  const { user } = useAuth();
   const { podePublicarNovidades, carregando: carregandoPremium } = usePremium();
   const { data: publicacoes, isLoading } = useFeedAprovado();
 
