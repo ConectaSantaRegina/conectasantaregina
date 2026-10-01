@@ -9,3 +9,4 @@
 - [ ] Exibir e tratar pedidos de Premium no painel admin
 - [ ] Exigir aprovação admin para novos comércios, serviços públicos, vagas, imóveis, melhorias e ações; manter Novidades e Feed sob aprovação
 - [ ] Mostrar pendências ao autor e testar o fluxo de moderação
+- [x] Simplificar a chamada do Feed para um único botão direcionado ao Fale Conosco
