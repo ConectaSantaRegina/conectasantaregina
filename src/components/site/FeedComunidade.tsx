@@ -4,8 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
 import { SiteImage } from "@/components/site/SiteImage";
-import { PedirDestaque } from "@/components/site/PedirDestaque";
-import { useAuth } from "@/hooks/useAuth";
 import { usePremium } from "@/hooks/usePremium";
 import { CAMPOS } from "@/lib/campos";
 import { formatarData, txt, useFeedAprovado } from "@/lib/dados";
@@ -14,7 +12,6 @@ const REGRA_CONTEUDO =
   "Publique assuntos relacionados às categorias do site: comércio, serviços, saúde, empregos, imóveis e ações do bairro. Notícias úteis para Santa Regina são bem-vindas, mas não fofocas, intrigas ou conteúdo alarmista.";
 
 export function FeedComunidade() {
-  const { user } = useAuth();
   const { podePublicarNovidades, carregando: carregandoPremium } = usePremium();
   const { data: publicacoes, isLoading } = useFeedAprovado();
 
@@ -68,15 +65,11 @@ export function FeedComunidade() {
                 </p>
               </div>
             </div>
-            <Button asChild size="sm" variant="outline" className="shrink-0">
-              <Link to={user ? "/contato" : "/entrar"}>
-                {user ? "Solicitar Premium" : "Entrar"}
-              </Link>
+            <Button asChild size="sm" className="shrink-0">
+              <Link to="/contato">Quero publicar no feed</Link>
             </Button>
           </div>
         ) : null}
-
-        <div className="mb-6 flex justify-end"><PedirDestaque variante="secondary" /></div>
 
         {isLoading ? (
           <div className="surface-card p-8 text-center text-sm text-muted-foreground">
