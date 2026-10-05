@@ -38,7 +38,7 @@ export function ListaFiltrada({
 
   return (
     <div>
-      <div className="grid gap-4">
+      <div className="grid gap-3">
         <div className="relative max-w-md">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -65,7 +65,7 @@ export function ListaFiltrada({
         )}
       </div>
 
-      <div className="mt-8">
+      <div className="mt-5">
         {carregando ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2].map((i) => (

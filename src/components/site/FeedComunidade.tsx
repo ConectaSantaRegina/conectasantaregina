@@ -16,17 +16,17 @@ export function FeedComunidade() {
   const { data: publicacoes, isLoading } = useFeedAprovado();
 
   return (
-    <section className="border-b bg-background" aria-labelledby="titulo-feed">
-      <div className="mx-auto max-w-3xl px-4 py-10 md:py-14">
-        <div className="mb-6 text-center">
-          <p className="text-sm font-bold uppercase text-primary">Santa Regina em movimento</p>
-          <h2 id="titulo-feed" className="mt-1 font-display text-2xl font-extrabold md:text-3xl">
+    <section aria-labelledby="titulo-feed">
+      <div className="mx-auto max-w-[1340px] px-4 pb-3 pt-7">
+        <div className="mb-8 text-center">
+          <p className="text-sm font-semibold uppercase text-primary">Santa Regina em movimento</p>
+          <h2 id="titulo-feed" className="mt-2 font-display text-[1.6rem] font-extrabold">
             Feed da comunidade
           </h2>
         </div>
 
         {!carregandoPremium && podePublicarNovidades ? (
-          <div className="surface-card mb-6 overflow-hidden">
+          <div className="surface-card mx-auto mb-5 max-w-[720px] overflow-hidden">
             <div className="flex items-center gap-3 p-4 sm:p-5">
               <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-accent-foreground">
                 <MessageSquareText className="h-5 w-5" />
@@ -49,13 +49,13 @@ export function FeedComunidade() {
                 }
               />
             </div>
-            <div className="flex gap-2 border-t bg-muted/50 px-4 py-3 text-xs leading-relaxed text-muted-foreground sm:px-5">
+            <div className="flex gap-2 border-t bg-accent/20 px-4 py-3 text-xs leading-relaxed text-muted-foreground sm:px-5">
               <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
               <p>{REGRA_CONTEUDO}</p>
             </div>
           </div>
         ) : !carregandoPremium ? (
-          <div className="mb-6 flex flex-col gap-3 rounded-xl border bg-muted/40 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mx-auto mb-5 flex max-w-[720px] flex-col gap-3 rounded-[12px] border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex min-w-0 gap-3">
               <Crown className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
               <div>
@@ -72,11 +72,11 @@ export function FeedComunidade() {
         ) : null}
 
         {isLoading ? (
-          <div className="surface-card p-8 text-center text-sm text-muted-foreground">
+          <div className="surface-card mx-auto max-w-[720px] p-8 text-center text-sm text-muted-foreground">
             Carregando publicações…
           </div>
         ) : (publicacoes ?? []).length === 0 ? (
-          <div className="surface-card grid justify-items-center gap-2 p-8 text-center">
+          <div className="surface-card mx-auto grid max-w-[720px] justify-items-center gap-2 p-8 text-center">
             <ImagePlus className="h-7 w-7 text-primary" />
             <p className="font-semibold">O feed está começando</p>
             <p className="text-sm text-muted-foreground">
@@ -84,7 +84,7 @@ export function FeedComunidade() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-5">
+          <div className="mx-auto grid max-w-[720px] gap-3.5">
             {(publicacoes ?? []).map((item) => (
               <article key={item.id} className="surface-card overflow-hidden">
                 <header className="flex items-center justify-between gap-3 p-4 sm:p-5">

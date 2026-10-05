@@ -25,10 +25,10 @@ export function CarrosselNovidades() {
 
   if (total === 0) {
     return (
-      <section className="border-b bg-secondary/50">
-        <div className="mx-auto max-w-7xl px-4 py-8 text-center">
-          <p className="flex items-center justify-center gap-2 text-lg font-extrabold text-primary md:text-2xl">
-            <Crown className="h-5 w-5 md:h-6 md:w-6" /> NOVIDADES
+      <section>
+        <div className="mx-auto max-w-[1340px] px-4 pb-3 pt-7 text-center">
+          <p className="flex items-center justify-center gap-2 font-display text-[1.6rem] font-extrabold text-primary">
+            <Crown className="h-6 w-6" /> NOVIDADES
           </p>
           <div className="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <p className="text-sm text-muted-foreground">
@@ -44,15 +44,15 @@ export function CarrosselNovidades() {
   }
 
   return (
-    <section className="border-b bg-secondary/40">
-      <div className="mx-auto max-w-7xl px-4 py-6 md:py-8">
+    <section>
+      <div className="mx-auto max-w-[1340px] px-4 pb-3 pt-7">
         <div className="flex flex-col items-center justify-center gap-2 text-center">
-          <p className="flex items-center gap-2 text-lg font-extrabold text-primary md:text-2xl">
-            <Crown className="h-5 w-5 md:h-6 md:w-6" /> NOVIDADES
+          <p className="flex items-center gap-2 font-display text-[1.6rem] font-extrabold text-primary">
+            <Crown className="h-6 w-6" /> NOVIDADES
           </p>
         </div>
 
-        <div className="relative mt-4 overflow-hidden rounded-2xl border bg-card shadow-[var(--shadow-card)]">
+        <div className="relative mt-5 overflow-hidden rounded-[14px] border bg-card md:h-80">
           <div
             className="flex transition-transform duration-500 ease-out"
             style={{ transform: `translateX(-${atual * 100}%)` }}
@@ -60,18 +60,18 @@ export function CarrosselNovidades() {
             {destaques.map((item) => {
               return (
                 <article key={item.id} className="w-full shrink-0">
-                  <Link to="/novidades" className="grid md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+                  <Link to="/novidades" className="grid h-full md:grid-cols-[55%_45%]">
                     <SiteImage
                       path={txt(item, "imagem_url")}
                       alt={txt(item, "titulo")}
-                      className="aspect-[16/9] w-full md:aspect-[16/8] md:h-full"
+                      className="aspect-[16/9] w-full md:h-80 md:aspect-auto"
                     />
-                    <div className="p-5 md:p-8">
-                      <Badge variant="secondary">{txt(item, "categoria")}</Badge>
-                      <h2 className="mt-3 font-display text-xl font-extrabold md:text-3xl">
+                    <div className="flex min-w-0 flex-col p-5 md:p-6">
+                      <Badge className="w-fit bg-accent text-accent-foreground hover:bg-accent">{txt(item, "categoria")}</Badge>
+                      <h2 className="mt-3 line-clamp-2 font-display text-xl font-extrabold">
                         {txt(item, "titulo")}
                       </h2>
-                      <p className="mt-2 line-clamp-3 text-sm text-muted-foreground md:text-base">
+                      <p className="mt-2 line-clamp-3 flex-1 text-sm text-muted-foreground">
                         {txt(item, "texto")}
                       </p>
                       <p className="mt-3 text-xs text-muted-foreground">
@@ -90,7 +90,7 @@ export function CarrosselNovidades() {
                 type="button"
                 aria-label="Destaque anterior"
                 onClick={() => setAtual((i) => (i - 1 + total) % total)}
-                className="absolute left-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-background/90 text-foreground shadow-md transition hover:bg-background"
+                className="absolute left-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-foreground/40 text-primary-foreground transition hover:bg-foreground/60"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -98,7 +98,7 @@ export function CarrosselNovidades() {
                 type="button"
                 aria-label="Próximo destaque"
                 onClick={() => setAtual((i) => (i + 1) % total)}
-                className="absolute right-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-background/90 text-foreground shadow-md transition hover:bg-background"
+                className="absolute right-3 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-foreground/40 text-primary-foreground transition hover:bg-foreground/60"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
