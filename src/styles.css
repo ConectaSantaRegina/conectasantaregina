@@ -6,7 +6,7 @@
 
 /*
  * Conecta Santa Regina — design system.
- * Paleta: verde-mata do bairro, areia quente e amarelo sol.
+ * Referência visual aprovada: Conecta_Santa_Regina_1.html.
  */
 
 @theme inline {
@@ -17,7 +17,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", Georgia, serif;
   --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -54,53 +54,49 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --shadow-card: 0 1px 2px oklch(0.3 0.05 165 / 6%), 0 12px 28px -18px oklch(0.3 0.05 165 / 28%);
-  --shadow-lift: 0 18px 40px -20px oklch(0.3 0.05 165 / 40%);
+  --shadow-card: 0 1px 2px oklch(0.25 0.03 165 / 5%);
+  --shadow-lift: 0 10px 25px -16px oklch(0.25 0.06 165 / 35%);
 }
 
 :root {
-  --radius: 1rem;
-  --background: oklch(0.985 0.012 92);
-  --foreground: oklch(0.26 0.032 165);
+  --radius: 0.875rem;
+  --background: oklch(0.965 0.025 91);
+  --foreground: oklch(0.25 0.04 158);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.26 0.032 165);
+  --card-foreground: oklch(0.25 0.04 158);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.26 0.032 165);
-  --primary: oklch(0.5 0.105 172);
-  --primary-foreground: oklch(0.99 0.01 95);
-  --secondary: oklch(0.94 0.03 92);
-  --secondary-foreground: oklch(0.32 0.045 165);
-  --muted: oklch(0.955 0.018 95);
-  --muted-foreground: oklch(0.52 0.028 165);
-  --accent: oklch(0.93 0.055 160);
-  --accent-foreground: oklch(0.32 0.05 168);
-  --sun: oklch(0.79 0.155 68);
-  --sun-foreground: oklch(0.28 0.06 60);
-  --destructive: oklch(0.55 0.19 27);
+  --popover-foreground: oklch(0.25 0.04 158);
+  --primary: oklch(0.51 0.11 169);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.94 0.05 151);
+  --secondary-foreground: oklch(0.3 0.055 158);
+  --muted: oklch(0.945 0.02 92);
+  --muted-foreground: oklch(0.49 0.035 158);
+  --accent: oklch(0.78 0.15 73);
+  --accent-foreground: oklch(0.28 0.07 65);
+  --sun: oklch(0.78 0.15 73);
+  --sun-foreground: oklch(0.28 0.07 65);
+  --destructive: oklch(0.52 0.17 28);
   --destructive-foreground: oklch(0.99 0.01 95);
-  --border: oklch(0.9 0.02 120);
-  --input: oklch(0.9 0.02 120);
-  --ring: oklch(0.5 0.105 172);
-  --chart-1: oklch(0.5 0.105 172);
-  --chart-2: oklch(0.79 0.155 68);
+  --border: oklch(0.9 0.018 105);
+  --input: oklch(0.9 0.018 105);
+  --ring: oklch(0.51 0.11 169);
+  --chart-1: oklch(0.51 0.11 169);
+  --chart-2: oklch(0.78 0.15 73);
   --chart-3: oklch(0.62 0.12 200);
   --chart-4: oklch(0.68 0.15 30);
   --chart-5: oklch(0.6 0.11 130);
-  --sidebar: oklch(0.97 0.02 95);
-  --sidebar-foreground: oklch(0.26 0.032 165);
-  --sidebar-primary: oklch(0.5 0.105 172);
-  --sidebar-primary-foreground: oklch(0.99 0.01 95);
-  --sidebar-accent: oklch(0.93 0.055 160);
-  --sidebar-accent-foreground: oklch(0.32 0.05 168);
-  --sidebar-border: oklch(0.9 0.02 120);
-  --sidebar-ring: oklch(0.5 0.105 172);
-  --gradient-hero: linear-gradient(
-    180deg,
-    oklch(0.24 0.05 168 / 25%) 0%,
-    oklch(0.22 0.05 168 / 55%) 55%,
-    oklch(0.2 0.05 168 / 88%) 100%
-  );
-  --gradient-sun: linear-gradient(100deg, oklch(0.79 0.155 68), oklch(0.83 0.14 92));
+  --sidebar: oklch(0.98 0.012 91);
+  --sidebar-foreground: oklch(0.25 0.04 158);
+  --sidebar-primary: oklch(0.51 0.11 169);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.94 0.05 151);
+  --sidebar-accent-foreground: oklch(0.3 0.055 158);
+  --sidebar-border: oklch(0.9 0.018 105);
+  --sidebar-ring: oklch(0.51 0.11 169);
+  --header: oklch(0.985 0.015 91);
+  --hero-shade: oklch(0.23 0.045 128);
+  --gradient-hero: linear-gradient(90deg, oklch(0.23 0.045 128) 0%, oklch(0.23 0.045 128) 35%, oklch(0.23 0.045 128 / 55%) 60%, transparent 85%);
 }
 
 .dark {
@@ -144,6 +140,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    line-height: 1.6;
   }
 
   h1,
@@ -152,6 +149,12 @@
   h4 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
   }
 }
 
@@ -162,6 +165,6 @@
 @utility surface-card {
   background-color: var(--color-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius);
   box-shadow: var(--shadow-card);
 }
