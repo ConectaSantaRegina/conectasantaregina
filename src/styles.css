@@ -160,6 +160,10 @@
 
 @utility hero-overlay {
   background-image: var(--gradient-hero);
+  @media (max-width: 700px) {
+    background-image: none;
+    background-color: oklch(0.23 0.045 128 / 78%);
+  }
 }
 
 @utility surface-card {
