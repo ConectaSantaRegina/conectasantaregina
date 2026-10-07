@@ -10,4 +10,4 @@
 - [ ] Exigir aprovação admin para novos comércios, serviços públicos, vagas, imóveis, melhorias e ações; manter Novidades e Feed sob aprovação
 - [ ] Mostrar pendências ao autor e testar o fluxo de moderação
 - [x] Simplificar a chamada do Feed para um único botão direcionado ao Fale Conosco
-- [ ] Aplicar em todo o site o layout do arquivo Conecta_Santa_Regina_1.html e validar desktop/mobile
+- [x] Aplicar em todo o site o layout do arquivo Conecta_Santa_Regina_1.html e validar desktop/mobile
