@@ -130,6 +130,28 @@ function Contato() {
                 </p>
               </div>
             </div>
+
+            <div className="surface-card grid gap-4 p-6">
+              <div>
+                <h2 className="font-display text-base font-bold text-primary">Quer ser Premium?</h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Quer ser Premium ou tem alguma dúvida? Entre em contato conosco através dos canais abaixo:
+                </p>
+              </div>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                  <a href="https://wa.me/5511987654321?text=Olá! Gostaria de saber mais sobre o plano Premium do Conecta Santa Regina." target="_blank" rel="noreferrer">
+                    Nos chame no WhatsApp
+                  </a>
+                </Button>
+                <Button variant="outline" asChild>
+                  <a href="mailto:conectasantaregina@gmail.com?subject=Interesse em Premium - Conecta Santa Regina">
+                    Envie um e-mail
+                  </a>
+                </Button>
+              </div>
+            </div>
+
             <div className="surface-card flex gap-3 p-6">
               <Mail className="h-5 w-5 shrink-0 text-primary" />
               <div className="min-w-0">
