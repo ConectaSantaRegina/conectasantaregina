@@ -20,8 +20,8 @@ export const Route = createFileRoute("/contato")({
           "Envie sugestões, dúvidas ou avisos para a equipe do Conecta Santa Regina, o portal do nosso bairro.",
       },
       { property: "og:title", content: "Fale com o Conecta Santa Regina" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
         content: "Mande sua mensagem para quem cuida do portal do bairro Santa Regina.",
@@ -44,14 +44,11 @@ function Contato() {
 
   async function enviar() {
     const resultado = schema.safeParse(form);
-
     if (!resultado.success) {
       toast.error(resultado.error.issues[0]?.message ?? "Confira os dados do formulário.");
       return;
     }
-
     setEnviando(true);
-
     try {
       await inserirRegistro("mensagens_contato", {
         nome: resultado.data.nome,
@@ -59,7 +56,6 @@ function Contato() {
         telefone: resultado.data.telefone || null,
         mensagem: resultado.data.mensagem,
       });
-
       toast.success("Mensagem enviada! Vamos responder em breve.");
       setForm({ nome: "", email: "", telefone: "", mensagem: "" });
     } catch {
@@ -75,7 +71,6 @@ function Contato() {
         titulo="Fale conosco"
         subtitulo="Dúvidas, sugestões sobre o site ou algum aviso importante para o bairro? Escreva pra gente."
       />
-
       <Secao>
         <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr]">
           <div className="surface-card grid gap-4 p-6 md:p-8">
@@ -88,7 +83,6 @@ function Contato() {
                 onChange={(e) => setForm({ ...form, nome: e.target.value })}
               />
             </div>
-
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="grid gap-1.5">
                 <Label htmlFor="email">E-mail</Label>
@@ -100,7 +94,6 @@ function Contato() {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
               </div>
-
               <div className="grid gap-1.5">
                 <Label htmlFor="telefone">Telefone</Label>
                 <Input
@@ -111,7 +104,6 @@ function Contato() {
                 />
               </div>
             </div>
-
             <div className="grid gap-1.5">
               <Label htmlFor="mensagem">Mensagem *</Label>
               <Textarea
@@ -122,7 +114,6 @@ function Contato() {
                 onChange={(e) => setForm({ ...form, mensagem: e.target.value })}
               />
             </div>
-
             <Button onClick={enviar} disabled={enviando} className="justify-self-start">
               {enviando && <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />}
               Enviar mensagem
@@ -139,34 +130,6 @@ function Contato() {
                 </p>
               </div>
             </div>
-
-            <div className="surface-card grid gap-4 p-6">
-              <div>
-                <h2 className="font-display text-base font-bold text-primary">Quer ser Premium?</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Quer ser Premium ou tem alguma dúvida? Entre em contato conosco através dos canais abaixo:
-                </p>
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-2">
-                <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                  <a
-                    href="https://wa.me/5511987654321?text=Olá! Gostaria de saber mais sobre o plano Premium do Conecta Santa Regina."
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Nos chame no WhatsApp
-                  </a>
-                </Button>
-
-                <Button variant="outline" asChild>
-                  <a href="mailto:conectasantaregina@gmail.com?subject=Interesse em Premium - Conecta Santa Regina">
-                    Envie um e-mail
-                  </a>
-                </Button>
-              </div>
-            </div>
-
             <div className="surface-card flex gap-3 p-6">
               <Mail className="h-5 w-5 shrink-0 text-primary" />
               <div className="min-w-0">
