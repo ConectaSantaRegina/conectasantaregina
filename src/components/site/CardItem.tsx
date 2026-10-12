@@ -16,6 +16,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { SiteImage } from "@/components/site/SiteImage";
+import { TextoComLinks } from "@/components/site/TextoComLinks";
 import { GaleriaComercio } from "@/components/site/GaleriaComercio";
 import { supabase } from "@/integrations/supabase/client";
 import { EditarDialog } from "@/components/site/PublicarDialog";
