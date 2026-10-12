@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,21 @@ export function ListaFiltrada({
   const [busca, setBusca] = useState("");
   const [categoria, setCategoria] = useState("Todos");
 
+  // Só mostra as categorias que têm pelo menos um item no momento.
+  const disponiveis = useMemo(() => {
+    if (!categorias || !campoCategoria) return undefined;
+    return categorias.filter((opcao) =>
+      itens.some((item) => txt(item, campoCategoria) === opcao),
+    );
+  }, [itens, categorias, campoCategoria]);
+
+  // Se a categoria escolhida ficar vazia, volta para "Todos".
+  useEffect(() => {
+    if (categoria !== "Todos" && disponiveis && !disponiveis.includes(categoria)) {
+      setCategoria("Todos");
+    }
+  }, [disponiveis, categoria]);
+
   const filtrados = useMemo(() => {
     const termo = busca.trim().toLowerCase();
     return itens.filter((item) => {
@@ -49,18 +64,20 @@ export function ListaFiltrada({
             aria-label="Buscar"
           />
         </div>
-        {categorias && (
+        {categorias && disponiveis && (
           <div className="flex flex-wrap gap-2">
-            {["Todos", ...[...categorias].sort((a, b) => a.localeCompare(b, "pt-BR"))].map((opcao) => (
-              <Button
-                key={opcao}
-                size="sm"
-                variant={categoria === opcao ? "default" : "secondary"}
-                onClick={() => setCategoria(opcao)}
-              >
-                {opcao}
-              </Button>
-            ))}
+            {["Todos", ...[...disponiveis].sort((a, b) => a.localeCompare(b, "pt-BR"))].map(
+              (opcao) => (
+                <Button
+                  key={opcao}
+                  size="sm"
+                  variant={categoria === opcao ? "default" : "secondary"}
+                  onClick={() => setCategoria(opcao)}
+                >
+                  {opcao}
+                </Button>
+              ),
+            )}
           </div>
         )}
       </div>
