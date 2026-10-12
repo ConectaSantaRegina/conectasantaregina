@@ -1,146 +1,109 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Loader2, Mail, MessageCircle } from "lucide-react";
-import { toast } from "sonner";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { PageHero, Secao } from "@/components/site/PageHero";
-import { inserirRegistro } from "@/lib/dados";
+import { linkWhatsapp } from "@/lib/dados";
 
 export const Route = createFileRoute("/contato")({
   head: () => ({
     meta: [
-      { title: "Fale com o Conecta Santa Regina" },
+      { title: "Fale Conosco - Conecta Santa Regina" },
       {
         name: "description",
         content:
-          "Envie sugestões, dúvidas ou avisos para a equipe do Conecta Santa Regina, o portal do nosso bairro.",
+          "Fale com a equipe do Conecta Santa Regina por WhatsApp ou e-mail e conheça os perfis Grátis e Premium do portal do bairro.",
       },
-      { property: "og:title", content: "Fale com o Conecta Santa Regina" },
-       { property: "og:type", content: "website" },
-       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Fale Conosco - Conecta Santa Regina" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       {
         property: "og:description",
-        content: "Mande sua mensagem para quem cuida do portal do bairro Santa Regina.",
+        content:
+          "Fale com a equipe do Conecta Santa Regina por WhatsApp ou e-mail e conheça os perfis Grátis e Premium do portal do bairro.",
       },
     ],
   }),
   component: Contato,
 });
 
-const schema = z.object({
-  nome: z.string().trim().min(2, "Diga seu nome.").max(100),
-  email: z.string().trim().email("E-mail inválido.").max(255).or(z.literal("")),
-  telefone: z.string().trim().max(30),
-  mensagem: z.string().trim().min(5, "Escreva sua mensagem.").max(2000),
-});
+const ADMIN = "conectasantaregina@gmail.com";
+const WHATSAPP = "47992928049";
+const TEXTO_WA =
+  "Olá! Gostaria de saber mais sobre ser Premium no Conecta Santa Regina.";
 
 function Contato() {
-  const [form, setForm] = useState({ nome: "", email: "", telefone: "", mensagem: "" });
-  const [enviando, setEnviando] = useState(false);
-
-  async function enviar() {
-    const resultado = schema.safeParse(form);
-    if (!resultado.success) {
-      toast.error(resultado.error.issues[0]?.message ?? "Confira os dados do formulário.");
-      return;
-    }
-    setEnviando(true);
-    try {
-      await inserirRegistro("mensagens_contato", {
-        nome: resultado.data.nome,
-        email: resultado.data.email || null,
-        telefone: resultado.data.telefone || null,
-        mensagem: resultado.data.mensagem,
-      });
-      toast.success("Mensagem enviada! Vamos responder em breve.");
-      setForm({ nome: "", email: "", telefone: "", mensagem: "" });
-    } catch {
-      toast.error("Não foi possível enviar agora. Tente novamente.");
-    } finally {
-      setEnviando(false);
-    }
-  }
+  const wa = linkWhatsapp(WHATSAPP);
 
   return (
     <div>
-      <PageHero
-        titulo="Fale conosco"
-        subtitulo="Dúvidas, sugestões sobre o site ou algum aviso importante para o bairro? Escreva pra gente."
-      />
+      <PageHero titulo="Fale Conosco" subtitulo="" />
       <Secao>
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr]">
-          <div className="surface-card grid gap-4 p-6 md:p-8">
-            <div className="grid gap-1.5">
-              <Label htmlFor="nome">Seu nome *</Label>
-              <Input
-                id="nome"
-                value={form.nome}
-                maxLength={100}
-                onChange={(e) => setForm({ ...form, nome: e.target.value })}
-              />
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="grid gap-1.5">
-                <Label htmlFor="email">E-mail</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={form.email}
-                  maxLength={255}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                />
-              </div>
-              <div className="grid gap-1.5">
-                <Label htmlFor="telefone">Telefone</Label>
-                <Input
-                  id="telefone"
-                  value={form.telefone}
-                  maxLength={30}
-                  onChange={(e) => setForm({ ...form, telefone: e.target.value })}
-                />
+        <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+          <div className="grid gap-6">
+            <div className="surface-card grid gap-4 p-6 md:p-7">
+              <h2 className="font-display text-lg font-bold text-primary">
+                Quer ser Premium?
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Quer ser Premium ou tem alguma dúvida? Entre em contato conosco
+                através dos canais abaixo:
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {wa && (
+                  <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+                    <a href={wa} target="_blank" rel="noopener noreferrer">
+                      Nos chame no WhatsApp
+                    </a>
+                  </Button>
+                )}
+                <Button asChild variant="outline">
+                  <a
+                    href={`mailto:${ADMIN}?subject=${encodeURIComponent(
+                      "Dúvida sobre Premium - Conecta Santa Regina",
+                    )}&body=${encodeURIComponent(TEXTO_WA)}`}
+                  >
+                    Envie um e-mail
+                  </a>
+                </Button>
               </div>
             </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="mensagem">Mensagem *</Label>
-              <Textarea
-                id="mensagem"
-                rows={6}
-                maxLength={2000}
-                value={form.mensagem}
-                onChange={(e) => setForm({ ...form, mensagem: e.target.value })}
-              />
-            </div>
-            <Button onClick={enviar} disabled={enviando} className="justify-self-start">
-              {enviando && <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />}
-              Enviar mensagem
-            </Button>
           </div>
 
-          <aside className="grid gap-4 content-start">
-            <div className="surface-card flex gap-3 p-6">
-              <MessageCircle className="h-5 w-5 shrink-0 text-primary" />
-              <div className="min-w-0">
-                <h2 className="font-display text-base font-bold">Quer divulgar seu comércio?</h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  É gratuito. Crie sua conta e publique o cadastro na aba Comércio e Serviços.
-                </p>
-              </div>
+          <div className="surface-card grid gap-4 p-6 md:p-7">
+            <h2 className="font-display text-lg font-bold text-primary">
+              Sobre o Conecta Santa Regina
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              <strong className="font-semibold text-foreground">O que é?</strong>{" "}
+              Um espaço digital feito por moradores, para moradores do bairro
+              Santa Regina.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              <strong className="font-semibold text-foreground">Para que serve?</strong>{" "}
+              Conectar a comunidade, compartilhar informações sobre comércio,
+              saúde, empregos, imóveis, novidades e ações solidárias do bairro.
+            </p>
+            <div className="mt-1">
+              <h3 className="font-display text-base font-bold">Perfil Grátis</h3>
+              <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                <li>✓ Qualquer morador pode usar</li>
+                <li>✓ Cadastrar comércios, serviços, vagas, imóveis, melhorias e doações</li>
+                <li>✓ Visualizar tudo que é publicado</li>
+                <li>✓ Sem custos</li>
+              </ul>
             </div>
-            <div className="surface-card flex gap-3 p-6">
-              <Mail className="h-5 w-5 shrink-0 text-primary" />
-              <div className="min-w-0">
-                <h2 className="font-display text-base font-bold">Sobre o projeto</h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  O Conecta Santa Regina é um espaço colaborativo mantido por moradores para
-                  fortalecer o comércio local e a vida no bairro.
-                </p>
-              </div>
+            <div className="mt-1">
+              <h3 className="font-display text-base font-bold">Perfil Premium</h3>
+              <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                <li>✓ Para comerciantes e prestadores de serviços</li>
+                <li>✓ Publicar no Feed e Novidades</li>
+                <li>✓ Maior visibilidade</li>
+                <li>✓ Taxa mensal de R$ 25,00</li>
+              </ul>
             </div>
-          </aside>
+            <p className="mt-1 text-xs italic text-muted-foreground">
+              Todas as publicações estarão sujeitas a aprovação do administrador.
+            </p>
+          </div>
         </div>
       </Secao>
     </div>
