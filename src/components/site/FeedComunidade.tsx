@@ -105,7 +105,15 @@ export function FeedComunidade() {
                   </Badge>
                 </header>
 
-                <div className="px-4 pb-4 sm:px-5 sm:pb-5">
+                {txt(item, "imagem_url") ? (
+                  <SiteImage
+                    path={txt(item, "imagem_url")}
+                    alt={txt(item, "titulo")}
+                    className="aspect-[4/3] w-full sm:aspect-[16/10]"
+                  />
+                ) : null}
+
+                <div className="px-4 pb-4 pt-4 sm:px-5 sm:pb-5 sm:pt-5">
                   <h3 className="font-display text-lg font-bold">{txt(item, "titulo")}</h3>
                   {txt(item, "texto") ? (
                     <TextoComLinks
@@ -114,14 +122,6 @@ export function FeedComunidade() {
                     />
                   ) : null}
                 </div>
-
-                {txt(item, "imagem_url") ? (
-                  <SiteImage
-                    path={txt(item, "imagem_url")}
-                    alt={txt(item, "titulo")}
-                    className="aspect-[4/3] w-full sm:aspect-[16/10]"
-                  />
-                ) : null}
               </article>
             ))}
           </div>
