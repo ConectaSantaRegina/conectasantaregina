@@ -22,7 +22,7 @@ export function SiteImage({
           src={url}
           alt={alt}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+          className="absolute inset-0 h-full w-full object-contain"
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center text-muted-foreground">
