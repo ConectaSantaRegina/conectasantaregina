@@ -68,9 +68,10 @@ export function CardItem({
           )}
         </div>
         {descricao && (
-          <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
-            {descricao}
-          </p>
+          <TextoComLinks
+            className="block whitespace-pre-line text-sm leading-relaxed text-muted-foreground"
+            texto={descricao}
+          />
         )}
         {infos && infos.length > 0 && (
           <ul className="grid gap-1.5 text-sm text-muted-foreground">
