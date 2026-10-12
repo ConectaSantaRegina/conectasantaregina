@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
 import { SiteImage } from "@/components/site/SiteImage";
+import { TextoComLinks } from "@/components/site/TextoComLinks";
 import { usePremium } from "@/hooks/usePremium";
 import { CAMPOS } from "@/lib/campos";
 import { formatarData, txt, useFeedAprovado } from "@/lib/dados";
@@ -107,9 +108,10 @@ export function FeedComunidade() {
                 <div className="px-4 pb-4 sm:px-5 sm:pb-5">
                   <h3 className="font-display text-lg font-bold">{txt(item, "titulo")}</h3>
                   {txt(item, "texto") ? (
-                    <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-muted-foreground sm:text-base">
-                      {txt(item, "texto")}
-                    </p>
+                    <TextoComLinks
+                      className="mt-2 block whitespace-pre-line text-sm leading-relaxed text-muted-foreground sm:text-base"
+                      texto={txt(item, "texto")}
+                    />
                   ) : null}
                 </div>
 

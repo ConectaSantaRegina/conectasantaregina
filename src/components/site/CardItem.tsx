@@ -16,6 +16,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { SiteImage } from "@/components/site/SiteImage";
+import { TextoComLinks } from "@/components/site/TextoComLinks";
 import { GaleriaComercio } from "@/components/site/GaleriaComercio";
 import { supabase } from "@/integrations/supabase/client";
 import { EditarDialog } from "@/components/site/PublicarDialog";
@@ -68,9 +69,10 @@ export function CardItem({
           )}
         </div>
         {descricao && (
-          <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
-            {descricao}
-          </p>
+          <TextoComLinks
+            className="block whitespace-pre-line text-sm leading-relaxed text-muted-foreground"
+            texto={descricao}
+          />
         )}
         {infos && infos.length > 0 && (
           <ul className="grid gap-1.5 text-sm text-muted-foreground">
