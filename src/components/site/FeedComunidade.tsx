@@ -4,13 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
 import { SiteImage } from "@/components/site/SiteImage";
-import { TextoComLinks } from "@/components/site/TextoComLinks";
+import { TextoFeed } from "@/components/site/TextoFeed";
 import { usePremium } from "@/hooks/usePremium";
 import { CAMPOS } from "@/lib/campos";
 import { formatarData, txt, useFeedAprovado } from "@/lib/dados";
-
-const REGRA_CONTEUDO =
-  "Publique assuntos relacionados às categorias do site: comércio, serviços, saúde, empregos, imóveis e ações do bairro. Notícias úteis para Santa Regina são bem-vindas, mas não fofocas, intrigas ou conteúdo alarmista.";
+import { REGRA_CONTEUDO } from "@/lib/regras-publicacao";
 
 export function FeedComunidade() {
   const { podePublicarNovidades, carregando: carregandoPremium } = usePremium();
@@ -116,10 +114,7 @@ export function FeedComunidade() {
                 <div className="px-4 pb-4 pt-4 sm:px-5 sm:pb-5 sm:pt-5">
                   <h3 className="font-display text-lg font-bold">{txt(item, "titulo")}</h3>
                   {txt(item, "texto") ? (
-                    <TextoComLinks
-                      className="mt-2 block whitespace-pre-line text-sm leading-relaxed text-muted-foreground sm:text-base"
-                      texto={txt(item, "texto")}
-                    />
+                    <TextoFeed texto={txt(item, "texto")} />
                   ) : null}
                 </div>
               </article>

@@ -19,7 +19,7 @@ export const Route = createFileRoute("/entrar")({
       {
         name: "description",
         content:
-          "Crie sua conta gratuita para cadastrar comércios, publicar vagas, novidades e apoiar melhorias no bairro Santa Regina.",
+          "Crie sua conta gratuita para cadastrar comércios, publicar vagas, imóveis e ações no bairro Santa Regina.",
       },
       { property: "og:title", content: "Entrar no Conecta Santa Regina" },
        { property: "og:type", content: "website" },
@@ -140,7 +140,7 @@ function Entrar() {
     <div>
       <PageHero
         titulo="Entrar ou criar conta"
-        subtitulo="Sua conta serve para cadastrar seu comércio, publicar vagas, novidades, imóveis e apoiar melhorias do bairro."
+        subtitulo="Sua conta serve para cadastrar seu comércio, publicar vagas, imóveis e ações do bairro."
       />
       <Secao>
         <div className="surface-card mx-auto max-w-md p-6 md:p-8">

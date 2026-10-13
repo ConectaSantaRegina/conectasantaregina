@@ -12,3 +12,4 @@
 - Keep premium gallery paths in `comercios.fotos_extras`; validate uploads against active premium in the database and render extras only while premium is valid, so expired accounts retain cover-only cards.
 - Keep both content types in `novidades` with the existing approval gate; `canal='novidades'` feeds the Premium carousel/page and `canal='feed'` feeds only the community feed.
 - Keep publication-image fitting centralized in `SiteImage` so cards, galleries, feed, and review previews use consistent image presentation.
+- Keep expandable feed text in `TextoFeed` and content rules shared between Feed and Novidades to ensure consistent publication behavior.
