@@ -18,4 +18,5 @@
 - [x] Remover controle Premium por comércio do painel, preservando privilégios por pessoa
 - [x] Liberar leitura pública segura de todas as publicações aprovadas e verificar sem login
 
-- [ ] Simplificar cadastro e login para somente Google, remover formulário de senha e verificar início do acesso
+- [x] Simplificar cadastro e login para somente Google e remover formulário de senha; botão inicia OAuth sem erros de execução
+- [ ] Confirmar retorno completo do Google no site hospedado — o intermediário OAuth não é atendido no localhost de teste
