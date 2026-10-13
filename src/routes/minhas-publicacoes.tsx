@@ -8,6 +8,7 @@ import { PageHero, Secao, EstadoVazio } from "@/components/site/PageHero";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SiteImage } from "@/components/site/SiteImage";
+import { SiteVideo } from "@/components/site/SiteVideo";
 import { formatarData, txt, TABELAS_MODERADAS, type Registro, type Tabela } from "@/lib/dados";
 
 export const Route = createFileRoute("/minhas-publicacoes")({
@@ -118,6 +119,7 @@ function MinhasPublicacoes() {
                   <ul className="grid gap-3">
                     {itens.map((item) => {
                       const imagem = txt(item, "imagem_url");
+                      const video = txt(item, "video_url");
                       return (
                         <li
                           key={item.id}
@@ -128,6 +130,13 @@ function MinhasPublicacoes() {
                               path={imagem}
                               alt={txt(item, grupo.campoTitulo)}
                               className="h-16 w-24 shrink-0 overflow-hidden rounded-xl"
+                            />
+                          ) : null}
+                          {video ? (
+                            <SiteVideo
+                              path={video}
+                              compact
+                              className="aspect-video w-full shrink-0 rounded-xl sm:w-32"
                             />
                           ) : null}
                           <div className="min-w-0 flex-1">

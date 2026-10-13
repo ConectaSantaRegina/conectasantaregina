@@ -139,3 +139,9 @@ export const CAMPOS: Partial<Record<Tabela, Campo[]>> = {
     { name: "imagem_url", label: "Imagem da ação", type: "image" },
   ],
 };
+
+/** O Feed aceita vídeo; Novidades mantém o formato atual de imagem. */
+export const CAMPOS_FEED: Campo[] = [
+  ...(CAMPOS.novidades ?? []),
+  { name: "video_url", label: "Vídeo", type: "video" },
+];

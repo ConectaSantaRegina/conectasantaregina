@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SiteImage } from "@/components/site/SiteImage";
+import { SiteVideo } from "@/components/site/SiteVideo";
 import { EstadoVazio } from "@/components/site/PageHero";
 import { formatarData, TABELAS_MODERADAS } from "@/lib/dados";
 import { ContatoAutor, usePerfisAdmin, perfilCorresponde } from "@/components/site/AdminPerfis";
@@ -392,6 +393,7 @@ type NovidadeRow = {
   texto: string | null;
   categoria: string;
   imagem_url: string | null;
+  video_url: string | null;
   canal: "novidades" | "feed";
   aprovado: boolean;
   created_at: string;
@@ -406,7 +408,7 @@ export function AdminNovidadesPendentes() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("novidades")
-        .select("id,user_id,titulo,texto,categoria,imagem_url,canal,aprovado,created_at")
+        .select("id,user_id,titulo,texto,categoria,imagem_url,video_url,canal,aprovado,created_at")
         .eq("aprovado", false)
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -479,6 +481,13 @@ export function AdminNovidadesPendentes() {
                   path={row.imagem_url}
                   alt={row.titulo}
                   className="h-20 w-28 shrink-0 overflow-hidden rounded-xl"
+                />
+              ) : null}
+              {row.video_url ? (
+                <SiteVideo
+                  path={row.video_url}
+                  compact
+                  className="aspect-video w-full shrink-0 rounded-xl sm:w-48"
                 />
               ) : null}
               <div className="min-w-0 flex-1">

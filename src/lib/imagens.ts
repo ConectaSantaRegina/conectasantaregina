@@ -17,6 +17,26 @@ export async function enviarImagem(file: File, userId: string): Promise<string> 
   return path;
 }
 
+const TIPOS_VIDEO = new Set(["video/mp4", "video/webm", "video/quicktime"]);
+
+/** Envia um vídeo curto para o álbum do bairro e devolve o caminho salvo. */
+export async function enviarVideo(file: File, userId: string): Promise<string> {
+  if (!TIPOS_VIDEO.has(file.type)) {
+    throw new Error("Envie um vídeo MP4, WebM ou MOV.");
+  }
+  if (file.size > 50 * 1024 * 1024) {
+    throw new Error("O vídeo deve ter no máximo 50 MB.");
+  }
+  const ext = (file.name.split(".").pop() || "mp4").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const path = `${userId}/${crypto.randomUUID()}.${ext}`;
+  const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
+    contentType: file.type,
+    upsert: false,
+  });
+  if (error) throw error;
+  return path;
+}
+
 const cache = new Map<string, string>();
 
 /** Gera (e reaproveita) uma URL temporária para exibir uma imagem do álbum. */
@@ -53,3 +73,6 @@ export function useImagemUrl(path: string | null | undefined) {
 
   return url;
 }
+
+/** Resolve imagens e vídeos salvos no álbum privado. */
+export const useMidiaUrl = useImagemUrl;

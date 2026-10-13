@@ -20,7 +20,7 @@ import { Switch } from "@/components/ui/switch";
 import { HorarioSemana } from "@/components/site/HorarioSemana";
 import { useAuth } from "@/hooks/useAuth";
 import { usePremium } from "@/hooks/usePremium";
-import { enviarImagem } from "@/lib/imagens";
+import { enviarImagem, enviarVideo } from "@/lib/imagens";
 import {
   atualizarRegistro,
   inserirRegistro,
@@ -32,7 +32,7 @@ import {
 export type Campo = {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "select" | "switch" | "image" | "horarios";
+  type?: "text" | "textarea" | "select" | "switch" | "image" | "video" | "horarios";
   options?: string[];
   optionLabels?: Record<string, string>;
   placeholder?: string;
@@ -47,7 +47,7 @@ function valoresIniciais(campos: Campo[], registro?: Registro) {
   for (const campo of campos) {
     const valor = registro[campo.name];
     if (campo.type === "switch") iniciais[campo.name] = Boolean(valor);
-    else if (campo.type !== "image") iniciais[campo.name] = valor == null ? "" : String(valor);
+    else if (campo.type !== "image" && campo.type !== "video") iniciais[campo.name] = valor == null ? "" : String(valor);
   }
   return iniciais;
 }
@@ -81,6 +81,7 @@ function FormularioRegistro({
     valoresIniciais(campos, registro),
   );
   const [arquivo, setArquivo] = useState<File | null>(null);
+  const [arquivoVideo, setArquivoVideo] = useState<File | null>(null);
   const [fotosExtras, setFotosExtras] = useState<File[]>([]);
   const [fotosAtuais, setFotosAtuais] = useState<string[]>(
     Array.isArray(registro?.["fotos_extras"]) ? registro["fotos_extras"].filter((foto): foto is string => typeof foto === "string") : [],
@@ -93,7 +94,7 @@ function FormularioRegistro({
     try {
       const payload: Record<string, unknown> = {};
       for (const campo of campos) {
-        if (campo.type === "image") continue;
+        if (campo.type === "image" || campo.type === "video") continue;
         const bruto = valores[campo.name];
         if (campo.type === "switch") {
           payload[campo.name] = Boolean(bruto);
@@ -128,6 +129,10 @@ function FormularioRegistro({
       if (campoImagem && arquivo) {
         payload[campoImagem.name] = await enviarImagem(arquivo, user.id);
       }
+      const campoVideo = campos.find((c) => c.type === "video");
+      if (campoVideo && arquivoVideo) {
+        payload[campoVideo.name] = await enviarVideo(arquivoVideo, user.id);
+      }
       if (tabela === "comercios" && podeGaleria && (fotosExtras.length > 0 || fotosAtuais.length !== (Array.isArray(registro?.["fotos_extras"]) ? registro["fotos_extras"].length : 0))) {
         if (fotosExtras.length + fotosAtuais.length > 5) throw new Error("Escolha até cinco fotos extras.");
         payload["fotos_extras"] = [...fotosAtuais, ...await Promise.all(fotosExtras.map((foto) => enviarImagem(foto, user.id)))];
@@ -147,6 +152,7 @@ function FormularioRegistro({
           : (mensagemSucesso ?? "Enviado! Sua publicação aparecerá após a aprovação da administração."),
       );
       setArquivo(null);
+      setArquivoVideo(null);
       setFotosExtras([]);
       if (!registro) setValores({});
       onPronto();
@@ -171,7 +177,9 @@ function FormularioRegistro({
             valor={valores[campo.name]}
             onChange={definir}
             onFile={setArquivo}
+            onVideoFile={setArquivoVideo}
             arquivo={arquivo}
+            arquivoVideo={arquivoVideo}
             temImagem={Boolean(registro && registro[campo.name])}
           />
         ))}
@@ -292,14 +300,18 @@ function CampoForm({
   valor,
   onChange,
   onFile,
+  onVideoFile,
   arquivo,
+  arquivoVideo,
   temImagem,
 }: {
   campo: Campo;
   valor: string | boolean | undefined;
   onChange: (name: string, value: string | boolean) => void;
   onFile: (file: File | null) => void;
+  onVideoFile: (file: File | null) => void;
   arquivo: File | null;
+  arquivoVideo: File | null;
   temImagem?: boolean;
 }) {
   const id = `campo-${campo.name}`;
@@ -387,6 +399,22 @@ function CampoForm({
               : temImagem
                 ? "Já existe uma imagem. Escolha outra para substituir."
                 : "Opcional • até 6 MB"}
+          </p>
+        </div>
+      ) : campo.type === "video" ? (
+        <div className="grid gap-1.5">
+          <Input
+            id={id}
+            type="file"
+            accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov"
+            onChange={(e) => onVideoFile(e.target.files?.[0] ?? null)}
+          />
+          <p className="text-xs text-muted-foreground">
+            {arquivoVideo
+              ? `Vídeo selecionado: ${arquivoVideo.name}`
+              : temImagem
+                ? "Já existe um vídeo. Escolha outro para substituir."
+                : "Opcional • MP4, WebM ou MOV • até 50 MB"}
           </p>
         </div>
       ) : (

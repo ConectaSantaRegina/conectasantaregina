@@ -20,7 +20,7 @@ import { TextoComLinks } from "@/components/site/TextoComLinks";
 import { GaleriaComercio } from "@/components/site/GaleriaComercio";
 import { supabase } from "@/integrations/supabase/client";
 import { EditarDialog } from "@/components/site/PublicarDialog";
-import { CAMPOS } from "@/lib/campos";
+import { CAMPOS, CAMPOS_FEED } from "@/lib/campos";
 import { useAuth } from "@/hooks/useAuth";
 import { apagarRegistro, useInvalidar, type Registro, type Tabela } from "@/lib/dados";
 
@@ -98,7 +98,9 @@ export function AcoesRegistro({ registro, tabela }: { registro: Registro; tabela
   const { user, isAdmin } = useAuth();
   const invalidar = useInvalidar(tabela);
   const podeGerenciar = Boolean(user && (isAdmin || user.id === registro.user_id));
-  const campos = CAMPOS[tabela];
+  const campos = tabela === "novidades" && registro["canal"] === "feed"
+    ? CAMPOS_FEED
+    : CAMPOS[tabela];
 
   if (!podeGerenciar) return null;
 
