@@ -71,6 +71,13 @@
       "when": 1791912481803,
       "tag": "0009_add_feed_video_attachments",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1791921645573,
+      "tag": "0010_commerce_category_hierarchy",
+      "breakpoints": true
     }
   ]
 }
