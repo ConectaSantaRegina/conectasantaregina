@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, MessageCircle } from "lucide-react";
+import { Search, MessageCircle, Crown } from "lucide-react";
+import { useAdminPremium } from "@/hooks/useAdminPremium";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,18 +50,28 @@ export function ContatoAutor({ userId }: { userId: string }) {
 
 export function AdminPerfis({ onSelecionar }: { onSelecionar: (id: string) => void }) {
   const perfis = usePerfisAdmin();
+  const premium = useAdminPremium();
   const [pesquisa, setPesquisa] = useState("");
+  const hoje = new Date().toISOString().slice(0, 10);
   const lista = (perfis.data ?? []).filter((p) => perfilCorresponde(p, pesquisa));
   return <section className="grid gap-4">
+    <div className="flex flex-wrap items-end justify-between gap-4">
     <h2 className="font-display text-lg font-bold">Pessoas cadastradas ({lista.length})</h2>
-    <div className="grid max-w-lg gap-2"><Label htmlFor="pesquisa-perfis">Pesquisar perfil por nome ou WhatsApp</Label>
+    <div className="grid w-full gap-2 sm:max-w-lg"><Label htmlFor="pesquisa-perfis">Buscar por nome ou WhatsApp</Label>
       <div className="relative"><Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" aria-hidden="true" />
-        <Input id="pesquisa-perfis" type="search" className="pl-9" placeholder="Nome ou número de WhatsApp" value={pesquisa} onChange={(e) => setPesquisa(e.target.value)} /></div></div>
+        <Input id="pesquisa-perfis" type="search" className="pl-9" placeholder="Nome ou número de WhatsApp" value={pesquisa} onChange={(e) => setPesquisa(e.target.value)} /></div></div></div>
     {perfis.isError ? <p role="alert">Não foi possível carregar os perfis.</p> : perfis.isPending ? <p>Carregando…</p> : lista.length === 0 ? <p className="text-sm text-muted-foreground">Nenhum perfil encontrado.</p> :
-      <ul className="grid gap-3 sm:grid-cols-2">{lista.map((p) => <li key={p.id} className="surface-card grid gap-3 p-4">
+      <ul className="grid gap-3 sm:grid-cols-2">{lista.map((p) => {
+        const plano = premium.data?.find((row) => row.user_id === p.id);
+        const ativo = Boolean(plano?.ativo && plano.valido_ate >= hoje);
+        return <li key={p.id} className="surface-card grid gap-3 p-4">
         <DadosPerfil perfil={p} /><div className="flex flex-wrap items-center justify-between gap-2">
           <Badge variant={p.cadastro_completo_em ? "secondary" : "outline"}>{p.cadastro_completo_em ? "Cadastro completo" : "Dados pendentes"}</Badge>
-          <Button size="sm" variant="outline" onClick={() => { onSelecionar(p.id); document.getElementById("premium-usuarios")?.scrollIntoView({ behavior: "smooth" }); }}>Selecionar pessoa</Button>
-        </div></li>)}</ul>}
+          <Badge variant={ativo ? "default" : "outline"}>{ativo ? "Premium ativo" : plano ? plano.ativo ? "Premium vencido" : "Premium desligado" : "Perfil grátis"}</Badge>
+          {plano && <p className="w-full text-xs text-muted-foreground">Validade: {new Date(`${plano.valido_ate}T12:00:00`).toLocaleDateString("pt-BR")}</p>}
+          <Button size="sm" disabled={premium.isPending || premium.isError} onClick={() => onSelecionar(p.id)}><Crown className="mr-1.5 h-4 w-4" />{plano ? "Gerenciar Premium" : "Ativar Premium"}</Button>
+        </div></li>;
+      })}</ul>}
+    {premium.isError && <p role="alert" className="text-sm text-destructive">Não foi possível carregar o status Premium.</p>}
   </section>;
 }

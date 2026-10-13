@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAdminPremium } from "@/hooks/useAdminPremium";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Check, Crown, Trash2, X } from "lucide-react";
@@ -44,7 +45,7 @@ type PremiumUsuario = {
 };
 
 /** Aprovação de cadastros de moradores: marcar (ou não) como Premium. */
-export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionado?: string; onSelecionar: (id: string) => void }) {
+export function AdminUsuariosPremium({ selecionado, onSelecionar, compacto = false }: { selecionado?: string; onSelecionar: (id: string) => void; compacto?: boolean }) {
   const queryClient = useQueryClient();
   const [userId, setUserId] = useState("");
   const pessoaSelecionada = selecionado || userId;
@@ -54,18 +55,12 @@ export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionad
 
   const perfis = usePerfisAdmin();
 
-  const premiumUsuarios = useQuery({
-    queryKey: ["admin-premium-usuarios"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("premium")
-        .select("id,user_id,comercio_id,valido_ate,ativo,observacao,created_at")
-        .is("comercio_id", null)
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return (data ?? []) as PremiumUsuario[];
-    },
-  });
+  const premiumUsuarios = useAdminPremium();
+  const planoSelecionado = premiumUsuarios.data?.find((p) => p.user_id === pessoaSelecionada);
+  useEffect(() => {
+    setValidoAte(planoSelecionado?.valido_ate ?? dataEmDias(30));
+    setObservacao(planoSelecionado?.observacao ?? "");
+  }, [pessoaSelecionada, planoSelecionado?.valido_ate, planoSelecionado?.observacao]);
 
   const invalidar = () => {
     queryClient.invalidateQueries({ queryKey: ["admin-premium-usuarios"] });
@@ -129,23 +124,23 @@ export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionad
   const lista = premiumUsuarios.data ?? [];
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[380px_minmax(0,1fr)]">
+    <div className={compacto ? "grid gap-4" : "grid gap-10 lg:grid-cols-[380px_minmax(0,1fr)]"}>
       <form
-        className="surface-card grid h-fit gap-4 p-6"
+        className={compacto ? "grid gap-4" : "surface-card grid h-fit gap-4 p-6"}
         onSubmit={(e) => {
           e.preventDefault();
           salvar.mutate();
         }}
       >
-        <h2 className="font-display text-lg font-bold">
+        {!compacto && <h2 className="font-display text-lg font-bold">
           <Crown className="mr-1.5 inline h-4 w-4 text-primary" /> Liberar pessoa como Premium
-        </h2>
+        </h2>}
         <p className="text-xs text-muted-foreground">
           Só quem está Premium e dentro da validade pode publicar no Feed e em Novidades. Toda publicação ainda
           passa pela sua aprovação.
         </p>
 
-        <div className="grid gap-2">
+        {!compacto && <div className="grid gap-2">
           <Label htmlFor="pesquisa-pessoa-premium">Pesquisar pessoa</Label>
           <Input id="pesquisa-pessoa-premium" type="search" placeholder="Nome ou WhatsApp" value={pesquisaPessoa} onChange={(e) => setPesquisaPessoa(e.target.value)} />
           <Label>Pessoa cadastrada</Label>
@@ -163,7 +158,13 @@ export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionad
             </SelectContent>
           </Select>
           {pessoaSelecionada && <ContatoAutor userId={pessoaSelecionada} />}
-        </div>
+        </div>}
+        {compacto && pessoaSelecionada && <ContatoAutor userId={pessoaSelecionada} />}
+        {compacto && planoSelecionado && <div className="flex flex-wrap items-center gap-3">
+          <Badge variant={planoSelecionado.ativo && planoSelecionado.valido_ate >= hoje ? "default" : "secondary"}>{planoSelecionado.ativo ? planoSelecionado.valido_ate >= hoje ? "Premium ativo" : "Premium vencido" : "Premium desligado"}</Badge>
+          <Switch id="premium-dialog-ativo" checked={planoSelecionado.ativo} disabled={alterar.isPending} onCheckedChange={(ativo) => alterar.mutate({ id: planoSelecionado.id, ativo })} />
+          <Label htmlFor="premium-dialog-ativo">Ligado</Label>
+        </div>}
 
         <div className="grid gap-2">
           <Label htmlFor="premium_user_data">Válido até</Label>
@@ -204,12 +205,16 @@ export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionad
           />
         </div>
 
-         <Button type="submit" disabled={salvar.isPending || !pessoaSelecionada}>
-          {salvar.isPending ? "Salvando…" : "Liberar Premium"}
+         <Button type="submit" disabled={salvar.isPending || premiumUsuarios.isPending || premiumUsuarios.isError || !pessoaSelecionada}>
+          {salvar.isPending ? "Salvando…" : planoSelecionado ? "Salvar e ativar Premium" : "Ativar Premium"}
         </Button>
+        {compacto && planoSelecionado && <Button type="button" variant="outline" disabled={remover.isPending} onClick={() => {
+          if (confirm("Retirar o Premium desta pessoa?")) remover.mutate(planoSelecionado.id);
+        }}><Trash2 className="mr-1.5 h-4 w-4" />Retirar Premium</Button>}
+        {premiumUsuarios.isError && <p role="alert" className="text-sm text-destructive">Não foi possível carregar o Premium.</p>}
       </form>
 
-      <section className="grid gap-4">
+      {!compacto && <section className="grid gap-4">
         <h2 className="font-display text-lg font-bold">
           Pessoas com Premium{" "}
           <span className="text-sm font-medium text-muted-foreground">({lista.length})</span>
@@ -278,7 +283,7 @@ export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionad
             })}
           </ul>
         )}
-      </section>
+      </section>}
     </div>
   );
 }
@@ -321,7 +326,7 @@ export function AdminPedidosPremium({ onSelecionar }: { onSelecionar: (id: strin
             {p.mensagem && <p className="whitespace-pre-line text-sm text-muted-foreground">{p.mensagem}</p>}
             <div className="flex flex-wrap gap-2">
               <Button size="sm" variant="outline" disabled={alterar.isPending} onClick={() => alterar.mutate({ id: p.id, status: "em contato" })}>Em contato</Button>
-              <Button size="sm" onClick={() => { onSelecionar(p.user_id); document.getElementById("premium-usuarios")?.scrollIntoView({ behavior: "smooth" }); }}>Selecionar pessoa</Button>
+              <Button size="sm" onClick={() => onSelecionar(p.user_id)}><Crown className="mr-1.5 h-4 w-4" />Gerenciar Premium</Button>
               <Button size="sm" variant="outline" disabled={alterar.isPending} onClick={() => alterar.mutate({ id: p.id, status: "recusado" })}>Recusar pedido</Button>
             </div>
           </li>)}

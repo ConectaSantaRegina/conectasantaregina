@@ -4,6 +4,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { Button } from "@/components/ui/button";
 import { AdminPerfis } from "@/components/site/AdminPerfis";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Users, ClipboardCheck } from "lucide-react";
 import {
   AdminUsuariosPremium,
   AdminNovidadesPendentes,
@@ -77,15 +80,29 @@ function Admin() {
         subtitulo="Analise pedidos Premium e aprove cadastros e publicações antes de aparecerem no site. O pagamento é combinado por fora (PIX)."
       />
       <Secao>
-        <div className="mb-12 grid gap-12">
-          <AdminPerfis onSelecionar={setPessoaSelecionada} />
-          <AdminPedidosPremium onSelecionar={setPessoaSelecionada} />
-          <AdminNovidadesPendentes />
-          <AdminPublicacoesPendentes />
-          <div id="premium-usuarios">
-            <AdminUsuariosPremium selecionado={pessoaSelecionada} onSelecionar={setPessoaSelecionada} />
-          </div>
-        </div>
+        <Tabs defaultValue="pessoas" className="mb-12">
+          <TabsList className="mb-6 flex h-auto w-full flex-wrap justify-start" aria-label="Seções da administração">
+            <TabsTrigger value="pessoas"><Users className="mr-2 h-4 w-4" />Pessoas</TabsTrigger>
+            <TabsTrigger value="aprovacoes"><ClipboardCheck className="mr-2 h-4 w-4" />Aprovações</TabsTrigger>
+          </TabsList>
+          <TabsContent value="pessoas" className="grid gap-10">
+            <AdminPerfis onSelecionar={setPessoaSelecionada} />
+            <AdminPedidosPremium onSelecionar={setPessoaSelecionada} />
+          </TabsContent>
+          <TabsContent value="aprovacoes" className="grid gap-10">
+            <AdminNovidadesPendentes />
+            <AdminPublicacoesPendentes />
+          </TabsContent>
+        </Tabs>
+        <Dialog open={Boolean(pessoaSelecionada)} onOpenChange={(aberto) => { if (!aberto) setPessoaSelecionada(""); }}>
+          <DialogContent className="max-h-[90dvh] w-[calc(100%-2rem)] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Gerenciar Premium</DialogTitle>
+              <DialogDescription>Validade e liberação do Premium desta pessoa.</DialogDescription>
+            </DialogHeader>
+            {pessoaSelecionada && <AdminUsuariosPremium key={pessoaSelecionada} selecionado={pessoaSelecionada} onSelecionar={setPessoaSelecionada} compacto />}
+          </DialogContent>
+        </Dialog>
       </Secao>
     </div>
   );

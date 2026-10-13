@@ -21,3 +21,4 @@
 - [x] Simplificar cadastro e login para somente Google e remover formulário de senha; botão inicia OAuth sem erros de execução
 - [ ] Confirmar retorno completo do Google no site hospedado — o intermediário OAuth não é atendido no localhost de teste
 - [x] Exigir dados de perfil após Google e mostrar nome, WhatsApp e moradia ao administrador com pesquisa; validação, salvamento e busca testados com sessão real
+- [x] Destacar busca de pessoas, abrir controle Premium direto do perfil e separar aprovações em aba dedicada; busca, salvamento e leitura do Premium e abas testados com acesso administrativo
