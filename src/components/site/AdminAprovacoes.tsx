@@ -43,7 +43,7 @@ type PremiumUsuario = {
 };
 
 /** Aprovação de cadastros de moradores: marcar (ou não) como Premium. */
-export function AdminUsuariosPremium({ selecionado }: { selecionado?: string }) {
+export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionado?: string; onSelecionar: (id: string) => void }) {
   const queryClient = useQueryClient();
   const [userId, setUserId] = useState("");
   const pessoaSelecionada = selecionado || userId;
@@ -149,13 +149,13 @@ export function AdminUsuariosPremium({ selecionado }: { selecionado?: string }) 
           <Crown className="mr-1.5 inline h-4 w-4 text-primary" /> Liberar pessoa como Premium
         </h2>
         <p className="text-xs text-muted-foreground">
-          Só quem está Premium e dentro da validade pode publicar no Feed. Toda publicação ainda
+          Só quem está Premium e dentro da validade pode publicar no Feed e em Novidades. Toda publicação ainda
           passa pela sua aprovação.
         </p>
 
         <div className="grid gap-2">
           <Label>Pessoa cadastrada</Label>
-           <Select value={pessoaSelecionada} onValueChange={setUserId}>
+           <Select value={pessoaSelecionada} onValueChange={(id) => { setUserId(id); onSelecionar(id); }}>
             <SelectTrigger>
               <SelectValue placeholder="Escolha quem se cadastrou" />
             </SelectTrigger>
