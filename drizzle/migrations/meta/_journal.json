@@ -36,6 +36,13 @@
       "when": 1790448616855,
       "tag": "0004_allow_public_approved_filters",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791908446066,
+      "tag": "0005_restore_public_approved_novidades_columns",
+      "breakpoints": true
     }
   ]
 }
