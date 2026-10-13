@@ -17,3 +17,5 @@
 - [x] Adicionar publicação em Novidades com as mesmas regras Premium e de aprovação do Feed; envio, aprovação e remoção temporária testados
 - [x] Remover controle Premium por comércio do painel, preservando privilégios por pessoa
 - [x] Liberar leitura pública segura de todas as publicações aprovadas e verificar sem login
+
+- [ ] Simplificar cadastro e login para somente Google, remover formulário de senha e verificar início do acesso

@@ -15,3 +15,5 @@
 - Keep expandable feed text in `TextoFeed` and content rules shared between Feed and Novidades to ensure consistent publication behavior.
 - Manage Premium only through the person-based admin control; new Premium rows use `user_id` with `comercio_id` null so publication privileges belong to the account.
 - Keep visitor SELECT grants aligned with safe publication columns (including `canal`) and approved-row RLS; never expose author or approver IDs to enable public feeds.
+
+- Keep sign-in in the public `/entrar` route using the managed OAuth helper with a public same-origin callback; verify the returned user before navigation so account access does not race session hydration.
