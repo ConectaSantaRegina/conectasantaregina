@@ -115,7 +115,9 @@ export function useInvalidar(tabela: Tabela) {
 }
 
 export async function inserirRegistro(tabela: Tabela, payload: Record<string, unknown>) {
-  const { error } = await supabase.from(tabela as "comercios").insert(payload as never);
+  const moderada = tabela === "novidades" || TABELAS_MODERADAS.some((item) => item === tabela);
+  const dados = moderada ? { ...payload, aprovado: false } : payload;
+  const { error } = await supabase.from(tabela as "comercios").insert(dados as never);
   if (error) throw error;
 }
 

@@ -419,6 +419,7 @@ export function AdminNovidadesPendentes() {
     queryClient.invalidateQueries({ queryKey: ["novidades"] });
     queryClient.invalidateQueries({ queryKey: ["feed-aprovado"] });
     queryClient.invalidateQueries({ queryKey: ["destaques-premium"] });
+    queryClient.invalidateQueries({ queryKey: ["minhas-publicacoes"] });
   };
 
   const aprovar = useMutation({
@@ -451,7 +452,7 @@ export function AdminNovidadesPendentes() {
     <section className="grid gap-4">
       <div>
         <h2 className="font-display text-lg font-bold">
-          Novidades aguardando aprovação{" "}
+          Feed e Novidades aguardando aprovação{" "}
           <span className="text-sm font-medium text-muted-foreground">({lista.length})</span>
         </h2>
         <p className="text-xs text-muted-foreground">
@@ -460,7 +461,9 @@ export function AdminNovidadesPendentes() {
         </p>
       </div>
 
-      {pendentes.isLoading ? (
+      {pendentes.isError ? (
+        <p role="alert">Não foi possível carregar as publicações pendentes.</p>
+      ) : pendentes.isLoading ? (
         <p className="text-sm text-muted-foreground">Carregando…</p>
       ) : lista.length === 0 ? (
         <EstadoVazio texto="Nenhuma publicação esperando aprovação." />
