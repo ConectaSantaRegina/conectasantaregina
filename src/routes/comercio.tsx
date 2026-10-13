@@ -3,11 +3,11 @@ import { MapPin, Clock, Phone, Instagram, Bike } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CardItem } from "@/components/site/CardItem";
 import { LinkEndereco } from "@/components/site/LinkEndereco";
-import { ListaComercios } from "@/components/site/ListaComercios";
+import { ListaFiltrada } from "@/components/site/ListaFiltrada";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
 import { camposLocal } from "@/lib/campos";
-import { classificarComercios, useTaxonomiaComercio } from "@/lib/taxonomia-comercio";
+import { CATEGORIAS_COMERCIO } from "@/lib/nav";
 import { bool, linkWhatsapp, txt, useLista } from "@/lib/dados";
 
 export const Route = createFileRoute("/comercio")({
@@ -39,9 +39,8 @@ function linkInstagram(handle?: string | null) {
 }
 
 function Comercio() {
-  const { data, isLoading, isError } = useLista("comercios");
-  const taxonomia = useTaxonomiaComercio();
-  const itens = classificarComercios((data ?? []).filter((item) => txt(item, "secao") !== "publico"), taxonomia.data?.categorias ?? [], taxonomia.data?.vinculos ?? []);
+  const { data, isLoading } = useLista("comercios");
+  const itens = (data ?? []).filter((item) => txt(item, "secao") !== "publico");
 
   return (
     <div>
@@ -60,11 +59,18 @@ function Comercio() {
         }
       />
       <Secao>
-        <ListaComercios
+        <ListaFiltrada
           itens={itens}
-          carregando={isLoading || taxonomia.isLoading}
-          erro={isError || taxonomia.isError}
-          render={({ registro: item, categoria, subcategorias }) => {
+          carregando={isLoading}
+          categorias={Array.from(
+            new Set(
+              [...CATEGORIAS_COMERCIO, ...itens.map((i) => txt(i, "categoria"))].filter(Boolean),
+            ),
+          )}
+          campoCategoria="categoria"
+          camposBusca={["nome", "descricao", "endereco", "categoria"]}
+          vazio="Nenhum comércio encontrado. Que tal cadastrar o primeiro?"
+          render={(item) => {
             const wpp = linkWhatsapp(txt(item, "whatsapp"));
             const ig = linkInstagram(txt(item, "instagram"));
             return (
@@ -73,11 +79,10 @@ function Comercio() {
                 registro={item}
                 tabela="comercios"
                 titulo={txt(item, "nome")}
-                badge={categoria?.nome ?? txt(item, "categoria")}
+                badge={txt(item, "categoria")}
                 imagem={txt(item, "imagem_url") || null}
                 descricao={txt(item, "descricao") || null}
                 infos={[
-                  ...(subcategorias.length ? [{ icone: null, texto: subcategorias.map((sub) => sub.nome).join(" • ") }] : []),
                   ...(txt(item, "endereco")
                     ? [
                         {

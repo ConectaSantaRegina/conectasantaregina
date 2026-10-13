@@ -26,9 +26,3 @@
 - [x] Colocar Aprovações como primeira aba do painel e os pedidos de Premium acima da lista de pessoas; ordem conferida com acesso administrativo
 - [ ] Configurar domínio de e-mail e notificar a administração por e-mail sobre novos itens pendentes
 - [x] Permitir anexar e visualizar vídeo no Feed, incluindo prévia da administração e publicações do autor; envio, aprovação, exibição pública e remoção temporária testados
-- [x] Etapa 1: modelo de categorias/subcategorias, filtros hierárquicos e comércios recentes e agrupados; oito categorias e 108 comércios aprovados preservados, busca e subcategorias testadas sem login
-- Etapa 2 (fora da entrega inicial, conforme pedido): cadastro com múltiplas subcategorias e Outra (personalizar), aprovação/renomeação/unificação de categorias pela administração
-- [x] Remover a seção Novidades no bairro da página inicial sem excluir cadastros de comércios
-- [x] Incluir categoria principal e seleção de múltiplas subcategorias no formulário de comércio; envio real com Mercado e Padaria confirmado como aguardando aprovação
-- [x] Subcategorias em lista suspensa como categoria principal, com Personalizar e uma entrada por linha; envio, aprovação, leitura pública e remoção do cadastro temporário verificados
-- [x] Incluir Personalizar na categoria principal com aprovação obrigatória; envio, pendência, aprovação, associação à categoria e leitura pública verificados.

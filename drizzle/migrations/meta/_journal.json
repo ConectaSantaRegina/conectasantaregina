@@ -71,41 +71,6 @@
       "when": 1791912481803,
       "tag": "0009_add_feed_video_attachments",
       "breakpoints": true
-    },
-    {
-      "idx": 10,
-      "version": "7",
-      "when": 1791921645573,
-      "tag": "0010_commerce_category_hierarchy",
-      "breakpoints": true
-    },
-    {
-      "idx": 11,
-      "version": "7",
-      "when": 1791921706176,
-      "tag": "0011_backfill_commerce_hierarchy",
-      "breakpoints": true
-    },
-    {
-      "idx": 12,
-      "version": "7",
-      "when": 1791922867806,
-      "tag": "0012_save_commerce_subcategories",
-      "breakpoints": true
-    },
-    {
-      "idx": 13,
-      "version": "7",
-      "when": 1791923722049,
-      "tag": "0013_commerce_manual_subcategories",
-      "breakpoints": true
-    },
-    {
-      "idx": 14,
-      "version": "7",
-      "when": 1791924148979,
-      "tag": "0014_commerce_custom_main_category",
-      "breakpoints": true
     }
   ]
 }

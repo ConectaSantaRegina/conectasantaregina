@@ -59,77 +59,10 @@ export type Database = {
         }
         Relationships: []
       }
-      comercio_categorias: {
-        Row: {
-          categoria_pai_id: string | null
-          chave: string
-          created_at: string
-          id: string
-          nome: string
-          status: string
-        }
-        Insert: {
-          categoria_pai_id?: string | null
-          chave: string
-          created_at?: string
-          id?: string
-          nome: string
-          status?: string
-        }
-        Update: {
-          categoria_pai_id?: string | null
-          chave?: string
-          created_at?: string
-          id?: string
-          nome?: string
-          status?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "comercio_categorias_categoria_pai_id_fkey"
-            columns: ["categoria_pai_id"]
-            isOneToOne: false
-            referencedRelation: "comercio_categorias"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      comercio_subcategorias: {
-        Row: {
-          comercio_id: string
-          subcategoria_id: string
-        }
-        Insert: {
-          comercio_id: string
-          subcategoria_id: string
-        }
-        Update: {
-          comercio_id?: string
-          subcategoria_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "comercio_subcategorias_comercio_id_fkey"
-            columns: ["comercio_id"]
-            isOneToOne: false
-            referencedRelation: "comercios"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "comercio_subcategorias_subcategoria_id_fkey"
-            columns: ["subcategoria_id"]
-            isOneToOne: false
-            referencedRelation: "comercio_categorias"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       comercios: {
         Row: {
           aprovado: boolean
           categoria: string
-          categoria_principal_id: string | null
-          categoria_principal_personalizada: string | null
           created_at: string
           delivery: boolean
           descricao: string | null
@@ -141,7 +74,6 @@ export type Database = {
           instagram: string | null
           nome: string
           secao: string
-          subcategorias_personalizadas: string[]
           telefone: string | null
           updated_at: string
           user_id: string
@@ -150,8 +82,6 @@ export type Database = {
         Insert: {
           aprovado?: boolean
           categoria: string
-          categoria_principal_id?: string | null
-          categoria_principal_personalizada?: string | null
           created_at?: string
           delivery?: boolean
           descricao?: string | null
@@ -163,7 +93,6 @@ export type Database = {
           instagram?: string | null
           nome: string
           secao?: string
-          subcategorias_personalizadas?: string[]
           telefone?: string | null
           updated_at?: string
           user_id: string
@@ -172,8 +101,6 @@ export type Database = {
         Update: {
           aprovado?: boolean
           categoria?: string
-          categoria_principal_id?: string | null
-          categoria_principal_personalizada?: string | null
           created_at?: string
           delivery?: boolean
           descricao?: string | null
@@ -185,21 +112,12 @@ export type Database = {
           instagram?: string | null
           nome?: string
           secao?: string
-          subcategorias_personalizadas?: string[]
           telefone?: string | null
           updated_at?: string
           user_id?: string
           whatsapp?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "comercios_categoria_principal_id_fkey"
-            columns: ["categoria_principal_id"]
-            isOneToOne: false
-            referencedRelation: "comercio_categorias"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       imoveis: {
         Row: {
@@ -586,20 +504,7 @@ export type Database = {
         }
         Returns: boolean
       }
-      normalizar_categoria_comercio: {
-        Args: { valor: string }
-        Returns: string
-      }
       premium_ativo: { Args: { _user_id: string }; Returns: boolean }
-      salvar_comercio_classificado: {
-        Args: {
-          p_categoria: string
-          p_dados: Json
-          p_id?: string
-          p_subcategorias: string[]
-        }
-        Returns: string
-      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"

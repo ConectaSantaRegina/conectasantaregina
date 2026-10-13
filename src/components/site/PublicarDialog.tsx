@@ -18,8 +18,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { HorarioSemana } from "@/components/site/HorarioSemana";
-import { CamposTaxonomiaComercio } from "@/components/site/CamposTaxonomiaComercio";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { usePremium } from "@/hooks/usePremium";
 import { enviarImagem, enviarVideo } from "@/lib/imagens";
@@ -79,10 +77,6 @@ function FormularioRegistro({
   const { podePublicarNovidades: podeGaleria } = usePremium();
   const invalidar = useInvalidar(tabela);
   const [salvando, setSalvando] = useState(false);
-  const [categoriaPrincipal, setCategoriaPrincipal] = useState("");
-  const [categoriaPrincipalPersonalizada, setCategoriaPrincipalPersonalizada] = useState("");
-  const [subcategorias, setSubcategorias] = useState<string[]>([]);
-  const [subcategoriasPersonalizadas, setSubcategoriasPersonalizadas] = useState<string[]>([]);
   const [valores, setValores] = useState<Record<string, string | boolean>>(() =>
     valoresIniciais(campos, registro),
   );
@@ -95,21 +89,11 @@ function FormularioRegistro({
 
   const definir = (name: string, value: string | boolean) =>
     setValores((atual) => ({ ...atual, [name]: value }));
-  const comercioHierarquico = tabela === "comercios" && (valores["secao"] ?? registro?.["secao"] ?? extra?.["secao"]) !== "publico";
 
   async function salvar() {
     try {
       const payload: Record<string, unknown> = {};
-      if (comercioHierarquico) {
-        const manual = categoriaPrincipal === "__personalizar__";
-        if (manual && !z.string().trim().min(2).max(100).safeParse(categoriaPrincipalPersonalizada).success) { toast.error("Informe uma categoria principal entre 2 e 100 caracteres."); return; }
-        const resultado = z.object({ categoria: z.union([z.string().uuid(), z.literal("__personalizar__")]), subcategorias: z.array(z.string().uuid()).max(20), personalizadas: z.array(z.string().trim().min(2).max(100)).max(20) }).refine((dados) => dados.subcategorias.length + dados.personalizadas.length >= 1 && dados.subcategorias.length + dados.personalizadas.length <= 20).safeParse({ categoria: categoriaPrincipal, subcategorias, personalizadas: subcategoriasPersonalizadas });
-        if (!resultado.success) { toast.error("Escolha entre 1 e 20 subcategorias. Cada nome personalizado deve ter entre 2 e 100 caracteres."); return; }
-        payload["subcategorias_personalizadas"] = resultado.data.personalizadas;
-        payload["categoria_principal_personalizada"] = manual ? categoriaPrincipalPersonalizada.trim() : null;
-      }
       for (const campo of campos) {
-        if (comercioHierarquico && campo.name === "categoria") continue;
         if (campo.type === "image" || campo.type === "video") continue;
         const bruto = valores[campo.name];
         if (campo.type === "switch") {
@@ -154,15 +138,7 @@ function FormularioRegistro({
         payload["fotos_extras"] = [...fotosAtuais, ...await Promise.all(fotosExtras.map((foto) => enviarImagem(foto, user.id)))];
       }
 
-      if (comercioHierarquico) {
-        const { error } = await supabase.rpc("salvar_comercio_classificado", {
-          p_dados: payload as import("@/integrations/supabase/types").Json,
-          p_categoria: categoriaPrincipal === "__personalizar__" ? "00000000-0000-0000-0000-000000000000" : categoriaPrincipal,
-          p_subcategorias: subcategorias,
-          ...(registro ? { p_id: registro.id } : {}),
-        });
-        if (error) throw error;
-      } else if (registro) {
+      if (registro) {
         await atualizarRegistro(tabela, registro.id, payload);
       } else {
         Object.assign(payload, extra ?? {});
@@ -195,7 +171,6 @@ function FormularioRegistro({
       </DialogHeader>
       <div className="grid gap-4">
         {campos.map((campo) => (
-           comercioHierarquico && campo.name === "categoria" ? <CamposTaxonomiaComercio key={campo.name} registro={registro} onChange={(categoria, subs, personalizadas, principalManual) => { setCategoriaPrincipal(categoria); setSubcategorias(subs); setSubcategoriasPersonalizadas(personalizadas); setCategoriaPrincipalPersonalizada(principalManual); }} /> :
           <CampoForm
             key={campo.name}
             campo={campo}
