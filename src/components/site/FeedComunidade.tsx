@@ -4,9 +4,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PublicarDialog } from "@/components/site/PublicarDialog";
 import { SiteImage } from "@/components/site/SiteImage";
+import { SiteVideo } from "@/components/site/SiteVideo";
 import { TextoFeed } from "@/components/site/TextoFeed";
 import { usePremium } from "@/hooks/usePremium";
-import { CAMPOS } from "@/lib/campos";
+import { CAMPOS_FEED } from "@/lib/campos";
 import { formatarData, txt, useFeedAprovado } from "@/lib/dados";
 import { REGRA_CONTEUDO } from "@/lib/regras-publicacao";
 
@@ -35,7 +36,7 @@ export function FeedComunidade() {
                 rotulo="O que você quer compartilhar com o bairro?"
                 titulo="Publicar no feed"
                 descricao="Sua publicação será analisada antes de aparecer para a comunidade."
-                campos={CAMPOS.novidades ?? []}
+                campos={CAMPOS_FEED}
                 extra={{ canal: "feed" }}
                 mensagemSucesso="Publicação enviada! Ela aparecerá no feed depois da aprovação."
                 gatilho={
@@ -108,6 +109,13 @@ export function FeedComunidade() {
                     path={txt(item, "imagem_url")}
                     alt={txt(item, "titulo")}
                     className="aspect-[4/3] w-full sm:aspect-[16/10]"
+                  />
+                ) : null}
+
+                {txt(item, "video_url") ? (
+                  <SiteVideo
+                    path={txt(item, "video_url")}
+                    className="aspect-video w-full"
                   />
                 ) : null}
 
