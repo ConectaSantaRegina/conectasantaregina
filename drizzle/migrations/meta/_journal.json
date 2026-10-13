@@ -50,6 +50,13 @@
       "when": 1791908941310,
       "tag": "0006_require_complete_google_profiles",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791909002521,
+      "tag": "0007_validate_complete_profile_inserts",
+      "breakpoints": true
     }
   ]
 }
