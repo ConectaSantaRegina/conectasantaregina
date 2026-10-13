@@ -22,3 +22,4 @@
 - [ ] Confirmar retorno completo do Google no site hospedado — o intermediário OAuth não é atendido no localhost de teste
 - [x] Exigir dados de perfil após Google e mostrar nome, WhatsApp e moradia ao administrador com pesquisa; validação, salvamento e busca testados com sessão real
 - [x] Destacar busca de pessoas, abrir controle Premium direto do perfil e separar aprovações em aba dedicada; busca, salvamento e leitura do Premium e abas testados com acesso administrativo
+- [ ] Garantir que novos cadastros e publicações, inclusive enviados pelo administrador, entrem na aba Aprovações antes de aparecer publicamente
