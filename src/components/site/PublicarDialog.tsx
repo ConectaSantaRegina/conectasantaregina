@@ -80,6 +80,7 @@ function FormularioRegistro({
   const invalidar = useInvalidar(tabela);
   const [salvando, setSalvando] = useState(false);
   const [categoriaPrincipal, setCategoriaPrincipal] = useState("");
+  const [categoriaPrincipalPersonalizada, setCategoriaPrincipalPersonalizada] = useState("");
   const [subcategorias, setSubcategorias] = useState<string[]>([]);
   const [subcategoriasPersonalizadas, setSubcategoriasPersonalizadas] = useState<string[]>([]);
   const [valores, setValores] = useState<Record<string, string | boolean>>(() =>
@@ -100,9 +101,12 @@ function FormularioRegistro({
     try {
       const payload: Record<string, unknown> = {};
       if (comercioHierarquico) {
-        const resultado = z.object({ categoria: z.string().uuid(), subcategorias: z.array(z.string().uuid()).max(20), personalizadas: z.array(z.string().trim().min(2).max(100)).max(20) }).refine((dados) => dados.subcategorias.length + dados.personalizadas.length >= 1 && dados.subcategorias.length + dados.personalizadas.length <= 20).safeParse({ categoria: categoriaPrincipal, subcategorias, personalizadas: subcategoriasPersonalizadas });
+        const manual = categoriaPrincipal === "__personalizar__";
+        if (manual && !z.string().trim().min(2).max(100).safeParse(categoriaPrincipalPersonalizada).success) { toast.error("Informe uma categoria principal entre 2 e 100 caracteres."); return; }
+        const resultado = z.object({ categoria: z.union([z.string().uuid(), z.literal("__personalizar__")]), subcategorias: z.array(z.string().uuid()).max(20), personalizadas: z.array(z.string().trim().min(2).max(100)).max(20) }).refine((dados) => dados.subcategorias.length + dados.personalizadas.length >= 1 && dados.subcategorias.length + dados.personalizadas.length <= 20).safeParse({ categoria: categoriaPrincipal, subcategorias, personalizadas: subcategoriasPersonalizadas });
         if (!resultado.success) { toast.error("Escolha entre 1 e 20 subcategorias. Cada nome personalizado deve ter entre 2 e 100 caracteres."); return; }
         payload["subcategorias_personalizadas"] = resultado.data.personalizadas;
+        payload["categoria_principal_personalizada"] = manual ? categoriaPrincipalPersonalizada.trim() : null;
       }
       for (const campo of campos) {
         if (comercioHierarquico && campo.name === "categoria") continue;
@@ -153,7 +157,7 @@ function FormularioRegistro({
       if (comercioHierarquico) {
         const { error } = await supabase.rpc("salvar_comercio_classificado", {
           p_dados: payload as import("@/integrations/supabase/types").Json,
-          p_categoria: categoriaPrincipal,
+          p_categoria: categoriaPrincipal === "__personalizar__" ? "00000000-0000-0000-0000-000000000000" : categoriaPrincipal,
           p_subcategorias: subcategorias,
           ...(registro ? { p_id: registro.id } : {}),
         });
@@ -191,7 +195,7 @@ function FormularioRegistro({
       </DialogHeader>
       <div className="grid gap-4">
         {campos.map((campo) => (
-           comercioHierarquico && campo.name === "categoria" ? <CamposTaxonomiaComercio key={campo.name} registro={registro} onChange={(categoria, subs, personalizadas) => { setCategoriaPrincipal(categoria); setSubcategorias(subs); setSubcategoriasPersonalizadas(personalizadas); }} /> :
+           comercioHierarquico && campo.name === "categoria" ? <CamposTaxonomiaComercio key={campo.name} registro={registro} onChange={(categoria, subs, personalizadas, principalManual) => { setCategoriaPrincipal(categoria); setSubcategorias(subs); setSubcategoriasPersonalizadas(personalizadas); setCategoriaPrincipalPersonalizada(principalManual); }} /> :
           <CampoForm
             key={campo.name}
             campo={campo}
