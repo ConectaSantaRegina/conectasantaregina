@@ -5,7 +5,7 @@ import { classificarComercios, useTaxonomiaComercio } from "@/lib/taxonomia-come
 import type { Registro } from "@/lib/dados";
 
 export function CamposTaxonomiaComercio({ registro, onChange }: {
-  registro?: Registro;
+  registro?: Registro | undefined;
   onChange: (categoria: string, subcategorias: string[]) => void;
 }) {
   const taxonomia = useTaxonomiaComercio();

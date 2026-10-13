@@ -153,7 +153,7 @@ function FormularioRegistro({
           p_dados: payload as import("@/integrations/supabase/types").Json,
           p_categoria: categoriaPrincipal,
           p_subcategorias: subcategorias,
-          p_id: registro?.id,
+          ...(registro ? { p_id: registro.id } : {}),
         });
         if (error) throw error;
       } else if (registro) {
