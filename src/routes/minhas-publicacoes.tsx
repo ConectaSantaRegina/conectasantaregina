@@ -42,12 +42,6 @@ const GRUPOS: { tabela: Tabela; rotulo: string; campoTitulo: string; rota: strin
   { tabela: "vagas", rotulo: "Vagas de emprego", campoTitulo: "titulo", rota: "/empregos" },
   { tabela: "imoveis", rotulo: "Aluguel e venda", campoTitulo: "titulo", rota: "/imoveis" },
   { tabela: "acoes", rotulo: "Doações e ações", campoTitulo: "titulo", rota: "/acoes" },
-  {
-    tabela: "sugestoes",
-    rotulo: "Propostas de melhoria",
-    campoTitulo: "titulo",
-    rota: "/melhorias",
-  },
 ];
 
 function useMinhasPublicacoes(userId?: string) {

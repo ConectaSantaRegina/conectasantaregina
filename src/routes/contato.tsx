@@ -86,7 +86,7 @@ function Contato() {
               <h3 className="font-display text-base font-bold">Perfil Grátis</h3>
               <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
                 <li>✓ Qualquer morador pode usar</li>
-                <li>✓ Cadastrar comércios, serviços, vagas, imóveis, melhorias e doações</li>
+                <li>✓ Cadastrar comércios, serviços, vagas, imóveis e doações</li>
                 <li>✓ Visualizar tudo que é publicado</li>
                 <li>✓ Sem custos</li>
               </ul>
@@ -97,7 +97,7 @@ function Contato() {
                 <li>✓ Para comerciantes e prestadores de serviços</li>
                 <li>✓ Publicar no Feed e Novidades</li>
                 <li>✓ Maior visibilidade</li>
-                <li>✓ Taxa mensal de R$ 25,00</li>
+                <li>✓ Taxa mensal de R$ 15,00</li>
               </ul>
             </div>
             <p className="mt-1 text-xs italic text-muted-foreground">

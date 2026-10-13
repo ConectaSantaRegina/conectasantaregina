@@ -1,0 +1,2 @@
+export const REGRA_CONTEUDO =
+  "Publique assuntos relacionados às categorias do site: comércio, serviços, saúde, empregos, imóveis e ações do bairro. Notícias úteis para Santa Regina são bem-vindas, mas não fofocas, intrigas ou conteúdo alarmista.";
