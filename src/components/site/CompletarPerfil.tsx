@@ -31,7 +31,7 @@ export function CompletarPerfil() {
   });
 
   useEffect(() => {
-    setNome(perfil.data?.nome ?? user?.user_metadata?.full_name ?? "");
+    setNome(perfil.data?.nome ?? user?.user_metadata?.["full_name"] ?? "");
     setWhatsapp(perfil.data?.whatsapp ?? "");
     setMorador(perfil.data?.morador === true ? "sim" : perfil.data?.morador === false ? "nao" : "");
     setErro("");
@@ -83,7 +83,7 @@ export function CompletarPerfil() {
           {erro && <p role="alert" className="text-sm text-destructive">{erro}</p>}
           <Button type="submit" disabled={salvando}>{salvando && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Concluir cadastro</Button>
         </form>}
-      <Button variant="ghost" disabled={salvando} onClick={() => signOut()}>Sair da conta</Button>
+      <div><Button className="w-full" variant="ghost" disabled={salvando} onClick={() => signOut()}>Sair da conta</Button></div>
     </DialogContent>
   </Dialog>;
 }
