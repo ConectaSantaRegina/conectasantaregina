@@ -25,3 +25,4 @@
 - [x] Garantir que novos cadastros e publicações, inclusive enviados pelo administrador, entrem na aba Aprovações antes de aparecer publicamente; validado em todas as categorias ativas
 - [x] Colocar Aprovações como primeira aba do painel e os pedidos de Premium acima da lista de pessoas; ordem conferida com acesso administrativo
 - [ ] Configurar domínio de e-mail e notificar a administração por e-mail sobre novos itens pendentes
+- [ ] Permitir anexar e visualizar vídeo no Feed, incluindo prévia da administração e publicações do autor
