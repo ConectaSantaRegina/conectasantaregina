@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PageHero, Secao } from "@/components/site/PageHero";
-import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 
@@ -30,13 +29,8 @@ export const Route = createFileRoute("/entrar")({
 });
 
 function Entrar() {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const [carregando, setCarregando] = useState(false);
-
-  useEffect(() => {
-    if (user) navigate({ to: "/" });
-  }, [user, navigate]);
 
   async function entrarComGoogle() {
     if (carregando) return;
