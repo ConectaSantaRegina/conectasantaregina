@@ -81,6 +81,7 @@ function FormularioRegistro({
   const [salvando, setSalvando] = useState(false);
   const [categoriaPrincipal, setCategoriaPrincipal] = useState("");
   const [subcategorias, setSubcategorias] = useState<string[]>([]);
+  const [subcategoriasPersonalizadas, setSubcategoriasPersonalizadas] = useState<string[]>([]);
   const [valores, setValores] = useState<Record<string, string | boolean>>(() =>
     valoresIniciais(campos, registro),
   );
@@ -99,8 +100,9 @@ function FormularioRegistro({
     try {
       const payload: Record<string, unknown> = {};
       if (comercioHierarquico) {
-        const resultado = z.object({ categoria: z.string().uuid(), subcategorias: z.array(z.string().uuid()).min(1).max(20) }).safeParse({ categoria: categoriaPrincipal, subcategorias });
-        if (!resultado.success) { toast.error("Selecione a categoria principal e pelo menos uma subcategoria."); return; }
+        const resultado = z.object({ categoria: z.string().uuid(), subcategorias: z.array(z.string().uuid()).max(20), personalizadas: z.array(z.string().trim().min(2).max(100)).max(20) }).refine((dados) => dados.subcategorias.length + dados.personalizadas.length >= 1 && dados.subcategorias.length + dados.personalizadas.length <= 20).safeParse({ categoria: categoriaPrincipal, subcategorias, personalizadas: subcategoriasPersonalizadas });
+        if (!resultado.success) { toast.error("Escolha entre 1 e 20 subcategorias. Cada nome personalizado deve ter entre 2 e 100 caracteres."); return; }
+        payload["subcategorias_personalizadas"] = resultado.data.personalizadas;
       }
       for (const campo of campos) {
         if (comercioHierarquico && campo.name === "categoria") continue;
@@ -189,7 +191,7 @@ function FormularioRegistro({
       </DialogHeader>
       <div className="grid gap-4">
         {campos.map((campo) => (
-          comercioHierarquico && campo.name === "categoria" ? <CamposTaxonomiaComercio key={campo.name} registro={registro} onChange={(categoria, subs) => { setCategoriaPrincipal(categoria); setSubcategorias(subs); }} /> :
+           comercioHierarquico && campo.name === "categoria" ? <CamposTaxonomiaComercio key={campo.name} registro={registro} onChange={(categoria, subs, personalizadas) => { setCategoriaPrincipal(categoria); setSubcategorias(subs); setSubcategoriasPersonalizadas(personalizadas); }} /> :
           <CampoForm
             key={campo.name}
             campo={campo}

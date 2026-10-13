@@ -30,3 +30,4 @@
 - Etapa 2 (fora da entrega inicial, conforme pedido): cadastro com múltiplas subcategorias e Outra (personalizar), aprovação/renomeação/unificação de categorias pela administração
 - [x] Remover a seção Novidades no bairro da página inicial sem excluir cadastros de comércios
 - [x] Incluir categoria principal e seleção de múltiplas subcategorias no formulário de comércio; envio real com Mercado e Padaria confirmado como aguardando aprovação
+- [x] Subcategorias em lista suspensa como categoria principal, com Personalizar e uma entrada por linha; envio, aprovação, leitura pública e remoção do cadastro temporário verificados
