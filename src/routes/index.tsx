@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CarrosselNovidades } from "@/components/site/CarrosselNovidades";
 import { FeedComunidade } from "@/components/site/FeedComunidade";
+import { ComerciosRecentes } from "@/components/site/ComerciosRecentes";
 import { Secao } from "@/components/site/PageHero";
 
 export const Route = createFileRoute("/")({
@@ -96,6 +97,8 @@ function Inicio() {
           </Button>
         </div>
       </section>
+
+      <ComerciosRecentes />
 
       <CarrosselNovidades />
 

@@ -20,7 +20,7 @@ export type Registro = Record<string, unknown> & {
 const COLUNAS_PUBLICAS: Partial<Record<Tabela, string>> = {
   acoes: "id,titulo,tipo,descricao,meta,local,contato,imagem_url,created_at,updated_at",
   comercios:
-    "id,nome,secao,categoria,descricao,endereco,telefone,whatsapp,instagram,horario,delivery,imagem_url,fotos_extras,created_at,updated_at",
+    "id,nome,secao,categoria,categoria_principal_id,descricao,endereco,telefone,whatsapp,instagram,horario,delivery,imagem_url,fotos_extras,created_at,updated_at",
   imoveis:
     "id,titulo,finalidade,tipo,preco,endereco,descricao,contato,imagem_url,created_at,updated_at",
   novidades:
@@ -101,7 +101,10 @@ export function useInvalidar(tabela: Tabela) {
   return async () => {
     await queryClient.invalidateQueries({ queryKey: [tabela] });
     await queryClient.invalidateQueries({ queryKey: ["minhas-publicacoes"] });
-    if (tabela === "comercios") await queryClient.invalidateQueries({ queryKey: ["galerias-premium"] });
+    if (tabela === "comercios") {
+      await queryClient.invalidateQueries({ queryKey: ["galerias-premium"] });
+      await queryClient.invalidateQueries({ queryKey: ["taxonomia-comercio"] });
+    }
     if (TABELAS_MODERADAS.some((item) => item === tabela)) {
       await queryClient.invalidateQueries({ queryKey: ["admin-publicacoes-pendentes"] });
       if (tabela === "comercios") await queryClient.invalidateQueries({ queryKey: ["admin-comercios"] });
