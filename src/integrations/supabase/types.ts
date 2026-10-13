@@ -209,6 +209,7 @@ export type Database = {
           titulo: string
           updated_at: string
           user_id: string
+          video_url: string | null
         }
         Insert: {
           aprovado?: boolean
@@ -224,6 +225,7 @@ export type Database = {
           titulo: string
           updated_at?: string
           user_id: string
+          video_url?: string | null
         }
         Update: {
           aprovado?: boolean
@@ -239,6 +241,7 @@ export type Database = {
           titulo?: string
           updated_at?: string
           user_id?: string
+          video_url?: string | null
         }
         Relationships: []
       }
