@@ -585,6 +585,15 @@ export type Database = {
         Returns: string
       }
       premium_ativo: { Args: { _user_id: string }; Returns: boolean }
+      salvar_comercio_classificado: {
+        Args: {
+          p_categoria: string
+          p_dados: Json
+          p_id?: string
+          p_subcategorias: string[]
+        }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"

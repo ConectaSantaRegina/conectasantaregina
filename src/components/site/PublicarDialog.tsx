@@ -18,6 +18,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { HorarioSemana } from "@/components/site/HorarioSemana";
+import { CamposTaxonomiaComercio } from "@/components/site/CamposTaxonomiaComercio";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { usePremium } from "@/hooks/usePremium";
 import { enviarImagem, enviarVideo } from "@/lib/imagens";
@@ -77,6 +79,8 @@ function FormularioRegistro({
   const { podePublicarNovidades: podeGaleria } = usePremium();
   const invalidar = useInvalidar(tabela);
   const [salvando, setSalvando] = useState(false);
+  const [categoriaPrincipal, setCategoriaPrincipal] = useState("");
+  const [subcategorias, setSubcategorias] = useState<string[]>([]);
   const [valores, setValores] = useState<Record<string, string | boolean>>(() =>
     valoresIniciais(campos, registro),
   );
@@ -89,11 +93,17 @@ function FormularioRegistro({
 
   const definir = (name: string, value: string | boolean) =>
     setValores((atual) => ({ ...atual, [name]: value }));
+  const comercioHierarquico = tabela === "comercios" && (valores["secao"] ?? registro?.["secao"] ?? extra?.["secao"]) !== "publico";
 
   async function salvar() {
     try {
       const payload: Record<string, unknown> = {};
+      if (comercioHierarquico) {
+        const resultado = z.object({ categoria: z.string().uuid(), subcategorias: z.array(z.string().uuid()).min(1).max(20) }).safeParse({ categoria: categoriaPrincipal, subcategorias });
+        if (!resultado.success) { toast.error("Selecione a categoria principal e pelo menos uma subcategoria."); return; }
+      }
       for (const campo of campos) {
+        if (comercioHierarquico && campo.name === "categoria") continue;
         if (campo.type === "image" || campo.type === "video") continue;
         const bruto = valores[campo.name];
         if (campo.type === "switch") {
@@ -138,7 +148,15 @@ function FormularioRegistro({
         payload["fotos_extras"] = [...fotosAtuais, ...await Promise.all(fotosExtras.map((foto) => enviarImagem(foto, user.id)))];
       }
 
-      if (registro) {
+      if (comercioHierarquico) {
+        const { error } = await supabase.rpc("salvar_comercio_classificado", {
+          p_dados: payload as import("@/integrations/supabase/types").Json,
+          p_categoria: categoriaPrincipal,
+          p_subcategorias: subcategorias,
+          ...(registro ? { p_id: registro.id } : {}),
+        });
+        if (error) throw error;
+      } else if (registro) {
         await atualizarRegistro(tabela, registro.id, payload);
       } else {
         Object.assign(payload, extra ?? {});
@@ -171,6 +189,7 @@ function FormularioRegistro({
       </DialogHeader>
       <div className="grid gap-4">
         {campos.map((campo) => (
+          comercioHierarquico && campo.name === "categoria" ? <CamposTaxonomiaComercio key={campo.name} registro={registro} onChange={(categoria, subs) => { setCategoriaPrincipal(categoria); setSubcategorias(subs); }} /> :
           <CampoForm
             key={campo.name}
             campo={campo}

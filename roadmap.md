@@ -29,3 +29,4 @@
 - [x] Etapa 1: modelo de categorias/subcategorias, filtros hierárquicos e comércios recentes e agrupados; oito categorias e 108 comércios aprovados preservados, busca e subcategorias testadas sem login
 - Etapa 2 (fora da entrega inicial, conforme pedido): cadastro com múltiplas subcategorias e Outra (personalizar), aprovação/renomeação/unificação de categorias pela administração
 - [x] Remover a seção Novidades no bairro da página inicial sem excluir cadastros de comércios
+- [x] Incluir categoria principal e seleção de múltiplas subcategorias no formulário de comércio; envio real com Mercado e Padaria confirmado como aguardando aprovação
