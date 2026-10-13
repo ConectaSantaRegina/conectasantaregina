@@ -78,6 +78,13 @@
       "when": 1791921645573,
       "tag": "0010_commerce_category_hierarchy",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1791921706176,
+      "tag": "0011_backfill_commerce_hierarchy",
+      "breakpoints": true
     }
   ]
 }

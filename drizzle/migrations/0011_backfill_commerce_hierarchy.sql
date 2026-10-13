@@ -1,0 +1,5 @@
+CREATE INDEX comercios_categoria_principal_idx ON public.comercios(categoria_principal_id);
+ALTER TABLE public.comercios DISABLE TRIGGER controlar_aprovacao;
+UPDATE public.comercios c SET categoria_principal_id = t.categoria_pai_id FROM public.comercio_categorias t WHERE c.secao = 'comercio' AND c.categoria_principal_id IS NULL AND t.chave = public.normalizar_categoria_comercio(CASE c.categoria WHEN 'Mercado e Padaria' THEN 'Mercado' WHEN 'Panificadora' THEN 'Padaria' ELSE c.categoria END) AND t.categoria_pai_id IS NOT NULL;
+INSERT INTO public.comercio_subcategorias(comercio_id,subcategoria_id) SELECT c.id,t.id FROM public.comercios c JOIN public.comercio_categorias t ON t.categoria_pai_id = c.categoria_principal_id AND (t.chave = public.normalizar_categoria_comercio(CASE c.categoria WHEN 'Mercado e Padaria' THEN 'Mercado' WHEN 'Panificadora' THEN 'Padaria' ELSE c.categoria END) OR (c.categoria = 'Mercado e Padaria' AND t.nome = 'Padaria')) WHERE c.secao = 'comercio' ON CONFLICT DO NOTHING;
+ALTER TABLE public.comercios ENABLE TRIGGER controlar_aprovacao;
