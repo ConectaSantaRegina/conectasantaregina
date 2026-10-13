@@ -26,5 +26,5 @@
 - [x] Colocar Aprovações como primeira aba do painel e os pedidos de Premium acima da lista de pessoas; ordem conferida com acesso administrativo
 - [ ] Configurar domínio de e-mail e notificar a administração por e-mail sobre novos itens pendentes
 - [x] Permitir anexar e visualizar vídeo no Feed, incluindo prévia da administração e publicações do autor; envio, aprovação, exibição pública e remoção temporária testados
-- [ ] Etapa 1: modelo de categorias/subcategorias, filtros hierárquicos e comércios recentes e agrupados
-- [ ] Etapa 2: cadastro com múltiplas subcategorias e Outra (personalizar), aprovação/renomeação/unificação de categorias pela administração — próxima etapa solicitada separadamente
+- [x] Etapa 1: modelo de categorias/subcategorias, filtros hierárquicos e comércios recentes e agrupados; oito categorias e 108 comércios aprovados preservados, busca e subcategorias testadas sem login
+- Etapa 2 (fora da entrega inicial, conforme pedido): cadastro com múltiplas subcategorias e Outra (personalizar), aprovação/renomeação/unificação de categorias pela administração
