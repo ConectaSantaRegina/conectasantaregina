@@ -24,7 +24,7 @@ const COLUNAS_PUBLICAS: Partial<Record<Tabela, string>> = {
   imoveis:
     "id,titulo,finalidade,tipo,preco,endereco,descricao,contato,imagem_url,created_at,updated_at",
   novidades:
-    "id,titulo,texto,categoria,imagem_url,premium_valido_ate,canal,created_at,updated_at",
+    "id,titulo,texto,categoria,imagem_url,aprovado,premium_valido_ate,canal,created_at,updated_at",
   sugestoes: "id,titulo,descricao,local,status,created_at,updated_at",
   vagas: "id,titulo,empresa,descricao,tipo,salario,contato,created_at,updated_at",
   sugestao_apoios: "sugestao_id",
