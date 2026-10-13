@@ -16,6 +16,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import { CompletarPerfil } from "@/components/site/CompletarPerfil";
 
 function NotFoundComponent() {
   return (
@@ -145,6 +146,7 @@ function RootComponent() {
           <Footer />
         </div>
         <Toaster richColors position="top-center" />
+        <CompletarPerfil />
       </AuthProvider>
     </QueryClientProvider>
   );

@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { PageHero, Secao } from "@/components/site/PageHero";
 import { Button } from "@/components/ui/button";
+import { AdminPerfis } from "@/components/site/AdminPerfis";
 import {
   AdminUsuariosPremium,
   AdminNovidadesPendentes,
@@ -77,6 +78,7 @@ function Admin() {
       />
       <Secao>
         <div className="mb-12 grid gap-12">
+          <AdminPerfis onSelecionar={setPessoaSelecionada} />
           <AdminPedidosPremium onSelecionar={setPessoaSelecionada} />
           <AdminNovidadesPendentes />
           <AdminPublicacoesPendentes />

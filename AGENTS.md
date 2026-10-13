@@ -17,3 +17,5 @@
 - Keep visitor SELECT grants aligned with safe publication columns (including `canal`) and approved-row RLS; never expose author or approver IDs to enable public feeds.
 
 - Keep sign-in in the public `/entrar` route using the managed OAuth helper with a public same-origin callback; verify the returned user before navigation so account access does not race session hydration.
+- Collect post-session profile completion in a shared root dialog backed by the private profiles table and database validation; require its completion for new publication inserts so bypassing the dialog cannot skip required contact data.
+- Reuse the admin-only profile query and author-contact presentation for people search and moderation so private contact fields never enter public publication queries.
