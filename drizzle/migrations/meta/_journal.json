@@ -64,6 +64,13 @@
       "when": 1791910178906,
       "tag": "0008_require_review_for_all_new_submissions",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791912481803,
+      "tag": "0009_add_feed_video_attachments",
+      "breakpoints": true
     }
   ]
 }
