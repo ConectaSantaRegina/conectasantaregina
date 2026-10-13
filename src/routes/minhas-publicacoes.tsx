@@ -49,12 +49,13 @@ function useMinhasPublicacoes(userId?: string) {
     queryKey: ["minhas-publicacoes", userId],
     enabled: Boolean(userId),
     queryFn: async () => {
+      if (!userId) return [];
       const resultados = await Promise.all(
         GRUPOS.map(async (grupo) => {
           const { data, error } = await supabase
             .from(grupo.tabela as "comercios")
             .select("*")
-            .eq("user_id", userId!)
+            .eq("user_id", userId)
             .order("created_at", { ascending: false });
           if (error) throw error;
           return { grupo, itens: (data ?? []) as unknown as Registro[] };
