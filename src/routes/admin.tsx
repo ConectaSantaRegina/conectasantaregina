@@ -80,18 +80,18 @@ function Admin() {
         subtitulo="Analise pedidos Premium e aprove cadastros e publicações antes de aparecerem no site. O pagamento é combinado por fora (PIX)."
       />
       <Secao>
-        <Tabs defaultValue="pessoas" className="mb-12">
+        <Tabs defaultValue="aprovacoes" className="mb-12">
           <TabsList className="mb-6 flex h-auto w-full flex-wrap justify-start" aria-label="Seções da administração">
-            <TabsTrigger value="pessoas"><Users className="mr-2 h-4 w-4" />Pessoas</TabsTrigger>
             <TabsTrigger value="aprovacoes"><ClipboardCheck className="mr-2 h-4 w-4" />Aprovações</TabsTrigger>
+            <TabsTrigger value="pessoas"><Users className="mr-2 h-4 w-4" />Pessoas</TabsTrigger>
           </TabsList>
-          <TabsContent value="pessoas" className="grid gap-10">
-            <AdminPerfis onSelecionar={setPessoaSelecionada} />
-            <AdminPedidosPremium onSelecionar={setPessoaSelecionada} />
-          </TabsContent>
           <TabsContent value="aprovacoes" className="grid gap-10">
             <AdminNovidadesPendentes />
             <AdminPublicacoesPendentes />
+          </TabsContent>
+          <TabsContent value="pessoas" className="grid gap-10">
+            <AdminPedidosPremium onSelecionar={setPessoaSelecionada} />
+            <AdminPerfis onSelecionar={setPessoaSelecionada} />
           </TabsContent>
         </Tabs>
         <Dialog open={Boolean(pessoaSelecionada)} onOpenChange={(aberto) => { if (!aberto) setPessoaSelecionada(""); }}>
