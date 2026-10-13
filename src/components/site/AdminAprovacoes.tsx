@@ -364,7 +364,7 @@ export function AdminPublicacoesPendentes() {
     },
     onSuccess: (_result, { tabela, aprovar }) => {
       toast.success(aprovar ? "Cadastro aprovado e publicado." : "Cadastro recusado e removido.");
-      for (const key of [["admin-publicacoes-pendentes"], [tabela], ["minhas-publicacoes"], ["admin-comercios"], ["comercios-premium"]]) queryClient.invalidateQueries({ queryKey: key });
+      for (const key of [["admin-publicacoes-pendentes"], [tabela], ["minhas-publicacoes"], ["admin-comercios"], ["comercios-premium"], ["taxonomia-comercio"]]) queryClient.invalidateQueries({ queryKey: key });
     },
     onError: (e: Error) => toast.error(e.message),
   });
@@ -375,6 +375,10 @@ export function AdminPublicacoesPendentes() {
       <ul className="grid gap-3">{lista.map((item) => <li key={`${item.tabela}-${item.id}`} className="surface-card grid gap-3 p-4">
         <div className="flex flex-wrap items-center gap-2"><strong>{item.titulo}</strong><Badge variant="outline">{ROTULOS_PUBLICACOES[item.tabela]}</Badge><span className="text-xs text-muted-foreground">{formatarData(item.created_at)}</span></div>
         <ContatoAutor userId={item.user_id} />
+        {"subcategorias_personalizadas" in item && Array.isArray(item.subcategorias_personalizadas) && item.subcategorias_personalizadas.length > 0 && <div className="grid gap-1 text-sm">
+          <p className="font-medium">Subcategorias personalizadas para aprovação</p>
+          <ul className="list-inside list-disc">{item.subcategorias_personalizadas.map((nome) => <li key={nome}>{nome}</li>)}</ul>
+        </div>}
         <div className="grid gap-1 text-sm text-muted-foreground">
           {Object.entries(item).filter(([key, value]) => !["id", "user_id", "aprovado", "created_at", "updated_at", "imagem_url", "fotos_extras", "tabela", "titulo"].includes(key) && value !== null && value !== "" && typeof value !== "object").map(([key, value]) => <p key={key}><span className="font-medium">{key.replaceAll("_", " ")}: </span>{String(value)}</p>)}
         </div>
