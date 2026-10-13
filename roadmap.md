@@ -15,3 +15,5 @@
 - [x] Remover página Melhorias e suas referências no site
 - [x] Manter imagem antes do texto no Feed e adicionar Ver mais às postagens longas
 - [x] Adicionar publicação em Novidades com as mesmas regras Premium e de aprovação do Feed; envio, aprovação e remoção temporária testados
+- [x] Remover controle Premium por comércio do painel, preservando privilégios por pessoa
+- [x] Liberar leitura pública segura de todas as publicações aprovadas e verificar sem login
