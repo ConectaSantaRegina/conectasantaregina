@@ -92,6 +92,13 @@
       "when": 1791922867806,
       "tag": "0012_save_commerce_subcategories",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1791923722049,
+      "tag": "0013_commerce_manual_subcategories",
+      "breakpoints": true
     }
   ]
 }

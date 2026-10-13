@@ -140,6 +140,7 @@ export type Database = {
           instagram: string | null
           nome: string
           secao: string
+          subcategorias_personalizadas: string[]
           telefone: string | null
           updated_at: string
           user_id: string
@@ -160,6 +161,7 @@ export type Database = {
           instagram?: string | null
           nome: string
           secao?: string
+          subcategorias_personalizadas?: string[]
           telefone?: string | null
           updated_at?: string
           user_id: string
@@ -180,6 +182,7 @@ export type Database = {
           instagram?: string | null
           nome?: string
           secao?: string
+          subcategorias_personalizadas?: string[]
           telefone?: string | null
           updated_at?: string
           user_id?: string
