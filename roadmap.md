@@ -7,8 +7,8 @@
 - [x] Exibir prévia com imagem ao compartilhar o site no WhatsApp
 - [x] Confirmar login por e-mail, Destaques Premium, aprovação, menu mobile, texto de contato e filtros alfabéticos
 - [ ] Exibir e tratar pedidos de Premium no painel admin
-- [ ] Exigir aprovação admin para novos comércios, serviços públicos, vagas, imóveis e ações; manter Novidades e Feed sob aprovação
-- [ ] Mostrar pendências ao autor e testar o fluxo de moderação
+- [x] Exigir aprovação admin para novos comércios, serviços públicos, vagas, imóveis e ações; manter Novidades e Feed sob aprovação
+- [x] Mostrar pendências ao autor e testar o fluxo de moderação; sete caminhos testados com envio, aprovação e leitura pública
 - [x] Simplificar a chamada do Feed para um único botão direcionado ao Fale Conosco
 - [x] Aplicar em todo o site o layout do arquivo Conecta_Santa_Regina_1.html e validar desktop/mobile
 - [x] Atualizar taxa mensal no Fale Conosco para R$ 15,00
@@ -22,4 +22,4 @@
 - [ ] Confirmar retorno completo do Google no site hospedado — o intermediário OAuth não é atendido no localhost de teste
 - [x] Exigir dados de perfil após Google e mostrar nome, WhatsApp e moradia ao administrador com pesquisa; validação, salvamento e busca testados com sessão real
 - [x] Destacar busca de pessoas, abrir controle Premium direto do perfil e separar aprovações em aba dedicada; busca, salvamento e leitura do Premium e abas testados com acesso administrativo
-- [ ] Garantir que novos cadastros e publicações, inclusive enviados pelo administrador, entrem na aba Aprovações antes de aparecer publicamente
+- [x] Garantir que novos cadastros e publicações, inclusive enviados pelo administrador, entrem na aba Aprovações antes de aparecer publicamente; validado em todas as categorias ativas
