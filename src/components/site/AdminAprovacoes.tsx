@@ -19,6 +19,7 @@ import {
 import { SiteImage } from "@/components/site/SiteImage";
 import { EstadoVazio } from "@/components/site/PageHero";
 import { formatarData, TABELAS_MODERADAS } from "@/lib/dados";
+import { ContatoAutor, usePerfisAdmin, perfilCorresponde } from "@/components/site/AdminPerfis";
 
 function dataEmDias(dias: number) {
   const d = new Date();
@@ -49,18 +50,9 @@ export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionad
   const pessoaSelecionada = selecionado || userId;
   const [validoAte, setValidoAte] = useState(dataEmDias(30));
   const [observacao, setObservacao] = useState("");
+  const [pesquisaPessoa, setPesquisaPessoa] = useState("");
 
-  const perfis = useQuery({
-    queryKey: ["admin-perfis"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("id,nome,morador,created_at")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return (data ?? []) as Perfil[];
-    },
-  });
+  const perfis = usePerfisAdmin();
 
   const premiumUsuarios = useQuery({
     queryKey: ["admin-premium-usuarios"],
@@ -154,13 +146,15 @@ export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionad
         </p>
 
         <div className="grid gap-2">
+          <Label htmlFor="pesquisa-pessoa-premium">Pesquisar pessoa</Label>
+          <Input id="pesquisa-pessoa-premium" type="search" placeholder="Nome ou WhatsApp" value={pesquisaPessoa} onChange={(e) => setPesquisaPessoa(e.target.value)} />
           <Label>Pessoa cadastrada</Label>
            <Select value={pessoaSelecionada} onValueChange={(id) => { setUserId(id); onSelecionar(id); }}>
             <SelectTrigger>
               <SelectValue placeholder="Escolha quem se cadastrou" />
             </SelectTrigger>
             <SelectContent>
-              {(perfis.data ?? []).map((p) => (
+              {(perfis.data ?? []).filter((p) => p.id === pessoaSelecionada || perfilCorresponde(p, pesquisaPessoa)).map((p) => (
                 <SelectItem key={p.id} value={p.id}>
                   {p.nome || "Sem nome"}
                   {p.morador === true ? " — moradora(o)" : p.morador === false ? " — de fora" : ""}
@@ -168,6 +162,7 @@ export function AdminUsuariosPremium({ selecionado, onSelecionar }: { selecionad
               ))}
             </SelectContent>
           </Select>
+          {pessoaSelecionada && <ContatoAutor userId={pessoaSelecionada} />}
         </div>
 
         <div className="grid gap-2">
@@ -322,6 +317,7 @@ export function AdminPedidosPremium({ onSelecionar }: { onSelecionar: (id: strin
           {pendentes.map((p) => <li key={p.id} className="surface-card grid gap-2 p-4">
             <div className="flex flex-wrap items-center gap-2"><strong>{p.negocio}</strong><Badge variant="secondary">{p.status}</Badge><span className="text-xs text-muted-foreground">{formatarData(p.created_at)}</span></div>
             <p className="text-sm">Contato: {p.contato}</p>
+            <ContatoAutor userId={p.user_id} />
             {p.mensagem && <p className="whitespace-pre-line text-sm text-muted-foreground">{p.mensagem}</p>}
             <div className="flex flex-wrap gap-2">
               <Button size="sm" variant="outline" disabled={alterar.isPending} onClick={() => alterar.mutate({ id: p.id, status: "em contato" })}>Em contato</Button>
@@ -372,6 +368,7 @@ export function AdminPublicacoesPendentes() {
     {pendentes.isError ? <p role="alert">Não foi possível carregar os cadastros pendentes.</p> : pendentes.isLoading ? <p>Carregando…</p> : lista.length === 0 ? <EstadoVazio texto="Nenhum cadastro esperando aprovação." /> : (
       <ul className="grid gap-3">{lista.map((item) => <li key={`${item.tabela}-${item.id}`} className="surface-card grid gap-3 p-4">
         <div className="flex flex-wrap items-center gap-2"><strong>{item.titulo}</strong><Badge variant="outline">{ROTULOS_PUBLICACOES[item.tabela]}</Badge><span className="text-xs text-muted-foreground">{formatarData(item.created_at)}</span></div>
+        <ContatoAutor userId={item.user_id} />
         <div className="grid gap-1 text-sm text-muted-foreground">
           {Object.entries(item).filter(([key, value]) => !["id", "user_id", "aprovado", "created_at", "updated_at", "imagem_url", "fotos_extras", "tabela", "titulo"].includes(key) && value !== null && value !== "" && typeof value !== "object").map(([key, value]) => <p key={key}><span className="font-medium">{key.replaceAll("_", " ")}: </span>{String(value)}</p>)}
         </div>
@@ -478,6 +475,7 @@ export function AdminNovidadesPendentes() {
               ) : null}
               <div className="min-w-0 flex-1">
                 <p className="font-semibold">{row.titulo}</p>
+                <ContatoAutor userId={row.user_id} />
                 <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                   <Badge variant="secondary">{row.categoria}</Badge>
                   <Badge variant="outline">

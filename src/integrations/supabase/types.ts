@@ -329,6 +329,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          cadastro_completo_em: string | null
           created_at: string
           id: string
           morador: boolean | null
@@ -338,6 +339,7 @@ export type Database = {
           whatsapp: string | null
         }
         Insert: {
+          cadastro_completo_em?: string | null
           created_at?: string
           id: string
           morador?: boolean | null
@@ -347,6 +349,7 @@ export type Database = {
           whatsapp?: string | null
         }
         Update: {
+          cadastro_completo_em?: string | null
           created_at?: string
           id?: string
           morador?: boolean | null

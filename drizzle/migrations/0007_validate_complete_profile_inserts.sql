@@ -1,0 +1,1 @@
+CREATE TRIGGER validar_cadastro_perfil_insert BEFORE INSERT ON public.profiles FOR EACH ROW EXECUTE FUNCTION public.validar_cadastro_perfil();
