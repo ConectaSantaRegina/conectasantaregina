@@ -11,7 +11,7 @@
 - [ ] Mostrar pendências ao autor e testar o fluxo de moderação
 - [x] Simplificar a chamada do Feed para um único botão direcionado ao Fale Conosco
 - [x] Aplicar em todo o site o layout do arquivo Conecta_Santa_Regina_1.html e validar desktop/mobile
-- [ ] Atualizar taxa mensal no Fale Conosco para R$ 15,00
-- [ ] Remover página Melhorias e suas referências no site
-- [ ] Manter imagem antes do texto no Feed e adicionar Ver mais às postagens longas
-- [ ] Adicionar publicação em Novidades com as mesmas regras Premium e de aprovação do Feed
+- [x] Atualizar taxa mensal no Fale Conosco para R$ 15,00
+- [x] Remover página Melhorias e suas referências no site
+- [x] Manter imagem antes do texto no Feed e adicionar Ver mais às postagens longas
+- [x] Adicionar publicação em Novidades com as mesmas regras Premium e de aprovação do Feed; envio, aprovação e remoção temporária testados

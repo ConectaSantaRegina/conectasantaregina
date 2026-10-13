@@ -337,7 +337,7 @@ export function AdminPedidosPremium({ onSelecionar }: { onSelecionar: (id: strin
 
 const ROTULOS_PUBLICACOES: Record<(typeof TABELAS_MODERADAS)[number], string> = {
   comercios: "Comércio ou serviço público", vagas: "Vaga de emprego", imoveis: "Imóvel",
-  sugestoes: "Melhoria", acoes: "Doação ou ação",
+  acoes: "Doação ou ação",
 };
 
 export function AdminPublicacoesPendentes() {
