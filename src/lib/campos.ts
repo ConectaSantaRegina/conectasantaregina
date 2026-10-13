@@ -138,9 +138,4 @@ export const CAMPOS: Partial<Record<Tabela, Campo[]>> = {
     { name: "contato", label: "Contato do organizador", required: true },
     { name: "imagem_url", label: "Imagem da ação", type: "image" },
   ],
-  sugestoes: [
-    { name: "titulo", label: "Sua proposta", required: true },
-    { name: "local", label: "Local no bairro" },
-    { name: "descricao", label: "Detalhes", type: "textarea", max: 3000 },
-  ],
 };
