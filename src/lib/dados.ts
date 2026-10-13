@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export type Tabela = keyof Database["public"]["Tables"];
 
-export const TABELAS_MODERADAS = ["comercios", "vagas", "imoveis", "sugestoes", "acoes"] as const;
+export const TABELAS_MODERADAS = ["comercios", "vagas", "imoveis", "acoes"] as const;
 
 export type Registro = Record<string, unknown> & {
   id: string;
