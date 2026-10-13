@@ -129,6 +129,7 @@ export type Database = {
           aprovado: boolean
           categoria: string
           categoria_principal_id: string | null
+          categoria_principal_personalizada: string | null
           created_at: string
           delivery: boolean
           descricao: string | null
@@ -150,6 +151,7 @@ export type Database = {
           aprovado?: boolean
           categoria: string
           categoria_principal_id?: string | null
+          categoria_principal_personalizada?: string | null
           created_at?: string
           delivery?: boolean
           descricao?: string | null
@@ -171,6 +173,7 @@ export type Database = {
           aprovado?: boolean
           categoria?: string
           categoria_principal_id?: string | null
+          categoria_principal_personalizada?: string | null
           created_at?: string
           delivery?: boolean
           descricao?: string | null
