@@ -105,15 +105,15 @@ function MinhasPublicacoes() {
             <EstadoVazio texto="Você ainda não publicou nada. Comece cadastrando seu comércio ou uma promoção." />
           </div>
         ) : (
-          <div className="grid gap-10">
-            {idsFeed.length > 0 && <div className="grid grid-cols-2 gap-3" aria-label="Resumo das suas publicações no Feed">
+          <div className="grid min-w-0 gap-10">
+            {idsFeed.length > 0 && <div className="grid min-w-0 grid-cols-2 gap-3" aria-label="Resumo das suas publicações no Feed">
               <div className="surface-card p-4"><Heart className="mb-2 size-5 text-like" /><p className="text-2xl font-bold tabular-nums">{engajamento.erro ? "—" : engajamento.carregando ? "…" : resumo.curtidas}</p><p className="text-sm text-muted-foreground">Curtidas no Feed</p></div>
               <div className="surface-card p-4"><Send className="mb-2 size-5 text-primary" /><p className="text-2xl font-bold tabular-nums">{engajamento.erro ? "—" : engajamento.carregando ? "…" : resumo.compartilhamentos}</p><p className="break-words text-sm text-muted-foreground">Compartilhamentos no Feed</p></div>
             </div>}
             {(data ?? [])
               .filter((g) => g.itens.length > 0)
               .map(({ grupo, itens }) => (
-                <section key={grupo.tabela} className="grid gap-4">
+                <section key={grupo.tabela} className="grid min-w-0 gap-4">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <h2 className="font-display text-xl font-bold">
                       {grupo.rotulo}{" "}
@@ -125,14 +125,14 @@ function MinhasPublicacoes() {
                       <Link to={grupo.rota}>Ver a página</Link>
                     </Button>
                   </div>
-                  <ul className="grid gap-3">
+                  <ul className="grid min-w-0 gap-3">
                     {itens.map((item) => {
                       const imagem = txt(item, "imagem_url");
                       const video = txt(item, "video_url");
                       return (
                         <li
                           key={item.id}
-                          className="surface-card flex flex-wrap items-center gap-4 p-4 sm:flex-nowrap"
+                          className="surface-card flex min-w-0 flex-wrap items-center gap-4 p-4 sm:flex-nowrap"
                         >
                           {imagem ? (
                             <SiteImage
