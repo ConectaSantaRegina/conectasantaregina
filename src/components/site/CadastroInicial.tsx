@@ -18,7 +18,9 @@ const ICONES = { comercio: Store, vaga: BriefcaseBusiness, imovel: House, acao: 
 
 export function CadastroGratisButton() {
   const abrir = useContext(CadastroContext);
-  return <Button size="lg" className="h-auto max-w-full whitespace-normal py-3 text-center" onClick={() => abrir?.()}>
+  const { user, loading } = useAuth();
+  const perfil = usePerfilCadastro();
+  return <Button size="lg" disabled={loading || Boolean(user && perfil.isPending)} className="h-auto max-w-full whitespace-normal py-3 text-center" onClick={() => abrir?.()}>
     Tem comércio, imovél, vaga ou doação? Cadastre grátis
   </Button>;
 }
