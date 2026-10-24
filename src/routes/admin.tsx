@@ -7,6 +7,8 @@ import { AdminPerfis } from "@/components/site/AdminPerfis";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Users, ClipboardCheck } from "lucide-react";
+import { useResumoVisitas } from "@/hooks/useVisitas";
+import { formatarVisitas } from "@/lib/visitas";
 import {
   AdminUsuariosPremium,
   AdminNovidadesPendentes,
@@ -80,6 +82,7 @@ function Admin() {
         subtitulo="Analise pedidos Premium e aprove cadastros e publicações antes de aparecerem no site. O pagamento é combinado por fora (PIX)."
       />
       <Secao>
+        <ResumoVisitas />
         <Tabs defaultValue="aprovacoes" className="mb-12">
           <TabsList className="mb-6 flex h-auto w-full flex-wrap justify-start" aria-label="Seções da administração">
             <TabsTrigger value="aprovacoes"><ClipboardCheck className="mr-2 h-4 w-4" />Aprovações</TabsTrigger>
@@ -104,6 +107,26 @@ function Admin() {
           </DialogContent>
         </Dialog>
       </Secao>
+    </div>
+  );
+}
+
+function ResumoVisitas() {
+  const { data, isError } = useResumoVisitas(true);
+  const cards = [
+    { titulo: "Visitas hoje", valor: data ? formatarVisitas(Number(data.hoje)) : "…" },
+    { titulo: "Visitas nos últimos 30 dias", valor: data ? formatarVisitas(Number(data.ultimos_30)) : "…" },
+    { titulo: "Categoria de comércio mais vista", valor: data ? (data.categoria_top ? `${data.categoria_top} (${formatarVisitas(Number(data.categoria_top_total))})` : "Sem dados ainda") : "…" },
+  ];
+  if (isError) return <p className="mb-6 text-sm text-muted-foreground">Não foi possível carregar o resumo de visitas.</p>;
+  return (
+    <div className="mb-8 grid gap-4 sm:grid-cols-3">
+      {cards.map((c) => (
+        <div key={c.titulo} className="surface-card p-5">
+          <p className="text-sm text-muted-foreground">{c.titulo}</p>
+          <p className="mt-1 font-display text-2xl font-extrabold break-words">{c.valor}</p>
+        </div>
+      ))}
     </div>
   );
 }

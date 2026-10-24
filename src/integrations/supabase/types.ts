@@ -526,6 +526,57 @@ export type Database = {
         }
         Relationships: []
       }
+      publicacao_visualizacoes: {
+        Row: {
+          created_at: string
+          dia: string
+          id: string
+          publicacao_id: string
+          tipo: string
+          visitante: string
+        }
+        Insert: {
+          created_at?: string
+          dia?: string
+          id?: string
+          publicacao_id: string
+          tipo: string
+          visitante: string
+        }
+        Update: {
+          created_at?: string
+          dia?: string
+          id?: string
+          publicacao_id?: string
+          tipo?: string
+          visitante?: string
+        }
+        Relationships: []
+      }
+      site_visitas: {
+        Row: {
+          created_at: string
+          dia: string
+          id: string
+          pagina: string
+          visitante: string
+        }
+        Insert: {
+          created_at?: string
+          dia?: string
+          id?: string
+          pagina?: string
+          visitante: string
+        }
+        Update: {
+          created_at?: string
+          dia?: string
+          id?: string
+          pagina?: string
+          visitante?: string
+        }
+        Relationships: []
+      }
       sugestao_apoios: {
         Row: {
           created_at: string
@@ -659,7 +710,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _visitante_id: { Args: { p_visitante: string }; Returns: string }
+      admin_resumo_visitas: {
+        Args: never
+        Returns: {
+          categoria_top: string
+          categoria_top_total: number
+          hoje: number
+          ultimos_30: number
+        }[]
+      }
       comercios_galeria_premium: { Args: never; Returns: string[] }
+      contagem_visualizacoes: {
+        Args: { p_ids: string[] }
+        Returns: {
+          publicacao_id: string
+          total: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -676,6 +744,14 @@ export type Database = {
         Args: { p_dispositivo: string; p_publicacao: string }
         Returns: undefined
       }
+      registrar_visita: {
+        Args: { p_pagina?: string; p_visitante: string }
+        Returns: number
+      }
+      registrar_visualizacao: {
+        Args: { p_publicacao: string; p_tipo: string; p_visitante: string }
+        Returns: undefined
+      }
       salvar_comercio_classificado: {
         Args: {
           p_categoria: string
@@ -685,6 +761,7 @@ export type Database = {
         }
         Returns: string
       }
+      total_visitas: { Args: never; Returns: number }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"

@@ -28,3 +28,4 @@
 - [x] Permitir anexar e visualizar vídeo no Feed, incluindo prévia da administração e publicações do autor; envio, aprovação, exibição pública e remoção temporária testados
 - [x] Adicionar orientação opcional após o primeiro cadastro, salvar conclusão no perfil, reutilizar os quatro formulários gratuitos e incluir chamada na página inicial; escolha persistente, quatro envios pendentes com retorno ao início, abandono e celular/computador testados
 - [x] Adicionar curtidas autenticadas, compartilhamentos únicos por dispositivo, contadores em tempo real e resumo nas publicações do autor; curtir/descurtir, duplicidade, privacidade, link copiado, opção nativa, persistência, segunda tela ao vivo e celular testados; publicação temporária removida
+- [x] Contador de visitas na home, visualizações no feed e comércios, resumo no painel admin

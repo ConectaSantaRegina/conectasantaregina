@@ -5,11 +5,12 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { ContadorVisualizacoes } from "@/components/site/Visualizacoes";
 import { dispositivoCompartilhamento, linkPublicacao } from "@/lib/feed-engajamento";
 
-type Props = { id: string; titulo: string; curtido: boolean; curtidas: number; compartilhamentos: number; carregando: boolean; atualizar: () => Promise<void> };
+type Props = { id: string; titulo: string; curtido: boolean; curtidas: number; compartilhamentos: number; visualizacoes: number; carregando: boolean; atualizar: () => Promise<void> };
 
-export function FeedInteracoes({ id, titulo, curtido, curtidas, compartilhamentos, carregando, atualizar }: Props) {
+export function FeedInteracoes({ id, titulo, curtido, curtidas, compartilhamentos, visualizacoes, carregando, atualizar }: Props) {
   const { user, loading } = useAuth();
   const [ocupado, setOcupado] = useState(false);
   const [compartilhando, setCompartilhando] = useState(false);
@@ -47,7 +48,7 @@ export function FeedInteracoes({ id, titulo, curtido, curtidas, compartilhamento
 
   return (
     <div className="border-t px-4 py-3 sm:px-5">
-      <div className="flex items-center gap-5">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
         <div className="flex min-w-20 items-center gap-1">
           <Button variant="ghost" size="icon" title={curtido ? "Descurtir" : "Curtir"} aria-label={curtido ? "Descurtir" : "Curtir"} aria-pressed={curtido} disabled={ocupado || loading || carregando} onClick={curtir} className={curtido ? "text-like hover:text-like" : "text-foreground"}>
             <Heart className={`size-6 transition-transform duration-200 motion-reduce:transition-none ${curtido ? "fill-current scale-110" : "scale-100"}`} />
@@ -58,6 +59,7 @@ export function FeedInteracoes({ id, titulo, curtido, curtidas, compartilhamento
           <Button variant="ghost" size="icon" title="Compartilhar" aria-label="Compartilhar" disabled={compartilhando} onClick={compartilhar}><Send className="size-6" /></Button>
           <span className="text-sm tabular-nums" aria-label={`${compartilhamentos} compartilhamentos`} aria-live="polite">{carregando ? "…" : compartilhamentos}</span>
         </div>
+        <ContadorVisualizacoes total={visualizacoes} />
       </div>
       {convite && !user && <div className="mt-2 flex flex-wrap items-center gap-x-2 text-sm"><span>Entre ou crie sua conta para curtir.</span><Button asChild variant="link" className="h-auto px-0 py-1"><Link to="/entrar">Entrar ou criar conta</Link></Button></div>}
     </div>

@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { CarrosselNovidades } from "@/components/site/CarrosselNovidades";
 import { FeedComunidade } from "@/components/site/FeedComunidade";
 import { Secao } from "@/components/site/PageHero";
+import { BadgeVisitas } from "@/components/site/Visualizacoes";
 import { CadastroGratisButton } from "@/components/site/CadastroInicial";
 
 export const Route = createFileRoute("/")({
@@ -100,6 +101,7 @@ function Inicio() {
           <Button asChild size="lg" className="mt-6 bg-accent text-accent-foreground hover:bg-accent/90">
             <Link to="/novidades">Ver novidades do bairro</Link>
           </Button>
+          <div className="mt-4 md:absolute md:right-4 md:top-4 md:mt-0"><BadgeVisitas /></div>
         </div>
       </section>
 
