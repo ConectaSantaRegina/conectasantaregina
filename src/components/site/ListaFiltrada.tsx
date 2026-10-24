@@ -33,6 +33,17 @@ export function ListaFiltrada({
     );
   }, [itens, categorias, campoCategoria]);
 
+  // Quantidade de itens aprovados por categoria (os itens já vêm aprovados da consulta).
+  const contagens = useMemo(() => {
+    if (!campoCategoria) return new Map<string, number>();
+    const mapa = new Map<string, number>();
+    for (const item of itens) {
+      const chave = txt(item, campoCategoria);
+      mapa.set(chave, (mapa.get(chave) ?? 0) + 1);
+    }
+    return mapa;
+  }, [itens, campoCategoria]);
+
   // Se a categoria escolhida ficar vazia, volta para "Todos".
   useEffect(() => {
     if (categoria !== "Todos" && disponiveis && !disponiveis.includes(categoria)) {
@@ -75,6 +86,9 @@ export function ListaFiltrada({
                   onClick={() => setCategoria(opcao)}
                 >
                   {opcao}
+                  <span className="ml-1 text-[0.78rem] font-normal opacity-70">
+                    {opcao === "Todos" ? itens.length : (contagens.get(opcao) ?? 0)}
+                  </span>
                 </Button>
               ),
             )}
