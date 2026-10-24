@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { CarrosselNovidades } from "@/components/site/CarrosselNovidades";
 import { FeedComunidade } from "@/components/site/FeedComunidade";
 import { Secao } from "@/components/site/PageHero";
+import { CadastroGratisButton } from "@/components/site/CadastroInicial";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -91,6 +92,7 @@ function Inicio() {
             O ponto de encontro digital de Santa Regina: comércio, delivery, saúde, empregos,
             novidades e as ações que a comunidade organiza junto.
           </p>
+          <div className="mt-5"><CadastroGratisButton /></div>
           <Button asChild size="lg" className="mt-6 bg-accent text-accent-foreground hover:bg-accent/90">
             <Link to="/novidades">Ver novidades do bairro</Link>
           </Button>

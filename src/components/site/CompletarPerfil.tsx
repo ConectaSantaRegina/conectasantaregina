@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
+import { usePerfilCadastro } from "@/hooks/usePerfilCadastro";
 import { supabase } from "@/integrations/supabase/client";
 import { cadastroPerfilSchema } from "@/lib/perfil";
 import { Button } from "@/components/ui/button";
@@ -18,17 +19,7 @@ export function CompletarPerfil() {
   const [morador, setMorador] = useState<"sim" | "nao" | "">("");
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState("");
-  const perfil = useQuery({
-    queryKey: ["meu-perfil-cadastro", user?.id],
-    enabled: Boolean(user),
-    queryFn: async () => {
-      if (!user) return null;
-      const { data, error } = await supabase.from("profiles")
-        .select("id,nome,whatsapp,morador,cadastro_completo_em").eq("id", user.id).maybeSingle();
-      if (error) throw error;
-      return data;
-    },
-  });
+  const perfil = usePerfilCadastro();
 
   useEffect(() => {
     setNome(perfil.data?.nome ?? user?.user_metadata?.["full_name"] ?? "");

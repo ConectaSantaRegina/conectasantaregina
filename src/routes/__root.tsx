@@ -17,6 +17,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { CompletarPerfil } from "@/components/site/CompletarPerfil";
+import { CadastroInicialProvider } from "@/components/site/CadastroInicial";
 
 function NotFoundComponent() {
   return (
@@ -137,6 +138,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <CadastroInicialProvider>
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">
@@ -147,6 +149,7 @@ function RootComponent() {
         </div>
         <Toaster richColors position="top-center" />
         <CompletarPerfil />
+        </CadastroInicialProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
