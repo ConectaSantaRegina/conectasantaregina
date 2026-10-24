@@ -1,5 +1,6 @@
 import { Eye } from "lucide-react";
-import { useVisitasSite } from "@/hooks/useVisitas";
+import type React from "react";
+import { useRegistrarVisualizacao, useVisitasSite } from "@/hooks/useVisitas";
 import { formatarVisitas } from "@/lib/visitas";
 
 export function ContadorVisualizacoes({ total }: { total: number }) {
@@ -19,4 +20,10 @@ export function BadgeVisitas({ className = "" }: { className?: string }) {
       <Eye className="size-4" aria-hidden /> {formatarVisitas(total)} visitas ao bairro
     </span>
   );
+}
+
+/** Marcador invisível que registra a visualização quando o card entra na tela. */
+export function MarcadorVisualizacao({ id, tipo }: { id: string; tipo: "feed" | "comercio" }) {
+  const ref = useRegistrarVisualizacao(id, tipo);
+  return <div ref={ref as React.RefObject<HTMLDivElement>} aria-hidden className="h-px w-full" />;
 }
