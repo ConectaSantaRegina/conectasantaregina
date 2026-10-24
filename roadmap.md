@@ -26,4 +26,4 @@
 - [x] Colocar Aprovações como primeira aba do painel e os pedidos de Premium acima da lista de pessoas; ordem conferida com acesso administrativo
 - [ ] Configurar domínio de e-mail e notificar a administração por e-mail sobre novos itens pendentes
 - [x] Permitir anexar e visualizar vídeo no Feed, incluindo prévia da administração e publicações do autor; envio, aprovação, exibição pública e remoção temporária testados
-- [ ] Adicionar orientação opcional após o primeiro cadastro, salvar conclusão no perfil, reutilizar os quatro formulários gratuitos e incluir chamada na página inicial; validar escolhas, retorno e celular
+- [x] Adicionar orientação opcional após o primeiro cadastro, salvar conclusão no perfil, reutilizar os quatro formulários gratuitos e incluir chamada na página inicial; escolha persistente, quatro envios pendentes com retorno ao início, abandono e celular/computador testados
