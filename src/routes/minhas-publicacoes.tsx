@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Heart, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { AcoesRegistro } from "@/components/site/CardItem";
@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { SiteImage } from "@/components/site/SiteImage";
 import { SiteVideo } from "@/components/site/SiteVideo";
 import { formatarData, txt, TABELAS_MODERADAS, type Registro, type Tabela } from "@/lib/dados";
+import { useFeedEngajamento } from "@/hooks/useFeedEngajamento";
+import { somarMetricas } from "@/lib/feed-engajamento";
 
 export const Route = createFileRoute("/minhas-publicacoes")({
   head: () => ({
@@ -71,6 +73,9 @@ function MinhasPublicacoes() {
   const { user, loading } = useAuth();
   const { data, isLoading } = useMinhasPublicacoes(user?.id);
   const total = (data ?? []).reduce((soma, g) => soma + g.itens.length, 0);
+  const idsFeed = (data ?? []).filter(g => g.grupo.tabela === "novidades").flatMap(g => g.itens.filter(item => item["canal"] === "feed").map(item => item.id));
+  const engajamento = useFeedEngajamento(idsFeed);
+  const resumo = somarMetricas(idsFeed, engajamento.metricas);
 
   return (
     <div>
@@ -100,11 +105,15 @@ function MinhasPublicacoes() {
             <EstadoVazio texto="Você ainda não publicou nada. Comece cadastrando seu comércio ou uma promoção." />
           </div>
         ) : (
-          <div className="grid gap-10">
+          <div className="grid min-w-0 gap-10">
+            {idsFeed.length > 0 && <div className="grid min-w-0 grid-cols-2 gap-3" aria-label="Resumo das suas publicações no Feed">
+              <div className="surface-card p-4"><Heart className="mb-2 size-5 text-like" /><p className="text-2xl font-bold tabular-nums">{engajamento.erro ? "—" : engajamento.carregando ? "…" : resumo.curtidas}</p><p className="text-sm text-muted-foreground">Curtidas no Feed</p></div>
+              <div className="surface-card p-4"><Send className="mb-2 size-5 text-primary" /><p className="text-2xl font-bold tabular-nums">{engajamento.erro ? "—" : engajamento.carregando ? "…" : resumo.compartilhamentos}</p><p className="break-words text-sm text-muted-foreground">Compartilhamentos no Feed</p></div>
+            </div>}
             {(data ?? [])
               .filter((g) => g.itens.length > 0)
               .map(({ grupo, itens }) => (
-                <section key={grupo.tabela} className="grid gap-4">
+                <section key={grupo.tabela} className="grid min-w-0 gap-4">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <h2 className="font-display text-xl font-bold">
                       {grupo.rotulo}{" "}
@@ -116,14 +125,14 @@ function MinhasPublicacoes() {
                       <Link to={grupo.rota}>Ver a página</Link>
                     </Button>
                   </div>
-                  <ul className="grid gap-3">
+                  <ul className="grid min-w-0 gap-3">
                     {itens.map((item) => {
                       const imagem = txt(item, "imagem_url");
                       const video = txt(item, "video_url");
                       return (
                         <li
                           key={item.id}
-                          className="surface-card flex flex-wrap items-center gap-4 p-4 sm:flex-nowrap"
+                          className="surface-card flex min-w-0 flex-wrap items-center gap-4 p-4 sm:flex-nowrap"
                         >
                           {imagem ? (
                             <SiteImage
@@ -161,6 +170,10 @@ function MinhasPublicacoes() {
                               </span>
                             </div>
                           </div>
+                          {grupo.tabela === "novidades" && item["canal"] === "feed" && <div className="flex shrink-0 items-center gap-4 text-sm tabular-nums" aria-label="Totais da publicação">
+                            <span className="inline-flex items-center gap-1" title="Curtidas"><Heart className="size-4 text-like" />{engajamento.erro ? "—" : engajamento.carregando ? "…" : engajamento.metricas.find(m => m.publicacao_id === item.id)?.curtidas ?? 0}</span>
+                            <span className="inline-flex items-center gap-1" title="Compartilhamentos"><Send className="size-4 text-primary" />{engajamento.erro ? "—" : engajamento.carregando ? "…" : engajamento.metricas.find(m => m.publicacao_id === item.id)?.compartilhamentos ?? 0}</span>
+                          </div>}
                           <AcoesRegistro registro={item} tabela={grupo.tabela} />
                         </li>
                       );

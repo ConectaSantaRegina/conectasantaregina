@@ -10,6 +10,10 @@ import { Secao } from "@/components/site/PageHero";
 import { CadastroGratisButton } from "@/components/site/CadastroInicial";
 
 export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>): { publicacao?: string } => {
+    const id = search["publicacao"];
+    return typeof id === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id) ? { publicacao: id } : {};
+  },
   head: () => ({
     meta: [
       { title: "Conecta Santa Regina — o guia do nosso bairro" },

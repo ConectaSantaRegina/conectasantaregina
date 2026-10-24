@@ -201,6 +201,84 @@ export type Database = {
           },
         ]
       }
+      feed_compartilhamentos: {
+        Row: {
+          created_at: string
+          dispositivo_id: string
+          publicacao_id: string
+        }
+        Insert: {
+          created_at?: string
+          dispositivo_id: string
+          publicacao_id: string
+        }
+        Update: {
+          created_at?: string
+          dispositivo_id?: string
+          publicacao_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feed_compartilhamentos_publicacao_id_fkey"
+            columns: ["publicacao_id"]
+            isOneToOne: false
+            referencedRelation: "novidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feed_curtidas: {
+        Row: {
+          created_at: string
+          publicacao_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          publicacao_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          publicacao_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feed_curtidas_publicacao_id_fkey"
+            columns: ["publicacao_id"]
+            isOneToOne: false
+            referencedRelation: "novidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feed_metricas: {
+        Row: {
+          compartilhamentos: number
+          curtidas: number
+          publicacao_id: string
+        }
+        Insert: {
+          compartilhamentos?: number
+          curtidas?: number
+          publicacao_id: string
+        }
+        Update: {
+          compartilhamentos?: number
+          curtidas?: number
+          publicacao_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feed_metricas_publicacao_id_fkey"
+            columns: ["publicacao_id"]
+            isOneToOne: true
+            referencedRelation: "novidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       imoveis: {
         Row: {
           aprovado: boolean
@@ -594,6 +672,10 @@ export type Database = {
         Returns: string
       }
       premium_ativo: { Args: { _user_id: string }; Returns: boolean }
+      registrar_compartilhamento_feed: {
+        Args: { p_dispositivo: string; p_publicacao: string }
+        Returns: undefined
+      }
       salvar_comercio_classificado: {
         Args: {
           p_categoria: string

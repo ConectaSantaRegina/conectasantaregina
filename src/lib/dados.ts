@@ -79,9 +79,9 @@ export function useDestaquesPremium(limite = 6) {
 }
 
 /** Feed público da home: somente publicações que já passaram pela aprovação. */
-export function useFeedAprovado(limite = 30) {
+export function useFeedAprovado(limite = 30, publicacao?: string) {
   return useQuery({
-    queryKey: ["feed-aprovado", limite],
+    queryKey: ["feed-aprovado", limite, publicacao],
     queryFn: async (): Promise<Registro[]> => {
       const { data, error } = await supabase
         .from("novidades")
@@ -91,6 +91,12 @@ export function useFeedAprovado(limite = 30) {
         .order("created_at", { ascending: false })
         .limit(limite);
       if (error) throw error;
+      if (publicacao && !((data ?? []) as unknown as Registro[]).some(item => item.id === publicacao)) {
+        const { data: selecionada, error: erroSelecionada } = await supabase.from("novidades")
+          .select(COLUNAS_PUBLICAS.novidades).eq("id", publicacao).eq("aprovado", true).eq("canal", "feed").maybeSingle();
+        if (erroSelecionada) throw erroSelecionada;
+        if (selecionada) return [selecionada, ...(data ?? [])] as unknown as Registro[];
+      }
       return (data ?? []) as unknown as Registro[];
     },
   });

@@ -78,6 +78,13 @@
       "when": 1792858292588,
       "tag": "0010_add_optional_registration_onboarding",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1792859594452,
+      "tag": "0011_feed_engagement",
+      "breakpoints": true
     }
   ]
 }

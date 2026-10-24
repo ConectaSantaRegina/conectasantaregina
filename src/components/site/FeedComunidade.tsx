@@ -1,4 +1,5 @@
-import { Link } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Link, useSearch } from "@tanstack/react-router";
 import { CalendarDays, Crown, ImagePlus, Info, MessageSquareText } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,10 +11,17 @@ import { usePremium } from "@/hooks/usePremium";
 import { CAMPOS_FEED } from "@/lib/campos";
 import { formatarData, txt, useFeedAprovado } from "@/lib/dados";
 import { REGRA_CONTEUDO } from "@/lib/regras-publicacao";
+import { FeedInteracoes } from "@/components/site/FeedInteracoes";
+import { useFeedEngajamento } from "@/hooks/useFeedEngajamento";
 
 export function FeedComunidade() {
   const { podePublicarNovidades, carregando: carregandoPremium } = usePremium();
-  const { data: publicacoes, isLoading } = useFeedAprovado();
+  const { publicacao } = useSearch({ from: "/" });
+  const { data: publicacoes, isLoading } = useFeedAprovado(30, publicacao);
+  const engajamento = useFeedEngajamento((publicacoes ?? []).map(item => item.id));
+  useEffect(() => {
+    if (publicacao && publicacoes) document.getElementById(`publicacao-${publicacao}`)?.scrollIntoView({ block: "start" });
+  }, [publicacao, publicacoes]);
 
   return (
     <section aria-labelledby="titulo-feed">
@@ -86,7 +94,7 @@ export function FeedComunidade() {
         ) : (
           <div className="mx-auto grid max-w-[720px] gap-3.5">
             {(publicacoes ?? []).map((item) => (
-              <article key={item.id} className="surface-card overflow-hidden">
+              <article id={`publicacao-${item.id}`} key={item.id} className="surface-card scroll-mt-40 overflow-hidden">
                 <header className="flex items-center justify-between gap-3 p-4 sm:p-5">
                   <div className="flex min-w-0 items-center gap-3">
                     <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-sm font-extrabold text-primary-foreground">
@@ -125,6 +133,13 @@ export function FeedComunidade() {
                     <TextoFeed texto={txt(item, "texto")} />
                   ) : null}
                 </div>
+                {engajamento.erro ? <p className="px-4 pb-3 text-sm text-muted-foreground">Não foi possível carregar os totais.</p> : <FeedInteracoes
+                  id={item.id} titulo={txt(item, "titulo")}
+                  curtido={engajamento.curtidas.includes(item.id)}
+                  curtidas={engajamento.metricas.find(m => m.publicacao_id === item.id)?.curtidas ?? 0}
+                  compartilhamentos={engajamento.metricas.find(m => m.publicacao_id === item.id)?.compartilhamentos ?? 0}
+                  carregando={engajamento.carregando} atualizar={engajamento.atualizar}
+                />}
               </article>
             ))}
           </div>
