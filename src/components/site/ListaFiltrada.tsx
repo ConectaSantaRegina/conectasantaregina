@@ -86,6 +86,9 @@ export function ListaFiltrada({
                   onClick={() => setCategoria(opcao)}
                 >
                   {opcao}
+                  <span className="ml-1 text-[0.78rem] font-normal opacity-70">
+                    {opcao === "Todos" ? itens.length : (contagens.get(opcao) ?? 0)}
+                  </span>
                 </Button>
               ),
             )}
