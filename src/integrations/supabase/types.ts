@@ -419,6 +419,7 @@ export type Database = {
           id: string
           morador: boolean | null
           nome: string
+          onboarding_concluido: boolean
           telefone: string | null
           updated_at: string
           whatsapp: string | null
@@ -429,6 +430,7 @@ export type Database = {
           id: string
           morador?: boolean | null
           nome?: string
+          onboarding_concluido?: boolean
           telefone?: string | null
           updated_at?: string
           whatsapp?: string | null
@@ -439,6 +441,7 @@ export type Database = {
           id?: string
           morador?: boolean | null
           nome?: string
+          onboarding_concluido?: boolean
           telefone?: string | null
           updated_at?: string
           whatsapp?: string | null
