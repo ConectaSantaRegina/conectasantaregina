@@ -91,7 +91,7 @@ export function useFeedAprovado(limite = 30, publicacao?: string) {
         .order("created_at", { ascending: false })
         .limit(limite);
       if (error) throw error;
-      if (publicacao && !(data ?? []).some(item => item.id === publicacao)) {
+      if (publicacao && !((data ?? []) as unknown as Registro[]).some(item => item.id === publicacao)) {
         const { data: selecionada, error: erroSelecionada } = await supabase.from("novidades")
           .select(COLUNAS_PUBLICAS.novidades).eq("id", publicacao).eq("aprovado", true).eq("canal", "feed").maybeSingle();
         if (erroSelecionada) throw erroSelecionada;

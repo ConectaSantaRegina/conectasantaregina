@@ -73,7 +73,7 @@ function MinhasPublicacoes() {
   const { user, loading } = useAuth();
   const { data, isLoading } = useMinhasPublicacoes(user?.id);
   const total = (data ?? []).reduce((soma, g) => soma + g.itens.length, 0);
-  const idsFeed = (data ?? []).filter(g => g.grupo.tabela === "novidades").flatMap(g => g.itens.filter(item => item.canal === "feed").map(item => item.id));
+  const idsFeed = (data ?? []).filter(g => g.grupo.tabela === "novidades").flatMap(g => g.itens.filter(item => item["canal"] === "feed").map(item => item.id));
   const engajamento = useFeedEngajamento(idsFeed);
   const resumo = somarMetricas(idsFeed, engajamento.metricas);
 
@@ -102,14 +102,14 @@ function MinhasPublicacoes() {
           <p className="text-sm text-muted-foreground">Carregando suas publicações…</p>
         ) : total === 0 ? (
           <div className="grid gap-10">
-            {idsFeed.length > 0 && <div className="grid grid-cols-2 gap-3" aria-label="Resumo das suas publicações no Feed">
-              <div className="surface-card p-4"><Heart className="mb-2 size-5 text-like" /><p className="text-2xl font-bold tabular-nums">{engajamento.erro ? "—" : engajamento.carregando ? "…" : resumo.curtidas}</p><p className="text-sm text-muted-foreground">Curtidas no Feed</p></div>
-              <div className="surface-card p-4"><Send className="mb-2 size-5 text-primary" /><p className="text-2xl font-bold tabular-nums">{engajamento.erro ? "—" : engajamento.carregando ? "…" : resumo.compartilhamentos}</p><p className="break-words text-sm text-muted-foreground">Compartilhamentos no Feed</p></div>
-            </div>}
             <EstadoVazio texto="Você ainda não publicou nada. Comece cadastrando seu comércio ou uma promoção." />
           </div>
         ) : (
           <div className="grid gap-10">
+            {idsFeed.length > 0 && <div className="grid grid-cols-2 gap-3" aria-label="Resumo das suas publicações no Feed">
+              <div className="surface-card p-4"><Heart className="mb-2 size-5 text-like" /><p className="text-2xl font-bold tabular-nums">{engajamento.erro ? "—" : engajamento.carregando ? "…" : resumo.curtidas}</p><p className="text-sm text-muted-foreground">Curtidas no Feed</p></div>
+              <div className="surface-card p-4"><Send className="mb-2 size-5 text-primary" /><p className="text-2xl font-bold tabular-nums">{engajamento.erro ? "—" : engajamento.carregando ? "…" : resumo.compartilhamentos}</p><p className="break-words text-sm text-muted-foreground">Compartilhamentos no Feed</p></div>
+            </div>}
             {(data ?? [])
               .filter((g) => g.itens.length > 0)
               .map(({ grupo, itens }) => (
@@ -170,7 +170,7 @@ function MinhasPublicacoes() {
                               </span>
                             </div>
                           </div>
-                          {grupo.tabela === "novidades" && item.canal === "feed" && <div className="flex shrink-0 items-center gap-4 text-sm tabular-nums" aria-label="Totais da publicação">
+                          {grupo.tabela === "novidades" && item["canal"] === "feed" && <div className="flex shrink-0 items-center gap-4 text-sm tabular-nums" aria-label="Totais da publicação">
                             <span className="inline-flex items-center gap-1" title="Curtidas"><Heart className="size-4 text-like" />{engajamento.erro ? "—" : engajamento.carregando ? "…" : engajamento.metricas.find(m => m.publicacao_id === item.id)?.curtidas ?? 0}</span>
                             <span className="inline-flex items-center gap-1" title="Compartilhamentos"><Send className="size-4 text-primary" />{engajamento.erro ? "—" : engajamento.carregando ? "…" : engajamento.metricas.find(m => m.publicacao_id === item.id)?.compartilhamentos ?? 0}</span>
                           </div>}
