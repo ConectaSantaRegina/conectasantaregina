@@ -107,6 +107,7 @@ export function useInvalidar(tabela: Tabela) {
   return async () => {
     await queryClient.invalidateQueries({ queryKey: [tabela] });
     await queryClient.invalidateQueries({ queryKey: ["minhas-publicacoes"] });
+    await queryClient.invalidateQueries({ queryKey: ["contagem-nav"] });
     if (tabela === "comercios") await queryClient.invalidateQueries({ queryKey: ["galerias-premium"] });
     if (TABELAS_MODERADAS.some((item) => item === tabela)) {
       await queryClient.invalidateQueries({ queryKey: ["admin-publicacoes-pendentes"] });
