@@ -364,7 +364,7 @@ export function AdminPublicacoesPendentes() {
     },
     onSuccess: (_result, { tabela, aprovar }) => {
       toast.success(aprovar ? "Cadastro aprovado e publicado." : "Cadastro recusado e removido.");
-      for (const key of [["admin-publicacoes-pendentes"], [tabela], ["minhas-publicacoes"], ["admin-comercios"], ["comercios-premium"]]) queryClient.invalidateQueries({ queryKey: key });
+      for (const key of [["admin-publicacoes-pendentes"], [tabela], ["minhas-publicacoes"], ["admin-comercios"], ["comercios-premium"], ["contagem-nav"]]) queryClient.invalidateQueries({ queryKey: key });
     },
     onError: (e: Error) => toast.error(e.message),
   });
