@@ -18,6 +18,8 @@ import {
 import { SiteImage } from "@/components/site/SiteImage";
 import { TextoComLinks } from "@/components/site/TextoComLinks";
 import { GaleriaComercio } from "@/components/site/GaleriaComercio";
+import { ContadorVisualizacoes, MarcadorVisualizacao } from "@/components/site/Visualizacoes";
+import { useVisualizacoes } from "@/hooks/useVisitas";
 import { supabase } from "@/integrations/supabase/client";
 import { EditarDialog } from "@/components/site/PublicarDialog";
 import { CAMPOS, CAMPOS_FEED } from "@/lib/campos";
@@ -55,6 +57,7 @@ export function CardItem({
   const extras = tabela === "comercios" && premiumIds?.includes(registro.id) && Array.isArray(registro["fotos_extras"])
     ? registro["fotos_extras"].filter((foto): foto is string => typeof foto === "string" && foto.length > 0)
     : [];
+  const visualizacoes = useVisualizacoes(tabela === "comercios" ? [registro.id] : []);
   const fotos = [...(imagem ? [imagem] : []), ...extras];
   return (
     <article className="surface-card flex flex-col overflow-hidden transition-shadow hover:shadow-[var(--shadow-lift)]">
@@ -84,8 +87,10 @@ export function CardItem({
             ))}
           </ul>
         )}
+        {tabela === "comercios" && <MarcadorVisualizacao id={registro.id} tipo="comercio" />}
         <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
           {rodape}
+          {tabela === "comercios" && <ContadorVisualizacoes total={visualizacoes[registro.id] ?? 0} />}
           <AcoesRegistro registro={registro} tabela={tabela} />
         </div>
       </div>

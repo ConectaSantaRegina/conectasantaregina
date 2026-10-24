@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { CarrosselNovidades } from "@/components/site/CarrosselNovidades";
 import { FeedComunidade } from "@/components/site/FeedComunidade";
 import { Secao } from "@/components/site/PageHero";
+import { BadgeVisitas } from "@/components/site/Visualizacoes";
 import { CadastroGratisButton } from "@/components/site/CadastroInicial";
 
 export const Route = createFileRoute("/")({
@@ -86,6 +87,7 @@ function Inicio() {
         />
         <div className="hero-overlay absolute inset-0" />
         <div className="relative mx-auto max-w-[1340px] px-4 py-[90px] md:py-[110px]">
+          <BadgeVisitas className="absolute right-4 top-4 hidden md:inline-flex" />
           <Badge className="rounded-xl bg-accent px-5 py-2.5 font-display text-xl font-extrabold text-accent-foreground hover:bg-accent">
             Conecta Santa Regina
           </Badge>
@@ -100,6 +102,7 @@ function Inicio() {
           <Button asChild size="lg" className="mt-6 bg-accent text-accent-foreground hover:bg-accent/90">
             <Link to="/novidades">Ver novidades do bairro</Link>
           </Button>
+          <div className="mt-4 md:hidden"><BadgeVisitas /></div>
         </div>
       </section>
 

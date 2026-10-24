@@ -12,6 +12,8 @@ import { CAMPOS_FEED } from "@/lib/campos";
 import { formatarData, txt, useFeedAprovado } from "@/lib/dados";
 import { REGRA_CONTEUDO } from "@/lib/regras-publicacao";
 import { FeedInteracoes } from "@/components/site/FeedInteracoes";
+import { MarcadorVisualizacao } from "@/components/site/Visualizacoes";
+import { useVisualizacoes } from "@/hooks/useVisitas";
 import { useFeedEngajamento } from "@/hooks/useFeedEngajamento";
 
 export function FeedComunidade() {
@@ -19,6 +21,7 @@ export function FeedComunidade() {
   const { publicacao } = useSearch({ from: "/" });
   const { data: publicacoes, isLoading } = useFeedAprovado(30, publicacao);
   const engajamento = useFeedEngajamento((publicacoes ?? []).map(item => item.id));
+  const visualizacoes = useVisualizacoes((publicacoes ?? []).map(item => item.id));
   useEffect(() => {
     if (publicacao && publicacoes) document.getElementById(`publicacao-${publicacao}`)?.scrollIntoView({ block: "start" });
   }, [publicacao, publicacoes]);
@@ -127,6 +130,7 @@ export function FeedComunidade() {
                   />
                 ) : null}
 
+                <MarcadorVisualizacao id={item.id} tipo="feed" />
                 <div className="px-4 pb-4 pt-4 sm:px-5 sm:pb-5 sm:pt-5">
                   <h3 className="font-display text-lg font-bold">{txt(item, "titulo")}</h3>
                   {txt(item, "texto") ? (
@@ -138,7 +142,7 @@ export function FeedComunidade() {
                   curtido={engajamento.curtidas.includes(item.id)}
                   curtidas={engajamento.metricas.find(m => m.publicacao_id === item.id)?.curtidas ?? 0}
                   compartilhamentos={engajamento.metricas.find(m => m.publicacao_id === item.id)?.compartilhamentos ?? 0}
-                  carregando={engajamento.carregando} atualizar={engajamento.atualizar}
+                  carregando={engajamento.carregando} atualizar={engajamento.atualizar} visualizacoes={visualizacoes[item.id] ?? 0}
                 />}
               </article>
             ))}
