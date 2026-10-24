@@ -87,7 +87,6 @@ function Inicio() {
         />
         <div className="hero-overlay absolute inset-0" />
         <div className="relative mx-auto max-w-[1340px] px-4 py-[90px] md:py-[110px]">
-          <BadgeVisitas className="absolute right-4 top-4 hidden md:inline-flex" />
           <Badge className="rounded-xl bg-accent px-5 py-2.5 font-display text-xl font-extrabold text-accent-foreground hover:bg-accent">
             Conecta Santa Regina
           </Badge>
@@ -102,7 +101,7 @@ function Inicio() {
           <Button asChild size="lg" className="mt-6 bg-accent text-accent-foreground hover:bg-accent/90">
             <Link to="/novidades">Ver novidades do bairro</Link>
           </Button>
-          <div className="mt-4 md:hidden"><BadgeVisitas /></div>
+          <div className="mt-4 md:absolute md:right-4 md:top-4 md:mt-0"><BadgeVisitas /></div>
         </div>
       </section>
 
