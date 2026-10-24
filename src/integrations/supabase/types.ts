@@ -577,6 +577,21 @@ export type Database = {
         }
         Relationships: []
       }
+      site_visitas_historico: {
+        Row: {
+          dia: string
+          total: number
+        }
+        Insert: {
+          dia: string
+          total?: number
+        }
+        Update: {
+          dia?: string
+          total?: number
+        }
+        Relationships: []
+      }
       sugestao_apoios: {
         Row: {
           created_at: string

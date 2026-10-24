@@ -92,6 +92,13 @@
       "when": 1792862746241,
       "tag": "0012_site_view_counts",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1792863103880,
+      "tag": "0013_site_visits_history",
+      "breakpoints": true
     }
   ]
 }
