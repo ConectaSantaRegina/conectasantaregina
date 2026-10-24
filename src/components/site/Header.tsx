@@ -7,12 +7,14 @@ import {
 } from "lucide-react";
 import { NAV } from "@/lib/nav";
 import { useAuth } from "@/hooks/useAuth";
+import { useContagemNav } from "@/hooks/useContagemNav";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function Header() {
   const { user, signOut, isAdmin } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { data: contagens } = useContagemNav();
 
   return (
     <header className="sticky top-0 z-50 border-b bg-[var(--header)] text-foreground">
@@ -69,6 +71,11 @@ export function Header() {
               )}
             >
               {item.label}
+              {contagens && item.to in contagens && (
+                <span className="ml-1 text-[0.78rem] font-normal opacity-70">
+                  ({contagens[item.to]})
+                </span>
+              )}
             </Link>
           ))}
           {user ? (
