@@ -22,3 +22,4 @@
 - Reuse the admin-only profile query and author-contact presentation for people search and moderation so private contact fields never enter public publication queries.
 - Keep people and moderation in separate admin tabs; reuse the person-based Premium editor in a profile-triggered dialog and share its query with profile badges so management stays consistent without page scrolling.
 - Force all new moderated listings and publications to pending in database INSERT triggers, even for administrators; only authenticated administrator UPDATE approval makes them public, while owner queries retain pending visibility.
+- Keep optional registration onboarding in a shared root provider using the private profile completion flag and the existing publication form/field definitions, so automatic and homepage entry paths stay consistent without duplicating approval logic.

@@ -52,7 +52,7 @@ function valoresIniciais(campos: Campo[], registro?: Registro) {
   return iniciais;
 }
 
-function FormularioRegistro({
+export function FormularioRegistro({
   tabela,
   titulo,
   descricao,
